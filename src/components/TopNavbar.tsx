@@ -3,6 +3,8 @@ import { Village, villages } from "../data/villages";
 import { Tab } from "../App";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
+import { useTheme } from "../context/ThemeContext";
+import { MapPin, Sun, Moon, LogOut } from "lucide-react";
 
 interface Props {
   currentTab: Tab;
@@ -13,6 +15,7 @@ interface Props {
 export default function TopNavbar({ currentTab, village, onSelectVillage }: Props) {
   const { profile, user, signOut } = useAuth();
   const { language, setLanguage, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const titleKey = `title_${currentTab}` as const;
@@ -40,7 +43,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
       <div className="navbar-right">
         {/* Location Selector */}
         <div className="location-select-box">
-          <span>📍</span>
+          <MapPin size={14} style={{ color: "var(--primary-500)" }} />
           <select
             value={village?.name ?? ""}
             onChange={(e) => {
@@ -105,6 +108,31 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           </button>
         </div>
 
+        {/* Dark Mode Theme Switcher Pill beside Language Toggle */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: theme === "dark" ? "var(--primary-900)" : "var(--surface-muted)",
+            color: theme === "dark" ? "var(--primary-500)" : "var(--text-main)",
+            border: "1px solid var(--border-strong)",
+            borderRadius: "var(--radius-full)",
+            padding: "5px 12px",
+            fontSize: 12,
+            fontWeight: 700,
+            cursor: "pointer",
+            transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+            boxShadow: theme === "dark" ? "0 0 10px rgba(132, 204, 22, 0.2)" : "none"
+          }}
+        >
+          {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+          <span>{theme === "dark" ? "Light" : "Dark"}</span>
+        </button>
+
         <div className="live-badge">
           <span className="status-dot-green" />
           <span>{t("live_data")}</span>
@@ -151,7 +179,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
                     signOut();
                   }}
                 >
-                  🚪 Sign Out
+                  <LogOut size={14} /> Sign Out
                 </button>
               </div>
             </div>

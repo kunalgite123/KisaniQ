@@ -4,6 +4,21 @@ import { Village, waterSourceLabel } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
 import { synthesizeAdvisory } from "../lib/advisory";
 import { useLanguage } from "../context/LanguageContext";
+import {
+  CloudSun,
+  Layers,
+  Droplets,
+  Sprout,
+  Zap,
+  ArrowRight,
+  AlertTriangle,
+  Info,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Search,
+  Sparkles
+} from "lucide-react";
 
 interface Props {
   climateRisk: ClimateRisk | null;
@@ -31,10 +46,14 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
 
   return (
     <div className="ai-convergence-card">
+      {/* Signature Card Header */}
       <div className="card-header">
         <div>
-          <span className="section-label">{t("todays_farm_decision")}</span>
-          <h3 className="section-title">{translatedTitle}</h3>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <Sparkles size={14} style={{ color: "var(--primary-500)" }} />
+            <span className="section-label">{t("todays_farm_decision")}</span>
+          </div>
+          <h3 className="section-title" style={{ fontSize: 22 }}>{translatedTitle}</h3>
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <span className={`badge badge-${verdict.urgency}`}>{riskLevel}</span>
@@ -42,57 +61,73 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         </div>
       </div>
 
-      {/* Signal Flow Visualizer */}
+      {/* Signal Flow Visualizer Pipeline */}
       <div className="convergence-flow-bar">
         <div className="flow-node">
-          <div className="node-icon">🌦️</div>
+          <div className="node-icon">
+            <CloudSun size={18} style={{ color: "var(--primary-500)" }} />
+          </div>
           <span className="node-title">{t("node_climate")}</span>
           <span className="node-val">
             {climateRisk ? `${climateRisk.dryDaysAhead}/7 ${t("dry_day").toLowerCase()}s` : t("live_data")}
           </span>
         </div>
 
-        <span className="flow-arrow">→</span>
+        <ArrowRight className="flow-arrow" size={16} />
 
         <div className="flow-node">
-          <div className="node-icon">🌱</div>
+          <div className="node-icon">
+            <Layers size={18} style={{ color: "var(--turmeric-400)" }} />
+          </div>
           <span className="node-title">{t("node_soil")}</span>
           <span className="node-val">{t("soil_black_murrum")}</span>
         </div>
 
-        <span className="flow-arrow">→</span>
+        <ArrowRight className="flow-arrow" size={16} />
 
         <div className="flow-node">
-          <div className="node-icon">💧</div>
+          <div className="node-icon">
+            <Droplets size={18} style={{ color: "var(--water-600)" }} />
+          </div>
           <span className="node-title">{t("node_groundwater")}</span>
           <span className="node-val">
             {village ? (village.waterSourceType === "canal_godavari" ? t("canal_reach") : t("well_depleted")) : t("taluka_baseline")}
           </span>
         </div>
 
-        <span className="flow-arrow">→</span>
+        <ArrowRight className="flow-arrow" size={16} />
 
         <div className="flow-node">
-          <div className="node-icon">🍃</div>
+          <div className="node-icon">
+            <Sprout size={18} style={{ color: "var(--primary-500)" }} />
+          </div>
           <span className="node-title">{t("node_crop_ai")}</span>
           <span className="node-val">
             {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : t("leaf_scout")}
           </span>
         </div>
 
-        <span className="flow-arrow">⇒</span>
+        <ArrowRight className="flow-arrow" size={16} style={{ color: "var(--primary-500)" }} />
 
-        <div className="flow-node" style={{ background: "var(--primary-700)", color: "#ffffff", padding: "6px 12px", borderRadius: "var(--radius-md)" }}>
-          <div className="node-icon" style={{ background: "transparent", color: "#ffffff" }}>⚡</div>
-          <span className="node-title" style={{ color: "rgba(255,255,255,0.8)" }}>{t("node_krishi_ai")}</span>
-          <span className="node-val" style={{ color: "#ffffff" }}>{translatedTitle}</span>
+        <div className="flow-node flow-node-verdict">
+          <div className="node-icon node-icon-zap">
+            <Zap size={18} style={{ color: "var(--primary-950)" }} />
+          </div>
+          <span className="node-title" style={{ color: "var(--primary-950)", opacity: 0.85 }}>{t("node_krishi_ai")}</span>
+          <span className="node-val" style={{ color: "var(--primary-950)", fontWeight: 700 }}>{translatedTitle}</span>
         </div>
       </div>
 
       {/* Primary Actionable Verdict Box */}
       <div className={`verdict-box ${verdict.urgency}`}>
         <div className="verdict-icon">
-          {verdict.urgency === "urgent" ? "⚠" : verdict.urgency === "watch" ? "◐" : "✓"}
+          {verdict.urgency === "urgent" ? (
+            <AlertTriangle size={24} style={{ color: "var(--alert-red)" }} />
+          ) : verdict.urgency === "watch" ? (
+            <Info size={24} style={{ color: "var(--turmeric-600)" }} />
+          ) : (
+            <CheckCircle size={24} style={{ color: "var(--primary-500)" }} />
+          )}
         </div>
         <div style={{ flex: 1 }}>
           <div className="verdict-header">
@@ -126,8 +161,9 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
           className="accordion-toggle-btn"
           onClick={() => setShowExplainability(!showExplainability)}
         >
-          <span>🔍 {t("why_recommending")}</span>
-          <span>{showExplainability ? t("hide_reasoning") : t("show_reasoning")}</span>
+          <Search size={14} />
+          <span>{t("why_recommending")}</span>
+          {showExplainability ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
 
         {showExplainability && (

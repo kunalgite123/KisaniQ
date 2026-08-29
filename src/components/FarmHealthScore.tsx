@@ -2,6 +2,7 @@ import { ClimateRisk } from "../lib/weather";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
 import { useLanguage } from "../context/LanguageContext";
+import { CloudSun, Droplets, Sprout, Activity } from "lucide-react";
 
 interface Props {
   climateRisk: ClimateRisk | null;
@@ -26,8 +27,8 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
     ? climateRisk.level === "high"
       ? t("status_critical")
       : climateRisk.level === "moderate"
-      ? t("status_moderate")
-      : t("status_stable")
+        ? t("status_moderate")
+        : t("status_stable")
     : t("live_data");
 
   return (
@@ -41,9 +42,15 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
         </div>
 
         <div className="score-greeting">
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+            <Activity size={14} style={{ color: "var(--primary-500)" }} />
+            <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--primary-500)", fontWeight: 700 }}>
+              {t("node_krishi_ai")} Daily Index
+            </span>
+          </div>
           <h2>{t("greeting_good_morning")}</h2>
           <p>
-            {t("greeting_intelligence_sub")}
+            {t("greeting_intelligence_sub")}{" "}
             <strong>{village ? village.name : "Kopargaon"}, {t("maharashtra")}</strong>
           </p>
         </div>
@@ -51,18 +58,18 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
 
       <div className="signals-summary-row">
         <div className="signal-pill">
-          <span>🌦️</span>
-          <span>{t("signal_climate")}: {climateText}</span>
+          <CloudSun size={14} style={{ color: "var(--primary-500)" }} />
+          <span>{t("signal_climate")}: <strong>{climateText}</strong></span>
         </div>
 
         <div className="signal-pill">
-          <span>💧</span>
-          <span>{t("signal_water")}: {t("signal_monitored")}</span>
+          <Droplets size={14} style={{ color: "var(--water-600)" }} />
+          <span>{t("signal_water")}: <strong>{t("signal_monitored")}</strong></span>
         </div>
 
         <div className="signal-pill">
-          <span>🍃</span>
-          <span>{t("signal_crop_ai")}: {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : t("signal_scouted")}</span>
+          <Sprout size={14} style={{ color: "var(--primary-500)" }} />
+          <span>{t("signal_crop_ai")}: <strong>{detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : t("signal_scouted")}</strong></span>
         </div>
       </div>
     </div>

@@ -1,5 +1,17 @@
 import { Tab } from "../App";
 import { useLanguage } from "../context/LanguageContext";
+import {
+  LayoutDashboard,
+  Stethoscope,
+  CloudSun,
+  Droplets,
+  Tractor,
+  Landmark,
+  Bot,
+  MapPin,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
 
 interface Props {
   currentTab: Tab;
@@ -18,14 +30,14 @@ export default function Sidebar({
 }: Props) {
   const { t } = useLanguage();
 
-  const NAV_ITEMS: { id: Tab; label: string; icon: string; description: string }[] = [
-    { id: "dashboard", label: t("nav_dashboard"), icon: "🏠", description: t("nav_desc_dashboard") },
-    { id: "crop", label: t("nav_crop"), icon: "🌱", description: t("nav_desc_crop") },
-    { id: "climate", label: t("nav_climate"), icon: "🌦️", description: t("nav_desc_climate") },
-    { id: "water", label: t("nav_water"), icon: "💧", description: t("nav_desc_water") },
-    { id: "machinery", label: t("nav_machinery"), icon: "🚜", description: t("nav_desc_machinery") },
-    { id: "schemes", label: t("nav_schemes"), icon: "🏛️", description: t("nav_desc_schemes") },
-    { id: "advisory", label: t("nav_advisory"), icon: "🤖", description: t("nav_desc_advisory") }
+  const NAV_ITEMS: { id: Tab; label: string; icon: React.ReactNode; description: string }[] = [
+    { id: "dashboard", label: t("nav_dashboard"), icon: <LayoutDashboard size={18} />, description: t("nav_desc_dashboard") },
+    { id: "crop", label: t("nav_crop"), icon: <Stethoscope size={18} />, description: t("nav_desc_crop") },
+    { id: "climate", label: t("nav_climate"), icon: <CloudSun size={18} />, description: t("nav_desc_climate") },
+    { id: "water", label: t("nav_water"), icon: <Droplets size={18} />, description: t("nav_desc_water") },
+    { id: "machinery", label: t("nav_machinery"), icon: <Tractor size={18} />, description: t("nav_desc_machinery") },
+    { id: "schemes", label: t("nav_schemes"), icon: <Landmark size={18} />, description: t("nav_desc_schemes") },
+    { id: "advisory", label: t("nav_advisory"), icon: <Bot size={18} />, description: t("nav_desc_advisory") }
   ];
 
   return (
@@ -47,7 +59,7 @@ export default function Sidebar({
           onClick={onToggleCollapse}
           title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {collapsed ? "▶" : "◀"}
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
       </div>
 
@@ -86,7 +98,7 @@ export default function Sidebar({
                 gap: 8
               }}
             >
-              <span>📍</span>
+              <MapPin size={16} style={{ color: "var(--primary-500)", flexShrink: 0 }} />
               <div>
                 <div style={{ fontWeight: 600, color: "var(--text-main)" }}>
                   {selectedVillageName ? selectedVillageName : "Kopargaon Block"}
