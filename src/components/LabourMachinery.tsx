@@ -8,9 +8,10 @@ import {
   RentalBooking,
   INITIAL_MACHINERY_LISTINGS
 } from "../data/machineryData";
+import { PRICING_BENCHMARKS, getBenchmarkForService } from "../data/pricingBenchmarks";
 
-const STORAGE_KEY_LISTINGS = "krishi_setu_machinery_listings_v2";
-const STORAGE_KEY_BOOKINGS = "krishi_setu_machinery_bookings_v2";
+const STORAGE_KEY_LISTINGS = "krishi_setu_machinery_listings_v3";
+const STORAGE_KEY_BOOKINGS = "krishi_setu_machinery_bookings_v3";
 
 export default function LabourMachinery() {
   const { t } = useLanguage();
@@ -30,7 +31,7 @@ export default function LabourMachinery() {
   const [activeCategory, setActiveCategory] = useState<EquipmentCategory | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
-  const [activeViewTab, setActiveViewTab] = useState<"browse" | "my_requests">("browse");
+  const [activeViewTab, setActiveViewTab] = useState<"browse" | "benchmarks" | "my_requests">("browse");
 
   // Selected Service for Detailed Drawer & Booking Modal
   const [selectedService, setSelectedService] = useState<MachineryListing | null>(null);
@@ -42,7 +43,6 @@ export default function LabourMachinery() {
   const [renterPhone, setRenterPhone] = useState("");
   const [renterVillage, setRenterVillage] = useState("Kopargaon");
   const [preferredDate, setPreferredDate] = useState("");
-  const [preferredTime, setPreferredTime] = useState("Morning (8:00 AM)");
   const [landAcres, setLandAcres] = useState<number | "">(4);
   const [bookingNotes, setBookingNotes] = useState("");
 
@@ -52,8 +52,8 @@ export default function LabourMachinery() {
   const [newOwnerName, setNewOwnerName] = useState("");
   const [newOwnerPhone, setNewOwnerPhone] = useState("");
   const [newVillage, setNewVillage] = useState("Kopargaon");
-  const [newRate, setNewRate] = useState<number | "">(600);
-  const [newRateUnit, setNewRateUnit] = useState<"hour" | "day" | "acre" | "worker / day">("acre");
+  const [newRate, setNewRate] = useState<number | "">(1000);
+  const [newRateUnit, setNewRateUnit] = useState<"acre" | "hour" | "day" | "worker / day">("acre");
   const [newHpOrCapacity, setNewHpOrCapacity] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
@@ -105,6 +105,11 @@ export default function LabourMachinery() {
     return matchesCategory && matchesRadius && matchesSearch;
   });
 
+  // Calculate price range across nearby listings
+  const validRates = filteredListings.map((l) => l.rate).filter((r) => r > 0);
+  const minRate = validRates.length > 0 ? Math.min(...validRates) : 0;
+  const maxRate = validRates.length > 0 ? Math.max(...validRates) : 0;
+
   function handleCreateListing(e: React.FormEvent) {
     e.preventDefault();
     if (!newTitle || !newOwnerName || !newOwnerPhone || !newRate) {
@@ -122,6 +127,8 @@ export default function LabourMachinery() {
       transport: "🚛"
     };
 
+    const benchmark = getBenchmarkForService(newTitle);
+
     const newEntry: MachineryListing = {
       id: "custom_" + Date.now(),
       type: newType,
@@ -133,6 +140,8 @@ export default function LabourMachinery() {
       distanceKm: 2.4,
       rate: Number(newRate),
       rateUnit: newRateUnit,
+      isProviderRate: true,
+      referenceRate: benchmark ? benchmark.referenceRate : undefined,
       availableNow: true,
       isVerified: true,
       hpOrCapacity: newHpOrCapacity || "Standard Agricultural Spec",
@@ -144,7 +153,7 @@ export default function LabourMachinery() {
 
     setListings([newEntry, ...listings]);
     setShowAddModal(false);
-    triggerToast(`🎉 Listed "${newTitle}" on Kisan Setu!`);
+    triggerToast(`🎉 Listed "${newTitle}" with provider rate ₹${newRate}/${newRateUnit}!`);
 
     setNewTitle("");
     setNewOwnerName("");
@@ -194,7 +203,7 @@ export default function LabourMachinery() {
       {/* 1. Marketplace Header */}
       <PageHeader
         title="Kisan Setu Farm Services"
-        subtitle="Find farm machinery, labour and agricultural services near you around Kopargaon."
+        subtitle="Find farm machinery, labour and agricultural services near Kopargaon with transparent, research-backed acre rates."
       />
 
       {/* Toast Notification Banner */}
@@ -222,13 +231,13 @@ export default function LabourMachinery() {
       >
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-800)", textTransform: "uppercase" }}>
-            WEATHER-AWARE SERVICE DISCOVERY
+            WEATHER &amp; CROP INTELLIGENCE DISCOVERY
           </div>
           <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text-main)", marginTop: 2 }}>
-            🌤️ 6 of 7 Dry Days Forecasted — Ideal Window for Foliar Spraying &amp; Land Levelling
+            🌤️ Dry Window Forecasted — Power Sprayer @ ₹300/acre &amp; Rotavator @ ₹1,000/acre ready near Kopargaon
           </div>
           <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
-            Recommended services available within 10 km of Kopargaon.
+            Benchmark rates derived from published Indian agricultural machinery hiring references.
           </div>
         </div>
 
@@ -244,11 +253,11 @@ export default function LabourMachinery() {
         </button>
       </div>
 
-      {/* 3. Location Selector & Search Filter Control Bar */}
+      {/* 3. Location Selector & Control Bar */}
       <div className="card" style={{ padding: 18, marginBottom: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
-          {/* Location Context Selector */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* Location Selector */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
             <span style={{ fontSize: 13, color: "var(--text-muted)" }}>📍 Location:</span>
             <select
               className="input-select"
@@ -263,7 +272,7 @@ export default function LabourMachinery() {
               <option value="Shirdi">📍 Shirdi (14 km)</option>
             </select>
 
-            <span style={{ fontSize: 13, color: "var(--text-muted)", marginLeft: 10 }}>Radius:</span>
+            <span style={{ fontSize: 13, color: "var(--text-muted)", marginLeft: 8 }}>Radius:</span>
             <select
               className="input-select"
               value={selectedRadius}
@@ -277,8 +286,8 @@ export default function LabourMachinery() {
             </select>
           </div>
 
-          {/* List / Map View Toggle & My Requests Tab */}
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          {/* Views & Subtabs */}
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <div style={{ display: "flex", background: "var(--surface-bg)", border: "1px solid var(--border-subtle)", padding: 3, borderRadius: "var(--radius-sm)" }}>
               <button
                 className={`btn-subtab ${activeViewTab === "browse" && viewMode === "list" ? "active" : ""}`}
@@ -288,7 +297,7 @@ export default function LabourMachinery() {
                 }}
                 style={{ fontSize: 12, padding: "5px 12px" }}
               >
-                📋 List View
+                📋 Marketplace List
               </button>
               <button
                 className={`btn-subtab ${activeViewTab === "browse" && viewMode === "map" ? "active" : ""}`}
@@ -298,14 +307,22 @@ export default function LabourMachinery() {
                 }}
                 style={{ fontSize: 12, padding: "5px 12px" }}
               >
-                🗺️ Map View
+                🗺️ Location Map
               </button>
             </div>
 
             <button
+              className={`btn-subtab ${activeViewTab === "benchmarks" ? "active" : ""}`}
+              onClick={() => setActiveViewTab("benchmarks")}
+              style={{ fontSize: 12, padding: "6px 12px" }}
+            >
+              📊 Rate Benchmarks
+            </button>
+
+            <button
               className={`btn-subtab ${activeViewTab === "my_requests" ? "active" : ""}`}
               onClick={() => setActiveViewTab("my_requests")}
-              style={{ fontSize: 12, padding: "6px 14px" }}
+              style={{ fontSize: 12, padding: "6px 12px" }}
             >
               My Requests ({bookings.length})
             </button>
@@ -319,35 +336,41 @@ export default function LabourMachinery() {
         {/* Categories & Search Input Row */}
         {activeViewTab === "browse" && (
           <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border-subtle)", display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            {/* Category Chips */}
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", flex: 1 }}>
               <button
                 className={`chip ${activeCategory === "all" ? "active" : ""}`}
                 onClick={() => setActiveCategory("all")}
                 style={{ fontSize: 12 }}
               >
-                All Services ({filteredListings.length})
+                All ({filteredListings.length})
               </button>
               <button
                 className={`chip ${activeCategory === "sprayer" ? "active" : ""}`}
                 onClick={() => setActiveCategory("sprayer")}
                 style={{ fontSize: 12 }}
               >
-                💨 Spraying
+                💨 Power Sprayer (₹300/acre)
               </button>
               <button
                 className={`chip ${activeCategory === "tractor" ? "active" : ""}`}
                 onClick={() => setActiveCategory("tractor")}
                 style={{ fontSize: 12 }}
               >
-                🚜 Tractor
+                🚜 Cultivator (₹700/acre)
+              </button>
+              <button
+                className={`chip ${activeCategory === "implement" ? "active" : ""}`}
+                onClick={() => setActiveCategory("implement")}
+                style={{ fontSize: 12 }}
+              >
+                ⚙️ Rotavator (₹1,000/acre)
               </button>
               <button
                 className={`chip ${activeCategory === "harvester" ? "active" : ""}`}
                 onClick={() => setActiveCategory("harvester")}
                 style={{ fontSize: 12 }}
               >
-                🌾 Harvesting
+                🌾 Harvester (₹1,900/acre)
               </button>
               <button
                 className={`chip ${activeCategory === "labour" ? "active" : ""}`}
@@ -356,38 +379,24 @@ export default function LabourMachinery() {
               >
                 👨‍🌾 Labour Crews
               </button>
-              <button
-                className={`chip ${activeCategory === "implement" ? "active" : ""}`}
-                onClick={() => setActiveCategory("implement")}
-                style={{ fontSize: 12 }}
-              >
-                ⚙️ Land Levelling / Tillage
-              </button>
-              <button
-                className={`chip ${activeCategory === "transport" ? "active" : ""}`}
-                onClick={() => setActiveCategory("transport")}
-                style={{ fontSize: 12 }}
-              >
-                🚛 Transport
-              </button>
             </div>
 
             {/* Multilingual Search Bar */}
-            <div style={{ width: 260 }}>
+            <div style={{ width: 240 }}>
               <input
                 type="text"
                 className="input-text"
-                placeholder="Search sprayer, मजूर, ट्रॅक्टर..."
+                placeholder="Search sprayer, rotavator, मजूर..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ fontSize: 12.5, padding: "6px 12px" }}
+                style={{ fontSize: 12, padding: "6px 12px" }}
               />
             </div>
           </div>
         )}
       </div>
 
-      {/* 4. MAIN BROWSE VIEW (List or Map) */}
+      {/* 4. MAIN BROWSE MARKETPLACE VIEW */}
       {activeViewTab === "browse" ? (
         viewMode === "list" ? (
           filteredListings.length === 0 ? (
@@ -395,7 +404,7 @@ export default function LabourMachinery() {
               <div style={{ fontSize: 32, marginBottom: 10 }}>🚜</div>
               <h3>No matching services near {selectedLocation} right now</h3>
               <p style={{ color: "var(--text-muted)", marginTop: 4, fontSize: 13 }}>
-                Try increasing your search radius or clearing category filters.
+                Try increasing your search radius or view benchmark rates.
               </p>
               <button
                 className="btn-outline-sm"
@@ -410,94 +419,116 @@ export default function LabourMachinery() {
               </button>
             </div>
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20, marginBottom: 32 }}>
-              {filteredListings.map((item) => (
-                <div
-                  key={item.id}
-                  className="card"
-                  style={{
-                    padding: 20,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    border: "1px solid var(--border-subtle)",
-                    borderRadius: "var(--radius-md)"
-                  }}
-                >
-                  <div>
-                    {/* Category Label & Verified Trust Badge */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                      <span className="section-label" style={{ fontSize: 10 }}>
-                        {item.categoryLabel.toUpperCase()}
-                      </span>
-                      {item.isVerified && (
-                        <span className="badge badge-healthy" style={{ fontSize: 10, padding: "2px 8px" }}>
-                          ✓ Verified Provider
-                        </span>
-                      )}
-                    </div>
+            <div>
+              {/* Nearby Listed Range Banner */}
+              {minRate > 0 && maxRate > 0 && (
+                <div style={{ marginBottom: 14, fontSize: 12, color: "var(--text-muted)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span>
+                    Showing <strong>{filteredListings.length}</strong> active service listings near {selectedLocation}
+                  </span>
+                  <span>
+                    Nearby listed rate range: <strong style={{ color: "var(--text-main)" }}>₹{minRate.toLocaleString("en-IN")} – ₹{maxRate.toLocaleString("en-IN")}</strong>
+                  </span>
+                </div>
+              )}
 
-                    {/* Title & Distance */}
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
-                      {item.title}
-                    </h3>
-                    <div style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 4 }}>
-                      📍 {item.village} · <strong>{item.distanceKm} km from you</strong>
-                    </div>
+              {/* Service Cards Grid */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20, marginBottom: 32 }}>
+                {filteredListings.map((item) => {
+                  const benchmark = getBenchmarkForService(item.title);
 
-                    {/* Owner & Hires */}
-                    <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
-                      👤 <strong>{item.ownerName}</strong> · ⭐ {item.rating} ({item.totalBookingsCount} completed jobs)
-                    </div>
+                  return (
+                    <div
+                      key={item.id}
+                      className="card"
+                      style={{
+                        padding: 20,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        border: "1px solid var(--border-subtle)",
+                        borderRadius: "var(--radius-md)"
+                      }}
+                    >
+                      <div>
+                        {/* Category & Verification Badge */}
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                          <span className="section-label" style={{ fontSize: 10 }}>
+                            {item.categoryLabel.toUpperCase()}
+                          </span>
+                          {item.isVerified && (
+                            <span className="badge badge-healthy" style={{ fontSize: 10, padding: "2px 8px" }}>
+                              ✓ Verified Provider
+                            </span>
+                          )}
+                        </div>
 
-                    {/* Description */}
-                    <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                      {item.description}
-                    </p>
+                        {/* Title & Location Distance */}
+                        <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
+                          {item.title}
+                        </h3>
+                        <div style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 4 }}>
+                          📍 {item.village} · <strong>{item.distanceKm} km from you</strong>
+                        </div>
 
-                    {/* Capacity / Spec Tag */}
-                    <div style={{ marginTop: 10, fontSize: 12, color: "var(--text-main)", background: "var(--surface-bg)", padding: "6px 10px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
-                      ⚡ <strong>Spec:</strong> {item.hpOrCapacity}
-                    </div>
-                  </div>
+                        {/* Provider & Job Count */}
+                        <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
+                          👤 <strong>{item.ownerName}</strong> · ⭐ {item.rating} ({item.totalBookingsCount} completed jobs)
+                        </div>
 
-                  {/* Pricing & Primary Action CTAs */}
-                  <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--border-subtle)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div>
-                      <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase" }}>Service Rate</div>
-                      <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)" }}>
-                        ₹{item.rate.toLocaleString("en-IN")}{" "}
-                        <span style={{ fontSize: 11, fontWeight: 500, color: "var(--text-muted)" }}>
-                          / {item.rateUnit}
-                        </span>
+                        {/* Description */}
+                        <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                          {item.description}
+                        </p>
+
+                        {/* Spec Tag */}
+                        <div style={{ marginTop: 10, fontSize: 12, color: "var(--text-main)", background: "var(--surface-bg)", padding: "6px 10px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
+                          ⚡ <strong>Spec:</strong> {item.hpOrCapacity}
+                        </div>
+                      </div>
+
+                      {/* Pricing Section with Transparent Metadata Tag */}
+                      <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--border-subtle)", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                        <div>
+                          <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase" }}>SERVICE RATE</div>
+                          <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)" }}>
+                            ₹{item.rate.toLocaleString("en-IN")}{" "}
+                            <span style={{ fontSize: 11, fontWeight: 500, color: "var(--text-muted)" }}>
+                              / {item.rateUnit}
+                            </span>
+                          </div>
+                          <div style={{ fontSize: 10.5, color: "var(--primary-800)", fontWeight: 600, marginTop: 2 }}>
+                            {item.isProviderRate ? "Provider listed rate" : "Typical reference rate"}
+                          </div>
+                        </div>
+
+                        <div style={{ display: "flex", gap: 6 }}>
+                          {item.ownerPhone && (
+                            <a
+                              href={`tel:${item.ownerPhone}`}
+                              className="btn-outline-sm"
+                              style={{ fontSize: 12, padding: "5px 10px" }}
+                            >
+                              📞 Call
+                            </a>
+                          )}
+                          <button
+                            className="btn-primary-sm"
+                            onClick={() => setSelectedService(item)}
+                            style={{ fontSize: 12, padding: "5px 12px" }}
+                          >
+                            Request Service
+                          </button>
+                        </div>
                       </div>
                     </div>
-
-                    <div style={{ display: "flex", gap: 6 }}>
-                      {item.ownerPhone && (
-                        <a
-                          href={`tel:${item.ownerPhone}`}
-                          className="btn-outline-sm"
-                          style={{ fontSize: 12, padding: "5px 10px" }}
-                        >
-                          📞 Call
-                        </a>
-                      )}
-                      <button
-                        className="btn-primary-sm"
-                        onClick={() => setSelectedService(item)}
-                        style={{ fontSize: 12, padding: "5px 12px" }}
-                      >
-                        Request Service
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  );
+                })}
+              </div>
             </div>
           )
         ) : (
-          /* 5. VISUAL MAP VIEW */
+          /* Map View */
           <div className="card" style={{ padding: 20, marginBottom: 32 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
               <div>
@@ -513,7 +544,6 @@ export default function LabourMachinery() {
               </span>
             </div>
 
-            {/* Interactive Visual Map SVG */}
             <div
               style={{
                 height: 380,
@@ -526,24 +556,20 @@ export default function LabourMachinery() {
               }}
             >
               <svg width="100%" height="100%" viewBox="0 0 800 380" style={{ position: "absolute", inset: 0 }}>
-                {/* Distance Concentric Rings */}
                 <circle cx="400" cy="190" r="70" fill="none" stroke="rgba(21, 128, 61, 0.15)" strokeWidth="1" strokeDasharray="4 4" />
                 <circle cx="400" cy="190" r="140" fill="none" stroke="rgba(21, 128, 61, 0.15)" strokeWidth="1" strokeDasharray="4 4" />
                 <circle cx="400" cy="190" r="210" fill="none" stroke="rgba(21, 128, 61, 0.15)" strokeWidth="1" strokeDasharray="4 4" />
 
-                {/* Godavari River Blue Line */}
                 <path d="M 50 140 Q 250 180 400 170 T 750 210" fill="none" stroke="#2563eb" strokeWidth="6" opacity="0.4" />
                 <text x="600" y="225" fill="#2563eb" fontSize="11" fontWeight="700" opacity="0.7">
                   ~ Godavari River Basin
                 </text>
 
-                {/* Kopargaon Center Point */}
                 <circle cx="400" cy="190" r="8" fill="#064e3b" />
                 <text x="412" y="194" fill="#064e3b" fontSize="12" fontWeight="800">
                   📍 Kopargaon (You)
                 </text>
 
-                {/* Listing Pin Markers */}
                 {filteredListings.map((item, idx) => {
                   const angle = (idx * (360 / Math.max(1, filteredListings.length)) * Math.PI) / 180;
                   const radius = Math.min(220, Math.max(50, item.distanceKm * 20));
@@ -551,31 +577,68 @@ export default function LabourMachinery() {
                   const cy = 190 + radius * Math.sin(angle);
 
                   return (
-                    <g
-                      key={item.id}
-                      style={{ cursor: "pointer" }}
-                      onClick={() => setSelectedService(item)}
-                    >
+                    <g key={item.id} style={{ cursor: "pointer" }} onClick={() => setSelectedService(item)}>
                       <circle cx={cx} cy={cy} r="16" fill="#15803d" opacity="0.9" />
                       <text x={cx} y={cy + 5} textAnchor="middle" fill="#ffffff" fontSize="11">
                         {item.icon}
                       </text>
                       <text x={cx} y={cy - 20} textAnchor="middle" fill="#17201b" fontSize="10" fontWeight="700">
-                        {item.village} ({item.distanceKm}km)
+                        {item.village} (₹{item.rate}/{item.rateUnit})
                       </text>
                     </g>
                   );
                 })}
               </svg>
-
-              <div style={{ position: "absolute", bottom: 12, left: 12, background: "rgba(255,255,255,0.9)", padding: "6px 12px", borderRadius: "var(--radius-sm)", fontSize: 11, color: "var(--text-muted)" }}>
-                💡 Click any map marker to view provider details &amp; request service
-              </div>
             </div>
           </div>
         )
+      ) : activeViewTab === "benchmarks" ? (
+        /* 5. RESEARCH-BACKED RATE BENCHMARKS TAB */
+        <div className="card" style={{ padding: 22, marginBottom: 32 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
+            <div>
+              <span className="section-label" style={{ fontSize: 10 }}>RESEARCH-BACKED REFERENCE BENCHMARKS</span>
+              <h3 style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
+                Indian Agricultural Machinery Custom Hiring Reference Rates
+              </h3>
+              <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 4 }}>
+                Indicative benchmarks derived from published Indian farm-machinery hiring references (2026).
+              </p>
+            </div>
+            <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+              Published Market References (2026)
+            </span>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
+            {PRICING_BENCHMARKS.map((bm) => (
+              <div
+                key={bm.serviceKey}
+                style={{
+                  padding: 14,
+                  borderRadius: "var(--radius-sm)",
+                  background: "var(--surface-bg)",
+                  border: "1px solid var(--border-subtle)"
+                }}
+              >
+                <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase" }}>
+                  {bm.category.replace("_", " ")}
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)", marginTop: 2 }}>
+                  {bm.serviceName}
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: "var(--primary-900)", marginTop: 4 }}>
+                  ₹{bm.referenceRate.toLocaleString("en-IN")} <span style={{ fontSize: 12, fontWeight: 400, color: "var(--text-muted)" }}>/ {bm.pricingUnit}</span>
+                </div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 6, fontStyle: "italic" }}>
+                  Source: {bm.sourceNote} ({bm.lastReviewed})
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       ) : (
-        /* 6. MY SERVICE REQUESTS VIEW */
+        /* 6. MY REQUESTS TAB */
         <div className="card" style={{ padding: 22, marginBottom: 32 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
@@ -633,7 +696,7 @@ export default function LabourMachinery() {
                     <span className="badge badge-healthy" style={{ fontSize: 12, marginBottom: 6 }}>
                       Status: {booking.status}
                     </span>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-main)", marginTop: 4 }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-main)", marginTop: 4 }}>
                       Est. Total: ₹{booking.estimatedCost.toLocaleString("en-IN")}
                     </div>
                     <div style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>
@@ -647,7 +710,12 @@ export default function LabourMachinery() {
         </div>
       )}
 
-      {/* --- MODAL 1: REQUEST SERVICE FORM --- */}
+      {/* 7. MARKETPLACE-LEVEL PRICING DISCLAIMER FOOTER */}
+      <div style={{ fontSize: 11.5, color: "var(--text-muted)", textAlign: "center", padding: "14px 20px", background: "var(--surface-bg)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", marginBottom: 32, lineHeight: 1.5 }}>
+        ℹ️ <strong>Pricing Disclaimer:</strong> Reference rates are indicative benchmarks based on published Indian agricultural machinery hiring references. Actual provider prices may vary by location, crop, field condition, distance, season and service requirements. Payment terms are settled directly between farmers and service providers.
+      </div>
+
+      {/* --- MODAL 1: REQUEST SERVICE & FARM-SIZE COST ESTIMATOR --- */}
       {selectedService && (
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: 540 }}>
@@ -666,7 +734,12 @@ export default function LabourMachinery() {
             <div style={{ background: "var(--surface-bg)", padding: 12, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", marginBottom: 16, fontSize: 12.5 }}>
               <div>👤 Provider: <strong>{selectedService.ownerName}</strong> ({selectedService.ownerPhone})</div>
               <div>📍 Location: <strong>{selectedService.village} ({selectedService.distanceKm} km from you)</strong></div>
-              <div>💰 Reference Rate: <strong>₹{selectedService.rate.toLocaleString("en-IN")} / {selectedService.rateUnit}</strong></div>
+              <div>
+                💰 Service Rate: <strong>₹{selectedService.rate.toLocaleString("en-IN")} / {selectedService.rateUnit}</strong>{" "}
+                <span className="badge badge-healthy" style={{ fontSize: 10, marginLeft: 6 }}>
+                  {selectedService.isProviderRate ? "Provider listed rate" : "Typical reference rate"}
+                </span>
+              </div>
             </div>
 
             <form onSubmit={handleConfirmBooking}>
@@ -746,15 +819,20 @@ export default function LabourMachinery() {
               </div>
 
               {/* Real Marketplace Estimated Price Calculation */}
-              <div style={{ background: "rgba(21, 128, 61, 0.08)", padding: 12, borderRadius: "var(--radius-sm)", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ background: "rgba(21, 128, 61, 0.08)", padding: 14, borderRadius: "var(--radius-sm)", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
-                  <div style={{ fontSize: 11, color: "var(--primary-800)", fontWeight: 700 }}>ESTIMATED TOTAL SERVICE COST</div>
-                  <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
-                    {selectedService.rateUnit === "acre" ? `₹${selectedService.rate} × ${Number(landAcres) || 1} acres` : `Reference rate`}
+                  <div style={{ fontSize: 11, color: "var(--primary-800)", fontWeight: 700 }}>ESTIMATED SERVICE COST</div>
+                  <div style={{ fontSize: 11.5, color: "var(--text-muted)", marginTop: 2 }}>
+                    {selectedService.rateUnit === "acre"
+                      ? `${Number(landAcres) || 1} acres × ₹${selectedService.rate.toLocaleString("en-IN")} / acre`
+                      : `Reference rate per ${selectedService.rateUnit}`}
                   </div>
                 </div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: "var(--primary-900)" }}>
-                  ₹{((selectedService.rateUnit === "acre" ? selectedService.rate * (Number(landAcres) || 1) : selectedService.rate)).toLocaleString("en-IN")}
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: "var(--primary-900)" }}>
+                    ₹{((selectedService.rateUnit === "acre" ? selectedService.rate * (Number(landAcres) || 1) : selectedService.rate)).toLocaleString("en-IN")}
+                  </div>
+                  <div style={{ fontSize: 10, color: "var(--text-muted)" }}>*Pending provider confirmation</div>
                 </div>
               </div>
 
@@ -771,7 +849,7 @@ export default function LabourMachinery() {
         </div>
       )}
 
-      {/* --- MODAL 2: PROVIDER ONBOARDING / LIST SERVICE FORM --- */}
+      {/* --- MODAL 2: PROVIDER ONBOARDING --- */}
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: 540 }}>
@@ -795,11 +873,11 @@ export default function LabourMachinery() {
                   value={newType}
                   onChange={(e) => setNewType(e.target.value as EquipmentCategory)}
                 >
-                  <option value="sprayer">💨 High Pressure Sprayer</option>
-                  <option value="tractor">🚜 Tractor &amp; Tillage</option>
-                  <option value="harvester">🌾 Combine Harvester</option>
+                  <option value="sprayer">💨 Power Sprayer (₹300/acre ref)</option>
+                  <option value="tractor">🚜 Tractor &amp; Cultivator (₹700/acre ref)</option>
+                  <option value="implement">⚙️ Rotavator (₹1,000/acre ref)</option>
+                  <option value="harvester">🌾 Combine Harvester (₹1,900/acre ref)</option>
                   <option value="labour">👨‍🌾 Labour Crew</option>
-                  <option value="implement">⚙️ Land Leveller / Implement</option>
                   <option value="transport">🚛 Farm Cargo Transport</option>
                 </select>
               </div>
@@ -809,7 +887,7 @@ export default function LabourMachinery() {
                 <input
                   type="text"
                   className="input-text"
-                  placeholder="e.g. Aspee Solar Boom Sprayer 500L"
+                  placeholder="e.g. Aspee Boom Sprayer 500L"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   required
@@ -863,7 +941,7 @@ export default function LabourMachinery() {
                   <input
                     type="number"
                     className="input-text"
-                    placeholder="600"
+                    placeholder="1000"
                     value={newRate}
                     onChange={(e) => setNewRate(e.target.value ? Number(e.target.value) : "")}
                     required
