@@ -18,6 +18,11 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^17.0.12"
   },
+  "overrides": {
+    "@teachablemachine/image": {
+      "@tensorflow/tfjs": "$@tensorflow/tfjs"
+    }
+  },
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
