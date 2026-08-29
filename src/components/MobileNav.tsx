@@ -1,6 +1,6 @@
 import { Tab } from "../App";
 import { useLanguage } from "../context/LanguageContext";
-import { LayoutDashboard, Stethoscope, Tractor, Droplets, CloudSun, Bot } from "lucide-react";
+import { LayoutDashboard, Stethoscope, Tractor, Droplets, CloudSun, Bot, TrendingUp } from "lucide-react";
 
 interface Props {
   currentTab: Tab;
@@ -26,6 +26,14 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
       >
         <span className="mobile-nav-icon"><Stethoscope size={18} /></span>
         <span>{t("nav_crop")}</span>
+      </button>
+
+      <button
+        className={`mobile-nav-btn ${currentTab === "impact" ? "active" : ""}`}
+        onClick={() => onSelectTab("impact")}
+      >
+        <span className="mobile-nav-icon"><TrendingUp size={18} /></span>
+        <span>{t("nav_impact")}</span>
       </button>
 
       <button

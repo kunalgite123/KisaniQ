@@ -6,10 +6,11 @@ export const translations = {
     nav_dashboard: "Dashboard",
     nav_crop: "Crop Doctor",
     nav_climate: "Climate",
-    nav_water: "Water & Soil",
+    nav_water: "Groundwater & Soil",
     nav_machinery: "Labour & Machinery",
-    nav_schemes: "Schemes",
+    nav_schemes: "Government Schemes",
     nav_advisory: "Advisory",
+    nav_impact: "Impact Comparison",
 
     nav_desc_dashboard: "Farm overview & today's intelligence",
     nav_desc_crop: "Crop health & disease detection",
@@ -18,6 +19,7 @@ export const translations = {
     nav_desc_machinery: "Rent & list farm equipment & labour",
     nav_desc_schemes: "Government agriculture schemes",
     nav_desc_advisory: "AI-powered recommendations",
+    nav_desc_impact: "Traditional farming vs Krishi Setu AI impact",
 
     // Titles & Breadcrumbs
     title_dashboard: "Dashboard Overview",
@@ -27,6 +29,7 @@ export const translations = {
     title_machinery: "Labour & Machinery Monitoring",
     title_schemes: "Agriculture Schemes",
     title_advisory: "AI Farm Advisory",
+    title_impact: "Krishi Setu Impact Comparison",
 
     // Top Navbar & Controls
     location_label: "Kopargaon (Taluka Centre)",
@@ -288,6 +291,7 @@ export const translations = {
     nav_machinery: "मजूर व यंत्रसामग्री",
     nav_schemes: "शासकीय योजना",
     nav_advisory: "सल्लागार",
+    nav_impact: "प्रभाव तुलना",
 
     nav_desc_dashboard: "शेतीचा आढावा व आजची महत्त्वाची माहिती",
     nav_desc_crop: "पीक आरोग्य व रोग निदान तंत्रज्ञान",
@@ -296,6 +300,7 @@ export const translations = {
     nav_desc_machinery: "शेती अवजारे व मजूर भाड्याने मिळण्याचे केंद्र",
     nav_desc_schemes: "शासकीय कृषी योजना व अनुदान",
     nav_desc_advisory: "एआय आधारित शेती सल्लागार तंत्रज्ञान",
+    nav_desc_impact: "पारंपारिक शेती विरुद्ध कृषी सेतू प्रभाव",
 
     // Titles & Breadcrumbs
     title_dashboard: "मुख्यपृष्ठ आढावा",
@@ -305,6 +310,7 @@ export const translations = {
     title_machinery: "मजूर व यंत्रसामग्री व्यवस्थापन",
     title_schemes: "शासकीय कृषी योजना",
     title_advisory: "एआय शेती सल्लागार",
+    title_impact: "प्रभाव तुलना",
 
     // Top Navbar & Controls
     location_label: "कोपरगाव (तालुका केंद्र)",

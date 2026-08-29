@@ -152,12 +152,12 @@ export default function AdviceSectionCard({
             {recommendation || title}
           </h4>
 
-          <p style={{ marginTop: 8, fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6 }}>
+          <p style={{ marginTop: 8, fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, textDecoration: "none" }}>
             <strong style={{ color: "var(--text-main)" }}>{isMr ? "कारण / तपशील:" : "Why?"}</strong> {reason}
           </p>
 
           {avoid && (
-            <p style={{ marginTop: 6, fontSize: 13, color: "var(--alert-red)", fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+            <p style={{ marginTop: 6, fontSize: 13, color: "var(--alert-red)", fontWeight: 700, display: "flex", alignItems: "center", gap: 6, textDecoration: "none" }}>
               <span>⚠️</span> <span>{isMr ? "काय टाळावे:" : "Avoid:"}</span> {avoid}
             </p>
           )}

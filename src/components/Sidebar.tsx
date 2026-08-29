@@ -11,7 +11,8 @@ import {
   MapPin,
   ChevronLeft,
   ChevronRight,
-  Sprout
+  Sprout,
+  TrendingUp
 } from "lucide-react";
 
 interface Props {
@@ -38,7 +39,8 @@ export default function Sidebar({
     { id: "water", label: t("nav_water"), icon: <Droplets size={18} />, description: t("nav_desc_water") },
     { id: "machinery", label: t("nav_machinery"), icon: <Tractor size={18} />, description: t("nav_desc_machinery") },
     { id: "schemes", label: t("nav_schemes"), icon: <Landmark size={18} />, description: t("nav_desc_schemes") },
-    { id: "advisory", label: t("nav_advisory"), icon: <Bot size={18} />, description: t("nav_desc_advisory") }
+    { id: "advisory", label: t("nav_advisory"), icon: <Bot size={18} />, description: t("nav_desc_advisory") },
+    { id: "impact", label: t("nav_impact"), icon: <TrendingUp size={18} />, description: t("nav_desc_impact") }
   ];
 
   return (

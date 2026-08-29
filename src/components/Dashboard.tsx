@@ -196,6 +196,63 @@ export default function Dashboard({
         </div>
       </div>
 
+      {/* BEFORE VS AFTER KRISHI SETU IMPACT BANNER CARD */}
+      <div
+        style={{
+          background: "linear-gradient(135deg, var(--primary-900), var(--primary-700))",
+          color: "#ffffff",
+          borderRadius: "var(--radius-lg)",
+          padding: "24px 28px",
+          marginBottom: 32,
+          boxShadow: "var(--shadow-md)",
+          display: "flex",
+          justify: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 20
+        }}
+      >
+        <div style={{ flex: 1, minWidth: 280 }}>
+          <span style={{ fontSize: 11, fontWeight: 800, background: "rgba(255, 255, 255, 0.2)", padding: "4px 12px", borderRadius: "999px", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+            📊 {isMr ? "पारंपारिक विरुद्ध कृषी सेतू एआय प्रभाव" : "TRADITIONAL VS KRISHI SETU IMPACT"}
+          </span>
+          <h3 style={{ fontSize: 22, fontWeight: 800, color: "#ffffff", marginTop: 10, margin: "10px 0 6px 0" }}>
+            {isMr ? "केवळ पारंपारिक शेती VS कृषी सेतू मार्गदर्शन" : "Traditional Farming vs Krishi Setu Guided Farming"}
+          </h3>
+          <p style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.9)", lineHeight: 1.5, margin: 0 }}>
+            {isMr
+              ? "पहा कृषी सेतूच्या अचूक नियमांमुळे किती नफा वाढतो, किती पाणी वाचते व कोणते शासकीय अनुदान मिळते."
+              : "Compare your expected cost savings, water preserved, yield gains (+35% to +66%), and unlocked subsidies."}
+          </p>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          {onNavigateTab && (
+            <button
+              onClick={() => onNavigateTab("impact")}
+              style={{
+                background: "#ffffff",
+                color: "var(--primary-900)",
+                border: "none",
+                fontWeight: 800,
+                fontSize: 14,
+                padding: "12px 24px",
+                borderRadius: "var(--radius-full)",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                transition: "transform 0.2s ease"
+              }}
+            >
+              <span>📈 {isMr ? "पूर्ण प्रभाव तुलना पहा" : "View Impact Comparison"}</span>
+              <span>→</span>
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* 4. Water & Soil Intelligence Row */}
       <div className="card" style={{ padding: 22, marginBottom: 32 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>

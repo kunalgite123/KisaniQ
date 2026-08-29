@@ -11,6 +11,7 @@ import ClimateView from "./components/ClimateView";
 import AdvisoryPage from "./components/AdvisoryPage";
 import Schemes from "./components/Schemes";
 import LabourMachinery from "./components/LabourMachinery";
+import ImpactComparison from "./components/ImpactComparison";
 import VoiceFloatingButton from "./components/voice/VoiceFloatingButton";
 import { Village } from "./data/villages";
 import { CropModel, DiseaseInfo } from "./data/cropModels";
@@ -19,7 +20,7 @@ import { FarmerProfile, loadSavedFarmerProfile, fetchFarmerProfileFromSupabase }
 import { generateFarmerDecision, FarmerDecision } from "./lib/farmerDecisionEngine";
 import { useLanguage } from "./context/LanguageContext";
 
-export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery";
+export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery" | "impact";
 
 function MainAppContent() {
   const { profile: authProfile } = useAuth();
@@ -162,6 +163,12 @@ function MainAppContent() {
             />
           )}
           {tab === "machinery" && <LabourMachinery />}
+          {tab === "impact" && (
+            <ImpactComparison
+              initialCrop={cropName}
+              initialAcres={farmerProfile?.landHoldingAcres || 2}
+            />
+          )}
         </main>
 
         {/* App Footer */}
