@@ -194,26 +194,6 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
         </div>
       </div>
 
-      {/* Recommended for Your Farm */}
-      <div style={{ marginBottom: 28 }}>
-        <div className="card-header">
-          <div>
-            <span className="section-label">{t("top_recommendations_label")}</span>
-            <h3 className="section-title">{t("recommended_for_your_farm")}</h3>
-          </div>
-        </div>
-
-        <div className="grid-2">
-          {recommendedSchemes.slice(0, 4).map((item) => (
-            <SchemeCard
-              key={item.scheme.id}
-              evaluation={item}
-              onOpenDetail={() => setActiveModalScheme(item)}
-            />
-          ))}
-        </div>
-      </div>
-
       {/* Search & Category Filter Chips */}
       <div className="card" style={{ marginBottom: 24 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
