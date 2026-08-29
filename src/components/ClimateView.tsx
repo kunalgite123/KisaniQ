@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchKopargaonWeather, assessClimateRisk, WeatherSnapshot, ClimateRisk } from "../lib/weather";
 import { kopargaonProfile } from "../data/groundSoil";
+import { useLanguage } from "../context/LanguageContext";
 import PageHeader from "./PageHeader";
 
 export default function ClimateView() {
+  const { t } = useLanguage();
   const [weather, setWeather] = useState<WeatherSnapshot | null>(null);
   const [risk, setRisk] = useState<ClimateRisk | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +47,7 @@ export default function ClimateView() {
   return (
     <div>
       <PageHeader
-        title="Climate &amp; Weather"
+        title={t("title_climate")}
         subtitle="7-day weather outlook and field impact analysis for Kopargaon block"
         action={
           risk && (
@@ -71,7 +73,7 @@ export default function ClimateView() {
                 Provider: {weather?.provider ?? "Detecting..."}
               </span>
             </div>
-            <h3 className="section-title">7-Day Forecast &amp; Risk Metrics</h3>
+            <h3 className="section-title">{t("weather_title")}</h3>
           </div>
 
           <button
@@ -138,28 +140,28 @@ export default function ClimateView() {
             <div className="grid-3" style={{ marginTop: 14 }}>
               <div className="readout">
                 <div className="readout-value">{risk.dryDaysAhead} / 7</div>
-                <div className="readout-label">Dry days forecast (rainfall &lt;1mm)</div>
+                <div className="readout-label">{t("dry_days")}</div>
               </div>
               <div className="readout">
                 <div className="readout-value">{risk.heatStressDays}</div>
-                <div className="readout-label">Heat stress days forecast (&gt;38°C)</div>
+                <div className="readout-label">{t("heat_stress_days")}</div>
               </div>
               <div className="readout">
                 <div className="readout-value">{risk.fungalFavourablePct ?? "—"}%</div>
-                <div className="readout-label">Avg. humidity (24h fungal risk proxy)</div>
+                <div className="readout-label">{t("humidity_label")}</div>
               </div>
             </div>
 
-            <h4 style={{ marginTop: 24, marginBottom: 12, fontSize: 16 }}>7-Day Forecast Schedule</h4>
+            <h4 style={{ marginTop: 24, marginBottom: 12, fontSize: 16 }}>{t("weather_title")}</h4>
             <div style={{ overflowX: "auto" }}>
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th>Max / Min Temp</th>
-                    <th>Expected Rain</th>
-                    <th>Precipitation Chance</th>
-                    <th>Day Status</th>
+                    <th>{t("date_col")}</th>
+                    <th>{t("temp_col")}</th>
+                    <th>{t("rain_col")}</th>
+                    <th>{t("chance_col")}</th>
+                    <th>{t("status_col")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -177,7 +179,7 @@ export default function ClimateView() {
                         <td className="mono">{Math.round(d.precipitationProbabilityPct)}%</td>
                         <td>
                           <span className={`badge ${isDry ? "badge-watch" : "badge-healthy"}`}>
-                            {isDry ? "Dry Day" : "Rain Expected"}
+                            {isDry ? t("dry_day") : t("rain_expected")}
                           </span>
                         </td>
                       </tr>

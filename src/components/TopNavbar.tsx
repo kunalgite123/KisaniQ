@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Village, villages } from "../data/villages";
 import { Tab } from "../App";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Props {
   currentTab: Tab;
@@ -9,20 +10,13 @@ interface Props {
   onSelectVillage: (v: Village | null) => void;
 }
 
-const TAB_TITLES: Record<Tab, { title: string; breadcrumb: string }> = {
-  dashboard: { title: "Dashboard", breadcrumb: "Home / Dashboard" },
-  crop: { title: "Crop Doctor", breadcrumb: "Home / Crop Doctor" },
-  climate: { title: "Climate Risk", breadcrumb: "Home / Climate" },
-  water: { title: "Water & Soil Intelligence", breadcrumb: "Home / Water & Soil" },
-  advisory: { title: "AI Farm Advisory", breadcrumb: "Home / Advisory" },
-  machinery: { title: "Labour & Machinery Monitoring", breadcrumb: "Home / Labour & Machinery" },
-  schemes: { title: "Agriculture Schemes", breadcrumb: "Home / Schemes" }
-};
-
 export default function TopNavbar({ currentTab, village, onSelectVillage }: Props) {
   const { profile, user, signOut } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const currentInfo = TAB_TITLES[currentTab] ?? { title: "KisaniQ", breadcrumb: "Home" };
+
+  const titleKey = `title_${currentTab}` as const;
+  const currentTitle = t(titleKey as any) || "Krishi Setu";
 
   const fullName = profile?.full_name || user?.email?.split("@")[0] || "Farmer";
   const userInitials = fullName
@@ -30,20 +24,21 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
     .map((n) => n[0])
     .join("")
     .substring(0, 2)
-    .toUpperCase() || "KQ";
+    .toUpperCase() || "KS";
 
   return (
     <header className="top-navbar">
       {/* Left Breadcrumb & Page Title */}
       <div className="navbar-left">
         <div>
-          <div className="breadcrumb-box">{currentInfo.breadcrumb}</div>
-          <div className="breadcrumb-current">{currentInfo.title}</div>
+          <div className="breadcrumb-box">Krishi Setu / {currentTitle}</div>
+          <div className="breadcrumb-current">{currentTitle}</div>
         </div>
       </div>
 
-      {/* Right Location Selector, Live Badge & Profile Menu */}
+      {/* Right Location Selector, Language Toggle, Live Badge & Profile */}
       <div className="navbar-right">
+        {/* Location Selector */}
         <div className="location-select-box">
           <span>📍</span>
           <select
@@ -53,7 +48,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
               onSelectVillage(sel);
             }}
           >
-            <option value="">Kopargaon (Taluka Centre)</option>
+            <option value="">{t("location_label")}</option>
             {villages.map((v) => (
               <option key={v.name} value={v.name}>
                 {v.name}
@@ -62,9 +57,57 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           </select>
         </div>
 
+        {/* Language Selector Button beside Location Selector */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            background: "var(--surface-muted)",
+            border: "1px solid var(--border-strong)",
+            borderRadius: "var(--radius-full)",
+            padding: "2px",
+            fontSize: 12
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setLanguage("en")}
+            style={{
+              background: language === "en" ? "var(--primary-700)" : "transparent",
+              color: language === "en" ? "#ffffff" : "var(--text-muted)",
+              border: "none",
+              borderRadius: "var(--radius-full)",
+              padding: "4px 10px",
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s ease"
+            }}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            onClick={() => setLanguage("mr")}
+            style={{
+              background: language === "mr" ? "var(--primary-700)" : "transparent",
+              color: language === "mr" ? "#ffffff" : "var(--text-muted)",
+              border: "none",
+              borderRadius: "var(--radius-full)",
+              padding: "4px 10px",
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s ease"
+            }}
+          >
+            मराठी
+          </button>
+        </div>
+
         <div className="live-badge">
           <span className="status-dot-green" />
-          <span>Live Data</span>
+          <span>{t("live_data")}</span>
         </div>
 
         {/* User Profile Dropdown */}

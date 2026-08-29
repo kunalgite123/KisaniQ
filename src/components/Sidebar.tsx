@@ -1,4 +1,5 @@
 import { Tab } from "../App";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Props {
   currentTab: Tab;
@@ -8,23 +9,6 @@ interface Props {
   selectedVillageName: string | null;
 }
 
-interface NavConfig {
-  id: Tab;
-  label: string;
-  icon: string;
-  description: string;
-}
-
-const NAV_ITEMS: NavConfig[] = [
-  { id: "dashboard", label: "Dashboard", icon: "🏠", description: "Farm overview & today's intelligence" },
-  { id: "crop", label: "Crop Doctor", icon: "🌱", description: "Crop health & disease detection" },
-  { id: "climate", label: "Climate", icon: "🌦️", description: "Weather & climate risk" },
-  { id: "water", label: "Water & Soil", icon: "💧", description: "Groundwater & soil intelligence" },
-  { id: "machinery", label: "Labour & Machinery", icon: "🚜", description: "Rent & list farm equipment & labour" },
-  { id: "schemes", label: "Schemes", icon: "🏛️", description: "Government agriculture schemes" },
-  { id: "advisory", label: "Advisory", icon: "🤖", description: "AI-powered recommendations" }
-];
-
 export default function Sidebar({
   currentTab,
   onSelectTab,
@@ -32,6 +16,18 @@ export default function Sidebar({
   onToggleCollapse,
   selectedVillageName
 }: Props) {
+  const { t } = useLanguage();
+
+  const NAV_ITEMS: { id: Tab; label: string; icon: string; description: string }[] = [
+    { id: "dashboard", label: t("nav_dashboard"), icon: "🏠", description: t("nav_desc_dashboard") },
+    { id: "crop", label: t("nav_crop"), icon: "🌱", description: t("nav_desc_crop") },
+    { id: "climate", label: t("nav_climate"), icon: "🌦️", description: t("nav_desc_climate") },
+    { id: "water", label: t("nav_water"), icon: "💧", description: t("nav_desc_water") },
+    { id: "machinery", label: t("nav_machinery"), icon: "🚜", description: t("nav_desc_machinery") },
+    { id: "schemes", label: t("nav_schemes"), icon: "🏛️", description: t("nav_desc_schemes") },
+    { id: "advisory", label: t("nav_advisory"), icon: "🤖", description: t("nav_desc_advisory") }
+  ];
+
   return (
     <aside className="sidebar">
       {/* Sidebar Brand Area */}
@@ -58,7 +54,7 @@ export default function Sidebar({
       {/* Navigation Body */}
       <div className="sidebar-nav-body">
         <div>
-          {!collapsed && <div className="nav-group-label">Main Navigation</div>}
+          {!collapsed && <div className="nav-group-label">{t("main_navigation")}</div>}
           <ul className="sidebar-nav-list">
             {NAV_ITEMS.map((item) => (
               <li key={item.id}>
@@ -78,7 +74,7 @@ export default function Sidebar({
         {/* Secondary Farm Section */}
         {!collapsed && (
           <div>
-            <div className="nav-group-label">Farm Location</div>
+            <div className="nav-group-label">{t("farm_location")}</div>
             <div
               style={{
                 padding: "10px 14px",
@@ -95,7 +91,7 @@ export default function Sidebar({
                 <div style={{ fontWeight: 600, color: "var(--text-main)" }}>
                   {selectedVillageName ? selectedVillageName : "Kopargaon Block"}
                 </div>
-                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Ahilyanagar, MH</div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{t("district_name")}</div>
               </div>
             </div>
           </div>
@@ -108,8 +104,8 @@ export default function Sidebar({
           <span className="status-dot-green" />
           {!collapsed ? (
             <div>
-              <div style={{ fontWeight: 600, color: "var(--text-main)", fontSize: 12 }}>Krishi Setu AI Online</div>
-              <div style={{ fontSize: 10, color: "var(--text-muted)" }}>All systems operational</div>
+              <div style={{ fontWeight: 600, color: "var(--text-main)", fontSize: 12 }}>{t("system_status_online")}</div>
+              <div style={{ fontSize: 10, color: "var(--text-muted)" }}>{t("all_systems_ok")}</div>
             </div>
           ) : (
             <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--primary-700)" }}>OK</span>

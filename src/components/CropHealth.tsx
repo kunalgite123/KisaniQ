@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { cropModels, CropModel, DiseaseInfo } from "../data/cropModels";
 import { loadTMModel, predict, Prediction } from "../lib/teachableMachine";
+import { useLanguage } from "../context/LanguageContext";
 import PageHeader from "./PageHeader";
 
 interface Props {
@@ -14,6 +15,7 @@ const severityBadge: Record<string, string> = {
 };
 
 export default function CropHealth({ onResult }: Props) {
+  const { t } = useLanguage();
   const [cropId, setCropId] = useState<CropModel["id"]>("cotton");
   const crop = cropModels.find((c) => c.id === cropId)!;
 
@@ -164,11 +166,11 @@ export default function CropHealth({ onResult }: Props) {
   return (
     <div>
       <PageHeader
-        title="Crop Doctor"
-        subtitle="Detect crop stress and disease using on-device AI neural networks & symptom matching"
+        title={t("crop_doctor_title")}
+        subtitle={t("crop_doctor_subtitle")}
         action={
           <span className="badge badge-healthy">
-            {modelStatus === "ready" ? "🟢 Edge AI Ready" : modelStatus}
+            {modelStatus === "ready" ? t("edge_ai_ready") : modelStatus}
           </span>
         }
       />
@@ -188,7 +190,7 @@ export default function CropHealth({ onResult }: Props) {
                 stopCamera();
               }}
             >
-              {c.name === "Cotton" ? "🌾 Cotton" : c.name === "Sugarcane" ? "🎋 Sugarcane" : "🧅 Onion"}
+              {c.name === "Cotton" ? t("crop_cotton") : c.name === "Sugarcane" ? t("crop_sugarcane") : t("crop_onion")}
             </button>
           ))}
         </div>
@@ -205,7 +207,7 @@ export default function CropHealth({ onResult }: Props) {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, flexWrap: "wrap", gap: 8 }}>
             <label style={{ fontSize: 13.5, fontWeight: 600, color: "var(--text-main)", display: "flex", alignItems: "center", gap: 6 }}>
-              <span>🔍</span> Select Observed Symptom (Colour + Condition) for {crop.name}:
+              <span>🔍</span> {t("observed_symptoms_label")}:
             </label>
             {selectedSymptomLabel && (
               <button
@@ -213,7 +215,7 @@ export default function CropHealth({ onResult }: Props) {
                 style={{ padding: "3px 10px", fontSize: 11.5 }}
                 onClick={() => handleSymptomChange("")}
               >
-                ✕ Clear Symptom Selection
+                {t("clear_symptom")}
               </button>
             )}
           </div>
@@ -311,21 +313,21 @@ export default function CropHealth({ onResult }: Props) {
 
             <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
               <label className="btn btn-outline" style={{ cursor: "pointer", flex: 1, justifyContent: "center" }}>
-                📁 Upload Photo
+                {t("upload_photo")}
                 <input type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }} />
               </label>
 
               {!cameraOn ? (
                 <button className="btn btn-primary" onClick={startCamera} style={{ flex: 1, justifyContent: "center" }}>
-                  📷 Use Camera
+                  {t("use_camera")}
                 </button>
               ) : (
                 <>
                   <button className="btn btn-primary" onClick={captureFromCamera} disabled={modelStatus !== "ready"} style={{ flex: 1, justifyContent: "center" }}>
-                    ⚡ Capture &amp; Scan
+                    {t("capture_scan")}
                   </button>
                   <button className="btn btn-outline" onClick={stopCamera}>
-                    Stop
+                    {t("stop_camera")}
                   </button>
                 </>
               )}
@@ -342,7 +344,7 @@ export default function CropHealth({ onResult }: Props) {
 
           {/* Diagnostic Results Right */}
           <div>
-            <div className="section-label">Diagnostic Output</div>
+            <div className="section-label">{t("diagnostic_output")}</div>
 
             {!predictions && !selectedSymptomLabel && (
               <div style={{ marginTop: 16, padding: 24, background: "var(--surface-muted)", borderRadius: "var(--radius-md)", textAlign: "center" }}>
@@ -421,7 +423,7 @@ export default function CropHealth({ onResult }: Props) {
                     </span>
                     {selectedSymptomLabel && (
                       <span className="badge badge-muted" style={{ fontSize: 10 }}>
-                        🔍 Symptom Verified
+                        {t("symptom_verified")}
                       </span>
                     )}
                   </div>
@@ -442,7 +444,7 @@ export default function CropHealth({ onResult }: Props) {
 
       <div className="card">
         <p style={{ fontSize: 12.5, color: "var(--text-muted)", lineHeight: 1.5 }}>
-          🔒 <strong>Krishi Setu Edge Privacy:</strong> Neural networks run 100% locally inside your web browser via TensorFlow.js — no leaf photos leave your device. Diagnostics instantly sync with the main Krishi Setu Advisory Engine.
+          {t("edge_privacy_notice")}
         </p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PageHeader from "./PageHeader";
 import { villages } from "../data/villages";
+import { useLanguage } from "../context/LanguageContext";
 import {
   EquipmentCategory,
   MachineryListing,
@@ -12,6 +13,7 @@ const STORAGE_KEY_LISTINGS = "krishi_setu_machinery_listings_v1";
 const STORAGE_KEY_BOOKINGS = "krishi_setu_machinery_bookings_v1";
 
 export default function LabourMachinery() {
+  const { t } = useLanguage();
   const [listings, setListings] = useState<MachineryListing[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_LISTINGS);
     return saved ? JSON.parse(saved) : INITIAL_MACHINERY_LISTINGS;
@@ -82,11 +84,10 @@ export default function LabourMachinery() {
     return matchesCategory && matchesVillage && matchesSearch;
   });
 
-  // Submit New Machinery or Labour Listing
   function handleCreateListing(e: React.FormEvent) {
     e.preventDefault();
     if (!newTitle || !newOwnerName || !newOwnerPhone || !newRate) {
-      alert("Please fill in all required fields (Title, Owner Name, Contact Phone, and Rate).");
+      alert("Please fill in all required fields.");
       return;
     }
 
@@ -119,9 +120,8 @@ export default function LabourMachinery() {
 
     setListings([newEntry, ...listings]);
     setShowAddModal(false);
-    triggerToast(`🎉 Successfully listed "${newTitle}" for rent!`);
+    triggerToast(`🎉 Successfully listed "${newTitle}"!`);
 
-    // Reset Form
     setNewTitle("");
     setNewOwnerName("");
     setNewOwnerPhone("");
@@ -130,7 +130,6 @@ export default function LabourMachinery() {
     setNewDescription("");
   }
 
-  // Submit Rental Booking Request
   function handleConfirmBooking(e: React.FormEvent) {
     e.preventDefault();
     if (!rentingItem) return;
@@ -155,10 +154,9 @@ export default function LabourMachinery() {
     };
 
     setBookings([newBooking, ...bookings]);
-    triggerToast(`✅ Rental request submitted for ${rentingItem.title}! The owner (${rentingItem.ownerName}) will call you shortly.`);
+    triggerToast(`✅ Rental request submitted for ${rentingItem.title}!`);
     setRentingItem(null);
 
-    // Reset rental form
     setRenterName("");
     setRenterPhone("");
     setBookingNotes("");
@@ -171,8 +169,8 @@ export default function LabourMachinery() {
   return (
     <div>
       <PageHeader
-        title="Labour & Machinery Monitoring"
-        subtitle="Community rental network for farm equipment, harvesters, tractors & skilled labour gangs in Kopargaon"
+        title={t("machinery_title")}
+        subtitle={t("machinery_subtitle")}
       />
 
       {/* Toast Notification Banner */}
@@ -196,11 +194,11 @@ export default function LabourMachinery() {
 
         <div className="card metric-card">
           <div className="metric-header">
-            <span className="metric-label">Available Now</span>
+            <span className="metric-label">{t("available_now")}</span>
             <span className="metric-icon">🟢</span>
           </div>
           <div className="metric-value">{availableCount} Units</div>
-          <div className="metric-subtext">Ready for immediate field dispatch</div>
+          <div className="metric-subtext">Ready for field dispatch</div>
         </div>
 
         <div className="card metric-card">
@@ -214,7 +212,7 @@ export default function LabourMachinery() {
 
         <div className="card metric-card">
           <div className="metric-header">
-            <span className="metric-label">Labour Crews Registered</span>
+            <span className="metric-label">{t("labour_crews")}</span>
             <span className="metric-icon">👨‍🌾</span>
           </div>
           <div className="metric-value">{labourCount} Gangs</div>
@@ -229,18 +227,18 @@ export default function LabourMachinery() {
             className={`btn-subtab ${activeViewTab === "browse" ? "active" : ""}`}
             onClick={() => setActiveViewTab("browse")}
           >
-            🔍 Browse Available Equipment &amp; Labour
+            {t("browse_tab")}
           </button>
           <button
             className={`btn-subtab ${activeViewTab === "my_bookings" ? "active" : ""}`}
             onClick={() => setActiveViewTab("my_bookings")}
           >
-            📋 My Rental Requests ({bookings.length})
+            {t("my_bookings_tab")} ({bookings.length})
           </button>
         </div>
 
         <button className="btn-primary" onClick={() => setShowAddModal(true)}>
-          ➕ List Your Machine / Labour Team
+          {t("list_machine_btn")}
         </button>
       </div>
 
@@ -255,37 +253,37 @@ export default function LabourMachinery() {
                   className={`chip ${activeCategory === "all" ? "active" : ""}`}
                   onClick={() => setActiveCategory("all")}
                 >
-                  All ({listings.length})
+                  {t("all_categories")} ({listings.length})
                 </button>
                 <button
                   className={`chip ${activeCategory === "tractor" ? "active" : ""}`}
                   onClick={() => setActiveCategory("tractor")}
                 >
-                  🚜 Tractors
+                  {t("tractors")}
                 </button>
                 <button
                   className={`chip ${activeCategory === "harvester" ? "active" : ""}`}
                   onClick={() => setActiveCategory("harvester")}
                 >
-                  🌾 Harvesters
+                  {t("harvesters")}
                 </button>
                 <button
                   className={`chip ${activeCategory === "implement" ? "active" : ""}`}
                   onClick={() => setActiveCategory("implement")}
                 >
-                  ⚙️ Implements
+                  {t("implements")}
                 </button>
                 <button
                   className={`chip ${activeCategory === "sprayer" ? "active" : ""}`}
                   onClick={() => setActiveCategory("sprayer")}
                 >
-                  💨 Sprayers
+                  {t("sprayers")}
                 </button>
                 <button
                   className={`chip ${activeCategory === "labour" ? "active" : ""}`}
                   onClick={() => setActiveCategory("labour")}
                 >
-                  👨‍🌾 Labour Crews
+                  {t("labour_crews")}
                 </button>
               </div>
 

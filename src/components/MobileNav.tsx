@@ -1,4 +1,5 @@
 import { Tab } from "../App";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Props {
   currentTab: Tab;
@@ -6,6 +7,8 @@ interface Props {
 }
 
 export default function MobileNav({ currentTab, onSelectTab }: Props) {
+  const { t } = useLanguage();
+
   return (
     <nav className="mobile-bottom-nav">
       <button
@@ -13,7 +16,7 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
         onClick={() => onSelectTab("dashboard")}
       >
         <span className="mobile-nav-icon">🏠</span>
-        <span>Overview</span>
+        <span>{t("nav_dashboard")}</span>
       </button>
 
       <button
@@ -21,7 +24,7 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
         onClick={() => onSelectTab("crop")}
       >
         <span className="mobile-nav-icon">🌱</span>
-        <span>Crop Doctor</span>
+        <span>{t("nav_crop")}</span>
       </button>
 
       <button
@@ -29,7 +32,7 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
         onClick={() => onSelectTab("machinery")}
       >
         <span className="mobile-nav-icon">🚜</span>
-        <span>Machinery</span>
+        <span>{t("nav_machinery")}</span>
       </button>
 
       <button
@@ -37,7 +40,7 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
         onClick={() => onSelectTab("water")}
       >
         <span className="mobile-nav-icon">💧</span>
-        <span>Water &amp; Soil</span>
+        <span>{t("nav_water")}</span>
       </button>
 
       <button
@@ -45,7 +48,7 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
         onClick={() => onSelectTab("climate")}
       >
         <span className="mobile-nav-icon">🌦️</span>
-        <span>Climate</span>
+        <span>{t("nav_climate")}</span>
       </button>
 
       <button
@@ -53,7 +56,7 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
         onClick={() => onSelectTab("advisory")}
       >
         <span className="mobile-nav-icon">🤖</span>
-        <span>Advisory</span>
+        <span>{t("nav_advisory")}</span>
       </button>
     </nav>
   );
