@@ -16,7 +16,6 @@ export default function SignupPage({ onNavigateToLogin }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const hasMinLen = password.length >= 8;
   const hasUpper = /[A-Z]/.test(password);
@@ -55,10 +54,6 @@ export default function SignupPage({ onNavigateToLogin }: Props) {
 
     if (res.error) {
       setError(res.error);
-    } else if (res.needsConfirmation) {
-      setSuccessMsg("Account created successfully! If your Supabase server enforces email confirmation, please check your inbox or disable 'Confirm email' in Supabase Auth settings.");
-    } else {
-      setSuccessMsg("Account created successfully! Logging you into Krishi Setu...");
     }
   }
 
@@ -69,7 +64,6 @@ export default function SignupPage({ onNavigateToLogin }: Props) {
         <p className="auth-form-sub">Start receiving personalized AI farm advisories today</p>
 
         {error && <div className="auth-alert auth-alert-error">{error}</div>}
-        {successMsg && <div className="auth-alert auth-alert-success">{successMsg}</div>}
 
         <form onSubmit={handleSubmit} style={{ marginTop: 18 }}>
           <div className="form-group">

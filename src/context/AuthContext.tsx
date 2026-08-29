@@ -8,7 +8,7 @@ interface AuthContextType {
   profile: UserProfile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
-  signUp: (fullName: string, email: string, phone: string, password: string) => Promise<{ error: string | null; needsConfirmation?: boolean }>;
+  signUp: (fullName: string, email: string, phone: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: string | null }>;
   updatePassword: (newPassword: string) => Promise<{ error: string | null }>;
@@ -118,7 +118,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
-  // Real Supabase Signup - Direct Password Auth with Profile Sync
+  // Pure Password-Based Direct Signup (No Email Inbox Verification)
   async function signUp(fullName: string, email: string, phone: string, password: string) {
     const cleanEmail = email.trim().toLowerCase();
     const cleanPhone = phone.trim();
@@ -163,15 +163,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch {}
       }
 
-      // Automatically sign in immediately with email & password
+      // Instant Login via Email + Password
       if (!data.session) {
         const loginRes = await signIn(cleanEmail, password);
-        if (loginRes.error && loginRes.error.includes("Email not confirmed")) {
-          return { error: null, needsConfirmation: true };
+        if (loginRes.error) {
+          return { error: loginRes.error };
         }
       }
 
-      return { error: null, needsConfirmation: false };
+      return { error: null };
     } catch (err: any) {
       return { error: getFriendlyAuthError(err) };
     }
