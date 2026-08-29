@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { Language, translations, TranslationKey } from "../i18n/translations";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n/i18n";
+import { Language, TranslationKey } from "../i18n/translations";
 
 interface LanguageContextType {
   language: Language;
@@ -12,22 +14,28 @@ const STORAGE_KEY_LANG = "krishi_setu_lang_v1";
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  const { t: i18nT } = useTranslation();
   const [language, setLanguageState] = useState<Language>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_LANG);
-    return saved === "mr" || saved === "en" ? saved : "en";
+    return saved === "mr" || saved === "en" ? saved : (i18n.language as Language) || "en";
   });
 
   function setLanguage(lang: Language) {
     setLanguageState(lang);
+    i18n.changeLanguage(lang);
     localStorage.setItem(STORAGE_KEY_LANG, lang);
   }
 
   function t(key: TranslationKey): string {
-    return translations[language][key] || translations.en[key] || key;
+    const translated = i18nT(key);
+    return translated !== key ? translated : (i18n.getResource("en", "translation", key) as string) || key;
   }
 
   useEffect(() => {
     document.documentElement.lang = language;
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+    }
   }, [language]);
 
   return (

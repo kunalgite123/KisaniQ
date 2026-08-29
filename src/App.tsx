@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { AuthProvider } from "./context/AuthContext";
+import { useState, useEffect, useMemo } from "react";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Sidebar from "./components/Sidebar";
 import TopNavbar from "./components/TopNavbar";
@@ -15,10 +15,15 @@ import VoiceFloatingButton from "./components/voice/VoiceFloatingButton";
 import { Village } from "./data/villages";
 import { CropModel, DiseaseInfo } from "./data/cropModels";
 import { fetchKopargaonWeather, assessClimateRisk, WeatherSnapshot, ClimateRisk } from "./lib/weather";
+import { FarmerProfile, loadSavedFarmerProfile, fetchFarmerProfileFromSupabase } from "./data/farmerProfile";
+import { generateFarmerDecision, FarmerDecision } from "./lib/farmerDecisionEngine";
+import { useLanguage } from "./context/LanguageContext";
 
 export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery";
 
 function MainAppContent() {
+  const { profile: authProfile } = useAuth();
+  const { language } = useLanguage();
   const [tab, setTab] = useState<Tab>("dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [village, setVillage] = useState<Village | null>(null);
@@ -26,6 +31,27 @@ function MainAppContent() {
   const [detectedDisease, setDetectedDisease] = useState<DiseaseInfo | null>(null);
   const [weather, setWeather] = useState<WeatherSnapshot | null>(null);
   const [risk, setRisk] = useState<ClimateRisk | null>(null);
+  const [farmerProfile, setFarmerProfile] = useState<FarmerProfile>(() =>
+    loadSavedFarmerProfile(authProfile)
+  );
+
+  // Auto-restore saved farm profile from Supabase cloud on login
+  useEffect(() => {
+    if (authProfile?.id) {
+      fetchFarmerProfileFromSupabase(authProfile.id).then((cloudProfile) => {
+        if (cloudProfile) {
+          setFarmerProfile(cloudProfile);
+        } else {
+          setFarmerProfile((prev) => ({
+            ...prev,
+            fullName: authProfile.full_name || prev.fullName,
+            email: authProfile.email || prev.email,
+            phone: authProfile.phone || prev.phone
+          }));
+        }
+      });
+    }
+  }, [authProfile?.id]);
 
   useEffect(() => {
     fetchKopargaonWeather()
@@ -34,7 +60,7 @@ function MainAppContent() {
         setRisk(assessClimateRisk(snap));
       })
       .catch((err) => {
-        console.warn("Could not fetch background weather for voice assistant:", err);
+        console.warn("Could not fetch background weather:", err);
       });
   }, []);
 
@@ -42,6 +68,19 @@ function MainAppContent() {
     setCropName(crop.name);
     setDetectedDisease(disease);
   }
+
+  // Central Decision Engine Execution — Single Source of Truth
+  const decision: FarmerDecision = useMemo(() => {
+    return generateFarmerDecision({
+      farmerProfile,
+      village,
+      weather,
+      climateRisk: risk,
+      cropName,
+      detectedDisease,
+      lang: language as any
+    });
+  }, [farmerProfile, village, weather, risk, cropName, detectedDisease, language]);
 
   return (
     <div className={`app-layout ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
@@ -70,6 +109,11 @@ function MainAppContent() {
               village={village}
               detectedDisease={detectedDisease}
               cropName={cropName}
+              weather={weather}
+              climateRisk={risk}
+              farmerProfile={farmerProfile}
+              decision={decision}
+              onFarmerProfileChange={setFarmerProfile}
               onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
             />
           )}
@@ -78,6 +122,9 @@ function MainAppContent() {
             <ClimateView
               village={village}
               cropName={cropName}
+              weather={weather}
+              climateRisk={risk}
+              decision={decision}
               onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
             />
           )}
@@ -86,15 +133,22 @@ function MainAppContent() {
               village={village}
               onSelectVillage={setVillage}
               cropName={cropName}
+              weather={weather}
+              climateRisk={risk}
+              farmerProfile={farmerProfile}
+              decision={decision}
               onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
             />
           )}
           {tab === "advisory" && (
             <AdvisoryPage
-              climateRisk={null}
+              climateRisk={risk}
               village={village}
               detectedDisease={detectedDisease}
               cropName={cropName}
+              weather={weather}
+              farmerProfile={farmerProfile}
+              decision={decision}
             />
           )}
           {tab === "schemes" && (
@@ -102,6 +156,9 @@ function MainAppContent() {
               village={village}
               cropName={cropName}
               detectedDisease={detectedDisease}
+              climateRisk={risk}
+              farmerProfile={farmerProfile}
+              decision={decision}
             />
           )}
           {tab === "machinery" && <LabourMachinery />}
@@ -121,7 +178,9 @@ function MainAppContent() {
           detectedDisease,
           weather,
           risk,
-          currentTab: tab
+          currentTab: tab,
+          farmerProfile,
+          decision
         }}
         onNavigateTab={(targetTab) => setTab(targetTab)}
       />

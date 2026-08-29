@@ -1,4 +1,5 @@
 import { FarmerProfile } from "../data/farmerProfile";
+import { useLanguage } from "../context/LanguageContext";
 import { Sparkles, ArrowRight, CheckCircle2, UserCheck, Edit3 } from "lucide-react";
 
 interface Props {
@@ -7,6 +8,8 @@ interface Props {
 }
 
 export default function ProfileCompletionCard({ profile, onOpenSetup }: Props) {
+  const { language } = useLanguage();
+  const isMr = language === "mr";
   const pct = profile.completionPercentage || 35;
   const is100 = pct >= 95;
 
@@ -31,12 +34,12 @@ export default function ProfileCompletionCard({ profile, onOpenSetup }: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
             <CheckCircle2 size={16} style={{ color: "var(--primary-700)" }} />
             <span style={{ fontSize: 11, fontWeight: 800, color: "var(--primary-900)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              FARM PROFILE · 100% COMPLETE &amp; VERIFIED
+              {isMr ? "शेत प्रोफाइल · १००% पूर्ण व सत्यापित" : "FARM PROFILE · 100% COMPLETE & VERIFIED"}
             </span>
           </div>
 
           <h3 style={{ fontSize: 16.5, fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
-            📍 {profile.locationVillage || "Kopargaon"} · {profile.primaryCrop || "Sugarcane"} ({profile.landArea || 4} {profile.landUnit || "acres"})
+            📍 {profile.locationVillage || (isMr ? "कोपरगाव" : "Kopargaon")} · {profile.primaryCrop || (isMr ? "ऊस" : "Sugarcane")} ({profile.landArea || 4} {profile.landUnit || (isMr ? "एकड" : "acres")})
           </h3>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
@@ -52,7 +55,7 @@ export default function ProfileCompletionCard({ profile, onOpenSetup }: Props) {
               </span>
             )}
             <span className="badge badge-healthy" style={{ fontSize: 11 }}>
-              🌱 Soil: {profile.soilType || "Medium Black"}
+              🌱 {isMr ? "माती:" : "Soil:"} {profile.soilType || (isMr ? "काळी माती" : "Medium Black")}
             </span>
           </div>
         </div>
@@ -63,7 +66,7 @@ export default function ProfileCompletionCard({ profile, onOpenSetup }: Props) {
           style={{ fontSize: 12, padding: "8px 16px", display: "flex", alignItems: "center", gap: 6 }}
         >
           <Edit3 size={13} />
-          <span>Edit Farm Setup</span>
+          <span>{isMr ? "शेत माहिती बदला / अडचण सांगा" : "Edit Farm Setup / Report Issue"}</span>
         </button>
       </div>
     );

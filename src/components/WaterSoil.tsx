@@ -21,14 +21,24 @@ import {
   AlertTriangle
 } from "lucide-react";
 
+import { WeatherSnapshot, ClimateRisk } from "../lib/weather";
+import { FarmerProfile } from "../data/farmerProfile";
+import { FarmerDecision } from "../lib/farmerDecisionEngine";
+
 interface Props {
   village: Village | null;
   onSelectVillage: (village: Village | null) => void;
   cropName?: string | null;
+  weather?: WeatherSnapshot | null;
+  climateRisk?: ClimateRisk | null;
+  farmerProfile?: FarmerProfile | null;
+  decision?: FarmerDecision | null;
   onNavigateTab?: (tab: Tab) => void;
 }
 
-export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarcane", onNavigateTab }: Props) {
+import AdviceSectionCard from "./AdviceSectionCard";
+
+export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarcane", climateRisk, farmerProfile, decision: mainDecision, onNavigateTab }: Props) {
   const { t, language } = useLanguage();
   const [showWhyReasoning, setShowWhyReasoning] = useState(false);
 
@@ -36,7 +46,7 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
   const decision = evaluateWaterSoilDecision({
     village,
     cropName,
-    dryDaysAhead: 6,
+    dryDaysAhead: climateRisk?.dryDaysAhead || 6,
     lang: language
   });
 
@@ -45,6 +55,19 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
       <PageHeader
         title={t("water_soil_title")}
         subtitle={language === "mr" ? "स्थान, भूजल व मातीवर आधारित शेती सिंचन निर्णय प्रणाली" : t("water_soil_subtitle")}
+      />
+
+      {/* DEDICATED SECTION-SPECIFIC AI ADVICE CARD */}
+      <AdviceSectionCard
+        id={`water_soil_${village?.name || 'default'}`}
+        category={language === "mr" ? "💧 पाणी व माती आरोग्य सल्ला" : "💧 Water & Soil Health Advice"}
+        title={mainDecision ? mainDecision.irrigation.action : decision.recommendedAction}
+        recommendation={mainDecision ? mainDecision.irrigation.action : decision.recommendedAction}
+        reason={mainDecision ? mainDecision.irrigation.reason : decision.interpretationText}
+        avoid={mainDecision ? mainDecision.irrigation.avoid : (language === "mr" ? "मुळांची ओलावा तपासल्याशिवाय अनावश्यक पंप चालवणे" : "Unnecessary pump operation without checking root zone")}
+        timeframe={mainDecision ? mainDecision.irrigation.interval : (language === "mr" ? "पुढील २४-४८ तास" : "Next 24-48 Hours")}
+        urgency={mainDecision ? mainDecision.urgency : "watch"}
+        confidencePct={88}
       />
 
       {/* 1. TOP SUMMARY CARD (SECTION 37) */}

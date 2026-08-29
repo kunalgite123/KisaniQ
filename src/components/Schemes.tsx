@@ -9,17 +9,25 @@ import { useLanguage } from "../context/LanguageContext";
 import SchemeCard from "./schemes/SchemeCard";
 import SchemeDetailModal from "./schemes/SchemeDetailModal";
 
+import { FarmerProfile } from "../data/farmerProfile";
+import { FarmerDecision } from "../lib/farmerDecisionEngine";
+
 interface Props {
   village?: Village | null;
   cropName?: string | null;
   detectedDisease?: DiseaseInfo | null;
   climateRisk?: ClimateRisk | null;
+  farmerProfile?: FarmerProfile | null;
+  decision?: FarmerDecision | null;
 }
 
 type CategoryFilter = "all" | SchemeCategory;
 
-export default function Schemes({ village, cropName, detectedDisease, climateRisk }: Props) {
-  const { t } = useLanguage();
+import AdviceSectionCard from "./AdviceSectionCard";
+
+export default function Schemes({ village, cropName, detectedDisease, climateRisk, farmerProfile, decision }: Props) {
+  const { t, language } = useLanguage();
+  const isMr = language === "mr";
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("all");
   const [activeModalScheme, setActiveModalScheme] = useState<SchemeEvaluationResult | null>(null);
@@ -57,6 +65,8 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
     });
   }, [evaluatedSchemes]);
 
+  const topScheme = recommendedSchemes[0];
+
   const filteredSchemes = useMemo(() => {
     return recommendedSchemes.filter((item) => {
       const matchesCategory = selectedCategory === "all" || item.scheme.category === selectedCategory;
@@ -82,9 +92,24 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
     <div>
       {/* Clean Page Title */}
       <PageHeader
-        title="Government Schemes & Benefits"
-        subtitle="Personalized recommendations for crops, soil, climate risks, and supplementary side-income subsidies."
+        title={isMr ? "शासकीय कृषी योजना व अनुदान" : "Government Schemes & Benefits"}
+        subtitle={isMr ? "पिके, माती, हवामान धोके व पूरक व्यवसायांसाठी वैयक्तिक शासकीय योजना शिफारसी." : "Personalized recommendations for crops, soil, climate risks, and supplementary side-income subsidies."}
       />
+
+      {/* DEDICATED SCHEMES SECTION AI ADVICE CARD */}
+      {topScheme && (
+        <AdviceSectionCard
+          id={`scheme_${topScheme.scheme.id}`}
+          category={isMr ? "🛡️ शासकीय योजना सुसंगतता सल्ला" : "🛡️ Government Scheme Match Advice"}
+          title={`${isMr ? "उत्कृष्ट योजना:" : "Top Match:"} ${topScheme.scheme.name} (${isMr ? (topScheme.relevanceLabel === "High Relevance" ? "उच्च प्राधान्य" : "योग्य सुसंगत") : topScheme.relevanceLabel})`}
+          recommendation={isMr ? `${topScheme.scheme.name} (${topScheme.scheme.typeLabel}) योजनेसाठी अर्ज करा. ${topScheme.whyReasons.join(" ")}` : `Apply for ${topScheme.scheme.name} (${topScheme.scheme.typeLabel}). ${topScheme.whyReasons.join(" ")}`}
+          reason={topScheme.scheme.summary}
+          avoid={isMr ? "अपूर्ण ७/१२ दाखले सादर करणे किंवा अंतिम मुदत चुकवणे" : "Submitting incomplete land documents or missing notified claim deadlines"}
+          timeframe={isMr ? "हंगामी नोंदणी सुरू" : "Seasonal Registration Open"}
+          urgency={topScheme.relevanceLabel === "High Relevance" ? "urgent" : "watch"}
+          confidencePct={90}
+        />
+      )}
 
       {/* Clean Farm Location & Context Banner */}
       <div className="card" style={{ marginBottom: 20, padding: "20px 24px" }}>

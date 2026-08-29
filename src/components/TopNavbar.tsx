@@ -4,7 +4,7 @@ import { Tab } from "../App";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
-import { MapPin, Sun, Moon, LogOut } from "lucide-react";
+import { MapPin, Sun, Moon, LogOut, Globe } from "lucide-react";
 
 interface Props {
   currentTab: Tab;
@@ -60,7 +60,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           </select>
         </div>
 
-        {/* Language Selector Button beside Location Selector */}
+        {/* i18next Language Switcher Pill Button Bar */}
         <div
           style={{
             display: "flex",
@@ -68,22 +68,26 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
             background: "var(--surface-muted)",
             border: "1px solid var(--border-strong)",
             borderRadius: "var(--radius-full)",
-            padding: "2px",
-            fontSize: 12
+            padding: "3px 4px",
+            fontSize: 12,
+            gap: 2
           }}
+          title="Toggle Language / भाषा बदला"
         >
+          <Globe size={13} style={{ marginLeft: 6, marginRight: 2, color: "var(--primary-700)" }} />
           <button
             type="button"
             onClick={() => setLanguage("en")}
             style={{
-              background: language === "en" ? "var(--primary-700)" : "transparent",
+              background: language === "en" ? "linear-gradient(135deg, var(--primary-700), var(--primary-900))" : "transparent",
               color: language === "en" ? "#ffffff" : "var(--text-muted)",
               border: "none",
               borderRadius: "var(--radius-full)",
-              padding: "4px 10px",
+              padding: "4px 12px",
               fontSize: 12,
               fontWeight: 700,
               cursor: "pointer",
+              boxShadow: language === "en" ? "0 2px 8px rgba(45, 106, 79, 0.25)" : "none",
               transition: "all 0.2s ease"
             }}
           >
@@ -93,14 +97,15 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
             type="button"
             onClick={() => setLanguage("mr")}
             style={{
-              background: language === "mr" ? "var(--primary-700)" : "transparent",
+              background: language === "mr" ? "linear-gradient(135deg, var(--primary-700), var(--primary-900))" : "transparent",
               color: language === "mr" ? "#ffffff" : "var(--text-muted)",
               border: "none",
               borderRadius: "var(--radius-full)",
-              padding: "4px 10px",
+              padding: "4px 12px",
               fontSize: 12,
               fontWeight: 700,
               cursor: "pointer",
+              boxShadow: language === "mr" ? "0 2px 8px rgba(45, 106, 79, 0.25)" : "none",
               transition: "all 0.2s ease"
             }}
           >

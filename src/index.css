@@ -1,33 +1,33 @@
 :root {
-  /* 1. Primary Base: Midnight Pine (#062822) */
+  /* 1. Primary Base: Deep Forest Pine (#1B4332) & Leaf Green (#2D6A4F) */
   --primary-950: #031713;
-  --primary-900: #062822;
-  --primary-800: #0a3830;
-  --primary-700: #0f4c41;
+  --primary-900: #1B4332;
+  --primary-800: #276749;
+  --primary-700: #2D6A4F;
 
-  /* 2. Brand Accent: Bright Lime / Chartreuse (#84CC16) */
-  --primary-600: #65a30d;
-  --primary-500: #84CC16;
-  --primary-100: #E6F4EA;
-  /* Soft Sage */
-  --primary-50: #F0FDF4;
+  /* 2. Brand Accent: Warm Organic Leaf Green (#2D6A4F / #40916C) */
+  --primary-600: #40916C;
+  --primary-500: #2D6A4F;
+  --primary-100: #E8F5E9;
+  /* Soft Sage Tint */
+  --primary-50: #F4F9F5;
 
-  /* 3. App Background: Off-White Cloud (#F4F6F8) */
-  --surface-bg: #F4F6F8;
+  /* 3. App Background: Warm Organic Cloud (#F6F8F5) */
+  --surface-bg: #F6F8F5;
 
-  /* 4. Card Surface: Pure White (#FFFFFF) & subtle border (#E2E8F0) */
+  /* 4. Card Surface: Pure White (#FFFFFF) & warm organic borders */
   --surface-card: #FFFFFF;
-  --surface-muted: #F1F5F9;
+  --surface-muted: #F0F4F1;
   --surface-sidebar: #FFFFFF;
-  --surface-sage: #E6F4EA;
-  --border-subtle: #E2E8F0;
-  --border-strong: #CBD5E1;
+  --surface-sage: #E8F5E9;
+  --border-subtle: #E2E8E4;
+  --border-strong: #CBD5CD;
 
-  /* 5. Text Primary: Dark Iron (#1E293B) */
-  --text-main: #1E293B;
+  /* 5. Text Primary: Dark Iron (#1A2E26) */
+  --text-main: #1A2E26;
 
-  /* 6. Text Secondary: Muted Slate (#64748B) */
-  --text-muted: #64748B;
+  /* 6. Text Secondary: Muted Slate (#526E60) */
+  --text-muted: #526E60;
   --text-inverse: #FFFFFF;
 
   /* Status Colors */
@@ -38,22 +38,22 @@
   --water-600: #0284C7;
   --water-100: #E0F2FE;
 
-  --alert-red: #EF4444;
+  --alert-red: #DC2626;
   --alert-red-bg: #FEF2F2;
 
   --font-display: "Fraunces", "Georgia", serif;
   --font-body: "Inter", "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 3px rgba(30, 41, 59, 0.04);
-  --shadow-md: 0 4px 16px -2px rgba(30, 41, 59, 0.08);
-  --shadow-lg: 0 12px 32px -4px rgba(30, 41, 59, 0.12);
+  --shadow-sm: 0 2px 6px rgba(27, 67, 50, 0.05);
+  --shadow-md: 0 6px 20px -2px rgba(27, 67, 50, 0.08);
+  --shadow-lg: 0 14px 36px -4px rgba(27, 67, 50, 0.12);
 
   --sidebar-width: 260px;
   --sidebar-width-collapsed: 76px;
@@ -150,6 +150,126 @@ button {
 .mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Form Controls & Dropdown Aesthetics ---------- */
+
+.input-select, select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--surface-card);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232D6A4F' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 36px 9px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.input-select:hover, select:hover {
+  border-color: var(--primary-500);
+  background-color: var(--surface-sage);
+}
+
+.input-select:focus, select:focus {
+  border-color: var(--primary-700);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+}
+
+.input-text, input[type="text"], input[type="number"], textarea {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-size: 13.5px;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.input-text:focus, input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+  border-color: var(--primary-700);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+}
+
+/* ---------- Button & Filter Chip Aesthetics ---------- */
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-700), var(--primary-900));
+  color: var(--text-inverse);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+  box-shadow: 0 6px 16px rgba(45, 106, 79, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background: var(--surface-card);
+  color: var(--primary-700);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-700);
+  background: var(--primary-100);
+}
+
+.filter-chip {
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip.active, .filter-chip:hover {
+  background: var(--primary-700);
+  color: var(--text-inverse);
+  border-color: var(--primary-700);
+  box-shadow: 0 2px 8px rgba(45, 106, 79, 0.2);
 }
 
 /* ---------- Application Shell Layout ---------- */

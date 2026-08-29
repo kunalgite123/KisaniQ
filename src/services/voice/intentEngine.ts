@@ -5,6 +5,8 @@ import { Village, villages } from "../../data/villages";
 import { DiseaseInfo, cropModels } from "../../data/cropModels";
 import { WeatherSnapshot, ClimateRisk } from "../../lib/weather";
 import { evaluateWaterSoilDecision } from "../../lib/waterSoilDecision";
+import { FarmerProfile } from "../../data/farmerProfile";
+import { generateFarmerDecision, FarmerDecision } from "../../lib/farmerDecisionEngine";
 
 export interface AssistantResponse {
   detectedLang: ResponseLang;
@@ -20,6 +22,8 @@ export interface AssistantContext {
   weather?: WeatherSnapshot | null;
   risk?: ClimateRisk | null;
   currentTab?: Tab;
+  farmerProfile?: FarmerProfile | null;
+  decision?: FarmerDecision | null;
 }
 
 export function processVoiceQuery(
@@ -30,8 +34,60 @@ export function processVoiceQuery(
   const q = query.toLowerCase().trim();
   const lang = forcedLang && forcedLang !== ("auto" as any) ? forcedLang : detectLanguage(query);
 
-  const currentCrop = context.cropName || "Cotton";
-  const location = context.village?.name || "Kopargaon";
+  // Central Decision Engine Execution for Voice Assistant
+  const decision: FarmerDecision = context.decision || generateFarmerDecision({
+    farmerProfile: context.farmerProfile,
+    village: context.village,
+    weather: context.weather,
+    climateRisk: context.risk,
+    cropName: context.cropName,
+    detectedDisease: context.detectedDisease,
+    lang: lang as any
+  });
+
+  const currentCrop = context.cropName || context.farmerProfile?.primaryCrop || "Cotton";
+  const location = context.village?.name || context.farmerProfile?.locationVillage || "Kopargaon";
+
+  // Decision-driven Direct Voice Queries ("Should I irrigate today?", "Less water", "Crop loss", "Low yield", etc.)
+  if (q.includes("irrigate") || q.includes("water today") || q.includes("पाणी द्यावे") || q.includes("पाणी द्यायचे") || q.includes("सिंचाई करनी")) {
+    return {
+      detectedLang: lang,
+      intent: "DECISION_IRRIGATION_QUERY",
+      navigateTab: "water",
+      responseText: `${decision.irrigation.action}: ${decision.irrigation.reason}`
+    };
+  }
+
+  if (q.includes("less water") || q.includes("water scarcity") || q.includes("पाणी कमी") || q.includes("पानी कम")) {
+    return {
+      detectedLang: lang,
+      intent: "DECISION_WATER_SCARCITY_QUERY",
+      navigateTab: "water",
+      responseText: `${decision.irrigation.action} (${lang === "mr" ? "पाणी बचत मोड चालू" : "Water-Saving Mode Active"}): ${decision.irrigation.reason}`
+    };
+  }
+
+  if (q.includes("crop loss") || q.includes("crop damage") || q.includes("पीक खराब") || q.includes("फसल खराब") || q.includes("पीक नुकसान")) {
+    return {
+      detectedLang: lang,
+      intent: "DECISION_CROP_LOSS_QUERY",
+      navigateTab: "schemes",
+      responseText: decision.cropLoss
+        ? `${decision.cropLoss.action}: ${decision.cropLoss.documentationRec}`
+        : `${decision.primaryAction}: ${decision.summary}`
+    };
+  }
+
+  if (q.includes("low yield") || q.includes("yield issue") || q.includes("उत्पादन कमी") || q.includes("पैदावार कम")) {
+    return {
+      detectedLang: lang,
+      intent: "DECISION_LOW_YIELD_QUERY",
+      navigateTab: "advisory",
+      responseText: decision.yieldAnalysis
+        ? `${decision.yieldAnalysis.action}: ${decision.yieldAnalysis.possibleCauses.join(". ")}`
+        : `${decision.primaryAction}: ${decision.summary}`
+    };
+  }
 
   // ==========================================
   // 1. ROUTE NAVIGATION INTENTS

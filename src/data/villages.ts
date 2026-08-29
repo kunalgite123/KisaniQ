@@ -13,6 +13,8 @@ export interface Village {
   distanceToGodavariKm: number;
   waterSourceType: WaterSourceType;
   proposedRecharge: boolean; // CGWB-listed percolation tank site
+  lat?: number;
+  lon?: number;
 }
 
 export const villages: Village[] = [

@@ -12,7 +12,8 @@ interface Props {
 }
 
 export default function FarmHealthScore({ climateRisk, village, detectedDisease, cropName }: Props) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isMr = language === "mr";
   let score = 82; // Base score
 
   if (climateRisk?.level === "high") score -= 15;
@@ -65,13 +66,13 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
 
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-800)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-              Krishi Setu Daily Index
+              {isMr ? "कृषी सेतू दैनंदिन निर्देशांक" : "Krishi Setu Daily Index"}
             </div>
             <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
-              Good morning, Kisan 🌾
+              {isMr ? "शुभ प्रभात, शेतकरी बांधवांनो 🌾" : "Good morning, Kisan 🌾"}
             </h2>
             <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
-              Here's your farm intelligence for today · 📍 <strong>{village ? village.name : "Kopargaon"}, Maharashtra</strong>
+              {isMr ? "आजची तुमची शेती माहिती · 📍" : "Here's your farm intelligence for today · 📍"} <strong>{village ? village.name : (isMr ? "कोपरगाव" : "Kopargaon")}, {isMr ? "महाराष्ट्र" : "Maharashtra"}</strong>
             </div>
           </div>
         </div>
@@ -91,7 +92,7 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
             }}
           >
             <CloudSun size={14} style={{ color: "var(--primary-700)" }} />
-            <span style={{ color: "var(--text-muted)" }}>Climate:</span>
+            <span style={{ color: "var(--text-muted)" }}>{t("signal_climate")}:</span>
             <strong style={{ color: "var(--text-main)" }}>{climateText}</strong>
           </div>
 
@@ -108,8 +109,8 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
             }}
           >
             <Droplets size={14} style={{ color: "var(--primary-700)" }} />
-            <span style={{ color: "var(--text-muted)" }}>Water:</span>
-            <strong style={{ color: "var(--text-main)" }}>Monitored</strong>
+            <span style={{ color: "var(--text-muted)" }}>{t("signal_water")}:</span>
+            <strong style={{ color: "var(--text-main)" }}>{t("signal_monitored")}</strong>
           </div>
 
           <div
@@ -125,9 +126,9 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
             }}
           >
             <Sprout size={14} style={{ color: "var(--primary-700)" }} />
-            <span style={{ color: "var(--text-muted)" }}>Crop AI:</span>
+            <span style={{ color: "var(--text-muted)" }}>{t("signal_crop_ai")}:</span>
             <strong style={{ color: "var(--text-main)" }}>
-              {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : "Scouted"}
+              {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : t("signal_scouted")}
             </strong>
           </div>
         </div>

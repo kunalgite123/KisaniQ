@@ -14,7 +14,9 @@ const STORAGE_KEY_LISTINGS = "krishi_setu_machinery_listings_v3";
 const STORAGE_KEY_BOOKINGS = "krishi_setu_machinery_bookings_v3";
 
 export default function LabourMachinery() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isMr = language === "mr";
+
   const [listings, setListings] = useState<MachineryListing[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_LISTINGS);
     return saved ? JSON.parse(saved) : INITIAL_MACHINERY_LISTINGS;
@@ -202,8 +204,8 @@ export default function LabourMachinery() {
     <div style={{ maxWidth: 1120, margin: "0 auto" }}>
       {/* 1. Marketplace Header */}
       <PageHeader
-        title="Kisan Setu Farm Services"
-        subtitle="Find farm machinery, labour and agricultural services near Kopargaon with transparent, research-backed acre rates."
+        title={isMr ? "मजूर व यंत्रसामग्री शेती सेवा" : "Kisan Setu Farm Services"}
+        subtitle={isMr ? "कोपरगाव परिसरातील शेत अवजारे, मजूर व कृषी सेवा पारदर्शक दरात शोधा." : "Find farm machinery, labour and agricultural services near Kopargaon with transparent, research-backed acre rates."}
       />
 
       {/* Toast Notification Banner */}
@@ -231,13 +233,13 @@ export default function LabourMachinery() {
       >
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-800)", textTransform: "uppercase" }}>
-            WEATHER &amp; CROP INTELLIGENCE DISCOVERY
+            {isMr ? "हवामान व पीक सुसंगत यंत्रसामग्री शोधा" : "WEATHER & CROP INTELLIGENCE DISCOVERY"}
           </div>
           <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text-main)", marginTop: 2 }}>
-            🌤️ Dry Window Forecasted — Power Sprayer @ ₹300/acre &amp; Rotavator @ ₹1,000/acre ready near Kopargaon
+            {isMr ? "🌤️ कोपरगाव परिसरात फवारणी व नांगरणी यंत्रसामग्री उपलब्ध — पॉवर स्प्रेअर ₹३००/एकड व रोटाव्हेटर ₹१,०००/एकड" : "🌤️ Dry Window Forecasted — Power Sprayer @ ₹300/acre & Rotavator @ ₹1,000/acre ready near Kopargaon"}
           </div>
           <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
-            Benchmark rates derived from published Indian agricultural machinery hiring references.
+            {isMr ? "शासकीय व कृषी संशोधन आधारित प्रमाणित भाडे दर." : "Benchmark rates derived from published Indian agricultural machinery hiring references."}
           </div>
         </div>
 
@@ -249,7 +251,7 @@ export default function LabourMachinery() {
           }}
           style={{ fontSize: 12 }}
         >
-          View Spraying Services →
+          {isMr ? "फवारणी सेवा पहा →" : "View Spraying Services →"}
         </button>
       </div>
 
@@ -258,31 +260,31 @@ export default function LabourMachinery() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
           {/* Location Selector */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>📍 Location:</span>
+            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>📍 {isMr ? "स्थान:" : "Location:"}</span>
             <select
               className="input-select"
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
               style={{ width: "auto", fontWeight: 700 }}
             >
-              <option value="Kopargaon">📍 Kopargaon (Central Mandi)</option>
-              <option value="Dhamori">📍 Dhamori (3.0 km)</option>
-              <option value="Takli">📍 Takli (3.6 km)</option>
-              <option value="Ravande">📍 Ravande (5.9 km)</option>
-              <option value="Shirdi">📍 Shirdi (14 km)</option>
+              <option value="Kopargaon">📍 {isMr ? "कोपरगाव (मध्यवर्ती बाजार)" : "Kopargaon (Central Mandi)"}</option>
+              <option value="Dhamori">📍 {isMr ? "धमोरी (३.० किमी)" : "Dhamori (3.0 km)"}</option>
+              <option value="Takli">📍 {isMr ? "टाकळी (३.६ किमी)" : "Takli (3.6 km)"}</option>
+              <option value="Ravande">📍 {isMr ? "रवांदे (५.९ किमी)" : "Ravande (5.9 km)"}</option>
+              <option value="Shirdi">📍 {isMr ? "शिर्डी (१४ किमी)" : "Shirdi (14 km)"}</option>
             </select>
 
-            <span style={{ fontSize: 13, color: "var(--text-muted)", marginLeft: 8 }}>Radius:</span>
+            <span style={{ fontSize: 13, color: "var(--text-muted)", marginLeft: 8 }}>{isMr ? "त्रिज्या:" : "Radius:"}</span>
             <select
               className="input-select"
               value={selectedRadius}
               onChange={(e) => setSelectedRadius(e.target.value === "all" ? "all" : Number(e.target.value))}
               style={{ width: "auto" }}
             >
-              <option value={5}>Within 5 km</option>
-              <option value={10}>Within 10 km</option>
-              <option value={20}>Within 20 km</option>
-              <option value="all">All Distances</option>
+              <option value={5}>{isMr ? "५ किमीच्या आत" : "Within 5 km"}</option>
+              <option value={10}>{isMr ? "१० किमीच्या आत" : "Within 10 km"}</option>
+              <option value={20}>{isMr ? "२० किमीच्या आत" : "Within 20 km"}</option>
+              <option value="all">{isMr ? "सर्व अंतर" : "All Distances"}</option>
             </select>
           </div>
 
@@ -297,7 +299,7 @@ export default function LabourMachinery() {
                 }}
                 style={{ fontSize: 12, padding: "5px 12px" }}
               >
-                📋 Marketplace List
+                📋 {isMr ? "बाजारपेठ यादी" : "Marketplace List"}
               </button>
               <button
                 className={`btn-subtab ${activeViewTab === "browse" && viewMode === "map" ? "active" : ""}`}
@@ -307,7 +309,7 @@ export default function LabourMachinery() {
                 }}
                 style={{ fontSize: 12, padding: "5px 12px" }}
               >
-                🗺️ Location Map
+                🗺️ {isMr ? "स्थान नकाशा" : "Location Map"}
               </button>
             </div>
 
@@ -316,7 +318,7 @@ export default function LabourMachinery() {
               onClick={() => setActiveViewTab("benchmarks")}
               style={{ fontSize: 12, padding: "6px 12px" }}
             >
-              📊 Rate Benchmarks
+              📊 {isMr ? "दर मूल्यमापन" : "Rate Benchmarks"}
             </button>
 
             <button
@@ -324,11 +326,11 @@ export default function LabourMachinery() {
               onClick={() => setActiveViewTab("my_requests")}
               style={{ fontSize: 12, padding: "6px 12px" }}
             >
-              My Requests ({bookings.length})
+              {isMr ? `माझ्या विनंत्या (${bookings.length})` : `My Requests (${bookings.length})`}
             </button>
 
             <button className="btn-primary-sm" onClick={() => setShowAddModal(true)} style={{ fontSize: 12 }}>
-              + List Service
+              {isMr ? "+ नवीन सेवा नोंदवा" : "+ List Service"}
             </button>
           </div>
         </div>
@@ -338,44 +340,38 @@ export default function LabourMachinery() {
           <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border-subtle)", display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", flex: 1 }}>
               <button
-                className={`chip ${activeCategory === "all" ? "active" : ""}`}
+                className={`filter-chip ${activeCategory === "all" ? "active" : ""}`}
                 onClick={() => setActiveCategory("all")}
-                style={{ fontSize: 12 }}
               >
                 All ({filteredListings.length})
               </button>
               <button
-                className={`chip ${activeCategory === "sprayer" ? "active" : ""}`}
+                className={`filter-chip ${activeCategory === "sprayer" ? "active" : ""}`}
                 onClick={() => setActiveCategory("sprayer")}
-                style={{ fontSize: 12 }}
               >
                 💨 Power Sprayer (₹300/acre)
               </button>
               <button
-                className={`chip ${activeCategory === "tractor" ? "active" : ""}`}
+                className={`filter-chip ${activeCategory === "tractor" ? "active" : ""}`}
                 onClick={() => setActiveCategory("tractor")}
-                style={{ fontSize: 12 }}
               >
                 🚜 Cultivator (₹700/acre)
               </button>
               <button
-                className={`chip ${activeCategory === "implement" ? "active" : ""}`}
+                className={`filter-chip ${activeCategory === "implement" ? "active" : ""}`}
                 onClick={() => setActiveCategory("implement")}
-                style={{ fontSize: 12 }}
               >
                 ⚙️ Rotavator (₹1,000/acre)
               </button>
               <button
-                className={`chip ${activeCategory === "harvester" ? "active" : ""}`}
+                className={`filter-chip ${activeCategory === "harvester" ? "active" : ""}`}
                 onClick={() => setActiveCategory("harvester")}
-                style={{ fontSize: 12 }}
               >
                 🌾 Harvester (₹1,900/acre)
               </button>
               <button
-                className={`chip ${activeCategory === "labour" ? "active" : ""}`}
+                className={`filter-chip ${activeCategory === "labour" ? "active" : ""}`}
                 onClick={() => setActiveCategory("labour")}
-                style={{ fontSize: 12 }}
               >
                 👨‍🌾 Labour Crews
               </button>

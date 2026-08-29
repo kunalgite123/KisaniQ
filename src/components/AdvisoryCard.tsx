@@ -2,8 +2,8 @@ import { useState } from "react";
 import { ClimateRisk } from "../lib/weather";
 import { Village, waterSourceLabel } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
-import { synthesizeAdvisory } from "../lib/advisory";
 import { useLanguage } from "../context/LanguageContext";
+import { FarmerDecision, generateFarmerDecision } from "../lib/farmerDecisionEngine";
 import {
   CloudSun,
   Layers,
@@ -24,24 +24,27 @@ interface Props {
   village: Village | null;
   detectedDisease: DiseaseInfo | null;
   cropName: string | null;
+  decision?: FarmerDecision | null;
   onViewDetails?: () => void;
 }
 
-export default function AdvisoryCard({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
+export default function AdvisoryCard({ climateRisk, village, detectedDisease, cropName, decision: propDecision, onViewDetails }: Props) {
   const { t, language } = useLanguage();
   const [showExplainability, setShowExplainability] = useState(false);
-  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName, lang: language });
 
-  const confidencePct = detectedDisease ? 92 : climateRisk ? 88 : 84;
+  const decision = propDecision || generateFarmerDecision({
+    village,
+    climateRisk,
+    detectedDisease,
+    cropName,
+    lang: language as any
+  });
+
+  const confidencePct = decision.confidencePct;
   const riskLevel =
-    verdict.urgency === "urgent" ? t("status_critical") : verdict.urgency === "watch" ? t("status_monitor") : t("status_stable");
+    decision.urgency === "urgent" ? t("status_critical") : decision.urgency === "watch" ? t("status_monitor") : t("status_stable");
 
-  const translatedTitle =
-    verdict.urgency === "urgent"
-      ? t("act_this_week")
-      : verdict.urgency === "watch"
-      ? t("monitor_closely")
-      : t("conditions_stable");
+  const translatedTitle = decision.title;
 
   return (
     <div
@@ -58,7 +61,7 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         background: "var(--surface-card)"
       }}
     >
-      {/* Background Image: 40% Visibility in Light Mode, 20% in Dark Mode */}
+      {/* Background Image */}
       <div
         style={{
           position: "absolute",
@@ -84,7 +87,7 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
           </h3>
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <span className={`badge badge-${verdict.urgency}`} style={{ fontSize: 12.5, padding: "4px 12px" }}>
+          <span className={`badge badge-${decision.urgency}`} style={{ fontSize: 12.5, padding: "4px 12px" }}>
             {riskLevel}
           </span>
           <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
@@ -157,7 +160,7 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
           <Zap size={18} style={{ color: "#ffffff" }} />
           <div>
             <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.8)", fontWeight: 600 }}>{t("node_krishi_ai")}</div>
-            <div style={{ fontSize: 12.5, fontWeight: 700, color: "#ffffff" }}>{translatedTitle}</div>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: "#ffffff" }}>{decision.primaryAction}</div>
           </div>
         </div>
       </div>
@@ -166,16 +169,16 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
       <div
         style={{
           background:
-            verdict.urgency === "urgent"
+            decision.urgency === "urgent"
               ? "rgba(220, 38, 38, 0.08)"
-              : verdict.urgency === "watch"
+              : decision.urgency === "watch"
               ? "rgba(230, 126, 34, 0.08)"
               : "rgba(45, 106, 79, 0.08)",
           backdropFilter: "blur(6px)",
           border:
-            verdict.urgency === "urgent"
+            decision.urgency === "urgent"
               ? "1px solid rgba(220, 38, 38, 0.25)"
-              : verdict.urgency === "watch"
+              : decision.urgency === "watch"
               ? "1px solid rgba(230, 126, 34, 0.25)"
               : "1px solid rgba(45, 106, 79, 0.25)",
           borderRadius: "var(--radius-md)",
@@ -183,9 +186,9 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         }}
       >
         <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-          {verdict.urgency === "urgent" ? (
+          {decision.urgency === "urgent" ? (
             <AlertTriangle size={24} style={{ color: "var(--alert-red)", flexShrink: 0 }} />
-          ) : verdict.urgency === "watch" ? (
+          ) : decision.urgency === "watch" ? (
             <Info size={24} style={{ color: "var(--saffron-orange)", flexShrink: 0 }} />
           ) : (
             <CheckCircle size={24} style={{ color: "var(--primary-500)", flexShrink: 0 }} />
@@ -194,17 +197,26 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
           <div style={{ flex: 1 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
               <h4 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
-                {translatedTitle}
+                {decision.primaryAction}
               </h4>
               <span className="badge" style={{ background: "rgba(0, 0, 0, 0.06)", fontSize: 11 }}>
-                {t("timeframe_label")}
+                ⏳ {decision.timing}
               </span>
             </div>
 
-            <ul style={{ marginTop: 12, paddingLeft: 20, fontSize: 14, lineHeight: 1.65, color: "var(--text-main)" }}>
-              {verdict.points.map((p, i) => (
-                <li key={i} style={{ marginBottom: 6 }}>{p}</li>
-              ))}
+            <p style={{ marginTop: 10, fontSize: 14, lineHeight: 1.6, color: "var(--text-main)" }}>
+              {decision.summary}
+            </p>
+
+            <ul style={{ marginTop: 10, paddingLeft: 20, fontSize: 13.5, lineHeight: 1.6, color: "var(--text-main)" }}>
+              <li style={{ marginBottom: 4 }}>
+                <strong>{language === "mr" ? "सिंचन शिफारस: " : "Irrigation Recommendation: "}</strong>
+                {decision.irrigation.action} — {decision.irrigation.reason}
+              </li>
+              <li style={{ marginBottom: 4 }}>
+                <strong>{language === "mr" ? "काय टाळावे: " : "What to Avoid: "}</strong>
+                {decision.avoidAction}
+              </li>
             </ul>
 
             {onViewDetails && (
@@ -234,26 +246,14 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         {showExplainability && (
           <div className="explainability-content">
             <ul className="explain-list">
-              {climateRisk && (
-                <li className="explain-item">
-                  <strong>{language === "mr" ? "हवामान घटक:" : "Climate Factor:"}</strong> {climateRisk.headline}
+              {decision.reasons.map((r, idx) => (
+                <li key={idx} className="explain-item">
+                  <strong>{r.factor}:</strong> {r.detail} — <em>{r.impact}</em>
                 </li>
-              )}
-              {village && (
-                <li className="explain-item">
-                  <strong>{language === "mr" ? "भूजल घटक:" : "Groundwater Factor:"}</strong> {village.name} {language === "mr" ? `हे गाव गोदावरी नदीपासून ${village.distanceToGodavariKm.toFixed(1)} किमी अंतरावर आहे (${waterSourceLabel[village.waterSourceType]}).` : `is ${village.distanceToGodavariKm.toFixed(1)} km from Godavari river (${waterSourceLabel[village.waterSourceType]}).`}
-                </li>
-              )}
-              {detectedDisease && cropName && (
-                <li className="explain-item">
-                  <strong>{language === "mr" ? "पीक निदान घटक:" : "Crop Diagnostic Factor:"}</strong> {detectedDisease.displayName} {language === "mr" ? `हे लक्षण ${cropName} पिकावर वर्गीकरण केले.` : `on ${cropName} leaf.`}
-                </li>
-              )}
-              {!detectedDisease && (
-                <li className="explain-item">
-                  <strong>{language === "mr" ? "पीक पाहणी टीप:" : "Crop Scouting Tip:"}</strong> {language === "mr" ? "या निर्णय इंजिनमध्ये थेट रोग निदान माहिती देण्यासाठी 'पीक डॉक्टर' मध्ये पानाचा फोटो स्कॅन करा." : "Scan a leaf under 'Crop Doctor' to feed real-time disease diagnostic signals into this decision engine."}
-                </li>
-              )}
+              ))}
+              <li className="explain-item">
+                <strong>{language === "mr" ? "माहिती स्रोत:" : "Data Sources:"}</strong> {decision.dataSources.join(" | ")}
+              </li>
             </ul>
           </div>
         )}

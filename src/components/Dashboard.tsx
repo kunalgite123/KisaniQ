@@ -1,83 +1,78 @@
-import { useEffect, useState } from "react";
-import { fetchKopargaonWeather, assessClimateRisk, WeatherSnapshot, ClimateRisk } from "../lib/weather";
+import { useState } from "react";
+import { WeatherSnapshot, ClimateRisk } from "../lib/weather";
 import { kopargaonProfile } from "../data/groundSoil";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
-import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
-import { FarmerProfile, loadSavedFarmerProfile } from "../data/farmerProfile";
+import { FarmerProfile } from "../data/farmerProfile";
 import ProfileCompletionCard from "./ProfileCompletionCard";
 import ProfileSetupModal from "./ProfileSetupModal";
 import AdvisoryCard from "./AdvisoryCard";
 import FarmHealthScore from "./FarmHealthScore";
+import { FarmerDecision } from "../lib/farmerDecisionEngine";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Props {
   village: Village | null;
   detectedDisease: DiseaseInfo | null;
   cropName: string | null;
+  weather?: WeatherSnapshot | null;
+  climateRisk?: ClimateRisk | null;
+  farmerProfile?: FarmerProfile | null;
+  decision?: FarmerDecision | null;
+  onFarmerProfileChange?: (profile: FarmerProfile) => void;
   onNavigateTab?: (tab: string) => void;
 }
 
-export default function Dashboard({ village, detectedDisease, cropName, onNavigateTab }: Props) {
-  const { t } = useLanguage();
+export default function Dashboard({
+  village,
+  detectedDisease,
+  cropName,
+  weather,
+  climateRisk: risk,
+  farmerProfile: propProfile,
+  decision,
+  onFarmerProfileChange,
+  onNavigateTab
+}: Props) {
   const { profile: authProfile } = useAuth();
-  const [weather, setWeather] = useState<WeatherSnapshot | null>(null);
-  const [risk, setRisk] = useState<ClimateRisk | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  // Farmer Profile Completion State (reads authenticated user credentials)
-  const [farmerProfile, setFarmerProfile] = useState<FarmerProfile>(() =>
-    loadSavedFarmerProfile(authProfile)
-  );
+  const { language } = useLanguage();
+  const isMr = language === "mr";
   const [showSetupModal, setShowSetupModal] = useState(false);
 
-  useEffect(() => {
-    if (authProfile) {
-      setFarmerProfile((prev) => ({
-        ...prev,
-        fullName: authProfile.full_name || prev.fullName,
-        email: authProfile.email || prev.email,
-        phone: authProfile.phone || prev.phone
-      }));
-    }
-  }, [authProfile]);
-
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    fetchKopargaonWeather()
-      .then((snap) => {
-        if (cancelled) return;
-        setWeather(snap);
-        setRisk(assessClimateRisk(snap));
-        setError(null);
-      })
-      .catch((err) => {
-        if (cancelled) return;
-        setError(err.message ?? "Could not reach weather service");
-      })
-      .finally(() => !cancelled && setLoading(false));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const localProfile: FarmerProfile = propProfile || {
+    fullName: authProfile?.full_name || "Kisan Farmer",
+    email: authProfile?.email || "farmer@kisaniq.in",
+    phone: authProfile?.phone || "+91 98220 12345",
+    locationVillage: village?.name || "",
+    district: "Ahilyanagar (Ahmednagar)",
+    primaryCrop: cropName || "",
+    landArea: 0,
+    landUnit: "acres",
+    waterSource: "",
+    soilType: "",
+    primaryGoal: "yield",
+    isCompleted: false,
+    completionPercentage: 35
+  };
 
   function handleProfileSave(updated: FarmerProfile) {
-    setFarmerProfile(updated);
+    if (onFarmerProfileChange) {
+      onFarmerProfileChange(updated);
+    }
   }
 
   return (
     <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-      {/* 0. Profile Completion Banner Card (Displays if completion < 100%) */}
+      {/* 0. Profile Completion Banner Card */}
       <ProfileCompletionCard
-        profile={farmerProfile}
+        profile={localProfile}
         onOpenSetup={() => setShowSetupModal(true)}
       />
 
       {/* 1. Farm Health Greeting Banner */}
       <FarmHealthScore
-        climateRisk={risk}
+        climateRisk={risk || null}
         village={village}
         detectedDisease={detectedDisease}
         cropName={cropName}
@@ -85,10 +80,11 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
 
       {/* 2. Flagship ONE DOMINANT CARD: Today's Farm Decision */}
       <AdvisoryCard
-        climateRisk={risk}
+        climateRisk={risk || null}
         village={village}
         detectedDisease={detectedDisease}
         cropName={cropName}
+        decision={decision}
         onViewDetails={onNavigateTab ? () => onNavigateTab("advisory") : undefined}
       />
 
@@ -99,9 +95,9 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
               <div>
-                <span className="section-label" style={{ fontSize: 11 }}>CLIMATE INTELLIGENCE</span>
+                <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "हवामान बुद्धिमत्ता" : "CLIMATE INTELLIGENCE"}</span>
                 <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
-                  Weather &amp; Dry-Spell Risk
+                  {isMr ? "हवामान अंदाज व कोरड्या दिवसांचा धोका" : "Weather & Dry-Spell Risk"}
                 </h3>
               </div>
               {onNavigateTab && (
@@ -110,13 +106,12 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
                   onClick={() => onNavigateTab("climate")}
                   style={{ fontSize: 12 }}
                 >
-                  View 7-day forecast →
+                  {isMr ? "७ दिवसांचा अंदाज पहा →" : "View 7-day forecast →"}
                 </button>
               )}
             </div>
 
-            {loading && <p style={{ color: "var(--text-muted)", fontSize: 13 }}>Fetching satellite forecast…</p>}
-            {error && <p style={{ color: "var(--color-urgent)", fontSize: 13 }}>{error}</p>}
+            {!weather && <p style={{ color: "var(--text-muted)", fontSize: 13 }}>{isMr ? "उपग्रह हवामान अंदाज लोड होत आहे..." : "Fetching satellite forecast…"}</p>}
 
             {weather && risk && (
               <div>
@@ -125,7 +120,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
                     {Math.round(weather.days[0]?.tempMaxC ?? 32)}°C
                   </span>
                   <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
-                    Rain chance: {Math.round(weather.days[0]?.precipitationProbabilityPct ?? 0)}%
+                    {isMr ? "पावसाची शक्यता:" : "Rain chance:"} {Math.round(weather.days[0]?.precipitationProbabilityPct ?? 0)}%
                   </span>
                 </div>
 
@@ -135,10 +130,10 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
 
                 <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
                   <span className={`badge badge-${risk.level === "high" ? "urgent" : risk.level === "moderate" ? "watch" : "healthy"}`}>
-                    {risk.dryDaysAhead}/7 dry days
+                    {risk.dryDaysAhead}/7 {isMr ? "कोरडे दिवस" : "dry days"}
                   </span>
                   <span className="badge badge-healthy">
-                    {risk.heatStressDays} heat-stress days
+                    {risk.heatStressDays} {isMr ? "उकाड्याचे दिवस" : "heat-stress days"}
                   </span>
                 </div>
               </div>
@@ -151,9 +146,9 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
               <div>
-                <span className="section-label" style={{ fontSize: 11 }}>CROP INTELLIGENCE</span>
+                <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "पीक आरोग्य बुद्धिमत्ता" : "CROP INTELLIGENCE"}</span>
                 <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
-                  Pest &amp; Disease Diagnostics
+                  {isMr ? "किड व रोग निदान तंत्रज्ञान" : "Pest & Disease Diagnostics"}
                 </h3>
               </div>
               {onNavigateTab && (
@@ -162,7 +157,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
                   onClick={() => onNavigateTab("crop")}
                   style={{ fontSize: 12 }}
                 >
-                  Open Crop Doctor →
+                  {isMr ? "पीक डॉक्टर उघडा →" : "Open Crop Doctor →"}
                 </button>
               )}
             </div>
@@ -184,7 +179,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
             ) : (
               <div>
                 <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
-                  No active disease detected. Scan a leaf sample using Crop Doctor neural network to check for early stress symptoms.
+                  {isMr ? "कोणताही सक्रिय रोग आढळला नाही. सुरुवातीचे ताण ओळखण्यासाठी पानांचे स्कॅनिंग करा." : "No active disease detected. Scan a leaf sample using Crop Doctor neural network to check for early stress symptoms."}
                 </p>
                 {onNavigateTab && (
                   <button
@@ -192,7 +187,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
                     onClick={() => onNavigateTab("crop")}
                     style={{ marginTop: 14, padding: "6px 16px", fontSize: 12 }}
                   >
-                    📷 Open Crop Doctor Diagnostic Scanner
+                    📷 {isMr ? "पीक डॉक्टर स्कॅनर उघडा" : "Open Crop Doctor Diagnostic Scanner"}
                   </button>
                 )}
               </div>
@@ -205,9 +200,9 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
       <div className="card" style={{ padding: 22, marginBottom: 32 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
           <div>
-            <span className="section-label" style={{ fontSize: 11 }}>GROUNDWATER &amp; SOIL HEALTH</span>
+            <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "भूजल व माती आरोग्य" : "GROUNDWATER & SOIL HEALTH"}</span>
             <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
-              Groundwater Level &amp; Soil Baseline
+              {isMr ? "भूजल पातळी व मातीची स्थिती" : "Groundwater Level & Soil Baseline"}
             </h3>
           </div>
           {onNavigateTab && (
@@ -216,39 +211,39 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
               onClick={() => onNavigateTab("water")}
               style={{ fontSize: 12 }}
             >
-              View Water &amp; Soil details →
+              {isMr ? "पाणी व मातीचे तपशील पहा →" : "View Water & Soil details →"}
             </button>
           )}
         </div>
 
         <div className="grid-3" style={{ gap: 16 }}>
           <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Groundwater Source</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{isMr ? "पाण्याचा स्त्रोत" : "Groundwater Source"}</div>
             <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)", marginTop: 4 }}>
-              {village ? village.waterSourceType.replace("_", " ").toUpperCase() : "Taluka Baseline"}
+              {village ? village.waterSourceType.replace("_", " ").toUpperCase() : (isMr ? "तालुका पातळी" : "Taluka Baseline")}
             </div>
             <div style={{ fontSize: 12, color: "var(--color-urgent)", marginTop: 6, fontWeight: 600 }}>
-              Status: ↘ Semi-Critical Zone
+              {isMr ? "स्थिती: ↘ अर्ध-गंभीर क्षेत्र" : "Status: ↘ Semi-Critical Zone"}
             </div>
           </div>
 
           <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Distance to Godavari River</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{isMr ? "गोदावरी नदीपासून अंतर" : "Distance to Godavari River"}</div>
             <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-main)", marginTop: 2 }}>
-              {village ? `${village.distanceToGodavariKm.toFixed(1)} km` : "Centre"}
+              {village ? `${village.distanceToGodavariKm.toFixed(1)} km` : (isMr ? "मध्यवर्ती" : "Centre")}
             </div>
             <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
-              {village?.proposedRecharge ? "Recharge Site" : "Standard Monitoring"}
+              {village?.proposedRecharge ? (isMr ? "पुनर्भरण क्षेत्र" : "Recharge Site") : (isMr ? "मानक निरीक्षण" : "Standard Monitoring")}
             </div>
           </div>
 
           <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Soil Type</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{isMr ? "मातीचा प्रकार" : "Soil Type"}</div>
             <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)", marginTop: 4 }}>
-              Medium Black / Murrum
+              {isMr ? "मध्यम काळी / मुरामाची माती" : "Medium Black / Murrum"}
             </div>
             <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
-              Normal Rainfall: {kopargaonProfile.normalRainfallMm} mm/year
+              {isMr ? "सरासरी पाऊस:" : "Normal Rainfall:"} {kopargaonProfile.normalRainfallMm} {isMr ? "मीमी/वर्ष" : "mm/year"}
             </div>
           </div>
         </div>
@@ -257,7 +252,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
       {/* Profile Setup Modal Drawer */}
       {showSetupModal && (
         <ProfileSetupModal
-          profile={farmerProfile}
+          profile={localProfile}
           onSave={handleProfileSave}
           onClose={() => setShowSetupModal(false)}
         />
