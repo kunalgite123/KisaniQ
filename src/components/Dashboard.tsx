@@ -4,6 +4,9 @@ import { kopargaonProfile } from "../data/groundSoil";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
 import { useLanguage } from "../context/LanguageContext";
+import { FarmerProfile, loadSavedFarmerProfile } from "../data/farmerProfile";
+import ProfileCompletionCard from "./ProfileCompletionCard";
+import ProfileSetupModal from "./ProfileSetupModal";
 import AdvisoryCard from "./AdvisoryCard";
 import FarmHealthScore from "./FarmHealthScore";
 
@@ -20,6 +23,10 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
   const [risk, setRisk] = useState<ClimateRisk | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Farmer Profile Completion State
+  const [farmerProfile, setFarmerProfile] = useState<FarmerProfile>(() => loadSavedFarmerProfile());
+  const [showSetupModal, setShowSetupModal] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -41,8 +48,18 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
     };
   }, []);
 
+  function handleProfileSave(updated: FarmerProfile) {
+    setFarmerProfile(updated);
+  }
+
   return (
     <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+      {/* 0. Profile Completion Banner Card (Displays if completion < 100%) */}
+      <ProfileCompletionCard
+        profile={farmerProfile}
+        onOpenSetup={() => setShowSetupModal(true)}
+      />
+
       {/* 1. Farm Health Greeting Banner */}
       <FarmHealthScore
         climateRisk={risk}
@@ -221,6 +238,15 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
           </div>
         </div>
       </div>
+
+      {/* Profile Setup Modal Drawer */}
+      {showSetupModal && (
+        <ProfileSetupModal
+          profile={farmerProfile}
+          onSave={handleProfileSave}
+          onClose={() => setShowSetupModal(false)}
+        />
+      )}
     </div>
   );
 }
