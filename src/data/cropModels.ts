@@ -56,23 +56,23 @@ export const cropModels: CropModel[] = [
       },
       {
         label: "Bacterial Blight",
-        displayName: "Bacterial Blight",
-        displayNameMr: "जिवाणूजन्य करपा (Bacterial Blight)",
+        displayName: "Bacterial Blight (Xanthomonas)",
+        displayNameMr: "जिवाणूजन्य करपा (Bacterial Blight / Xanthomonas)",
         severity: "urgent",
         symptom: {
-          color: "Black/brown",
-          whatHappens: "Spots spread",
-          combinedLabel: "Black/brown — Spots spread",
-          colorMr: "काळा/तपकिरी",
-          whatHappensMr: "ठिपके पसरतात",
-          combinedLabelMr: "काळा/तपकिरी — ठिपके पसरतात",
+          color: "Dark brown/black",
+          whatHappens: "Angular water-soaked spots & leaf shot-holes",
+          combinedLabel: "Dark brown/black — Angular water-soaked spots & shot-holes",
+          colorMr: "गडद तपकिरी/काळा",
+          whatHappensMr: "कोनात्मक पाणीदार ठिपके व पानांना छिद्रे",
+          combinedLabelMr: "गडद तपकिरी/काळा — कोनात्मक ठिपके व पानांना छिद्रे",
           imageUrl: "/symptoms/cotton_bacterial_blight.jpg",
           iconBg: "linear-gradient(135deg, #3e2723, #5d4037)"
         },
         advisory:
-          "Angular water-soaked black/brown spots that spread on leaves and bolls indicate Bacterial Blight. Spray copper oxychloride + streptocycline mix and avoid overhead irrigation.",
+          "Angular water-soaked lesions bounded by veins that dry into necrotic shot-holes indicate Cotton Bacterial Blight (Xanthomonas axonopodis pv. malvacearum). Treatment: Spray Copper Oxychloride 50% WP (2.5 g/L) + Streptocycline (0.1 g/L) or Kasugamycin (2 ml/L). Remove infected leaves and avoid overhead sprinkler irrigation.",
         advisoryMr:
-          "पानांवर व बोंडांवर काळे/तपकिरी कोनात्मक ठिपके पडणे हे जिवाणूजन्य करप्याचे लक्षण आहे. कॉपर ऑक्सिक्लोराईड व स्ट्रेप्टोसायक्लीनची फवारणी करा."
+          "पानांच्या शिरांच्या सीमेवर कोनात्मक पाणीदार काळे-तपकिरी ठिपके व वाळलेली पाने फुटून छिद्रे पडणे हे कापसावरील जिवाणूजन्य करपा (Bacterial Blight) रोगाचे मुख्य लक्षण आहे. उपाय: कॉपर ऑक्सिक्लोराईड (२.५ ग्रॅम/लिटर) + स्ट्रेप्टोसायक्लीन (०.१ ग्रॅम/लिटर) ची फवारणी करा. प्रभावित पाने नष्ट करा व रात्रीची सिंचन फवारणी टाळा."
       },
       {
         label: "Grey Mildew",
