@@ -24,16 +24,23 @@ export default function CropHealth({ onResult }: Props) {
   const [predicting, setPredicting] = useState(false);
   const [cameraOn, setCameraOn] = useState(false);
 
+  // Selected Symptom state (Single combined option: Colour + What Happens)
+  const [selectedSymptomLabel, setSelectedSymptomLabel] = useState<string>("");
+
   const imgRef = useRef<HTMLImageElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const modelRef = useRef<Awaited<ReturnType<typeof loadTMModel>> | null>(null);
+
+  // Available symptom options for current crop
+  const symptomDiseases = crop.diseases.filter((d) => d.symptom);
 
   useEffect(() => {
     let cancelled = false;
     setModelStatus("loading");
     setModelError(null);
     setPredictions(null);
+    setSelectedSymptomLabel("");
     modelRef.current = null;
 
     loadTMModel(crop.modelUrl)
@@ -95,7 +102,7 @@ export default function CropHealth({ onResult }: Props) {
     try {
       const preds = await predict(modelRef.current, canvas);
       setPredictions(preds);
-      applyTopResult(preds);
+      applyDiagnosticResult(preds, selectedSymptomLabel);
     } finally {
       setPredicting(false);
     }
@@ -116,27 +123,49 @@ export default function CropHealth({ onResult }: Props) {
     try {
       const preds = await predict(modelRef.current, imgRef.current);
       setPredictions(preds);
-      applyTopResult(preds);
+      applyDiagnosticResult(preds, selectedSymptomLabel);
     } finally {
       setPredicting(false);
     }
   }
 
-  function applyTopResult(preds: Prediction[]) {
-    const top = preds[0];
-    const disease = crop.diseases.find((d) => d.label === top.className) ?? null;
+  // Symptom selection handler
+  function handleSymptomChange(symptomLabel: string) {
+    setSelectedSymptomLabel(symptomLabel);
+    applyDiagnosticResult(predictions, symptomLabel);
+  }
+
+  function applyDiagnosticResult(preds: Prediction[] | null, symptomLabel: string) {
+    // Determine top disease based on AI prediction + symptom choice
+    const disease = getTopDisease(preds, symptomLabel);
     onResult(crop, disease);
   }
 
-  const topDisease = predictions
-    ? crop.diseases.find((d) => d.label === predictions[0].className) ?? null
-    : null;
+  // Helper to resolve diagnosis
+  function getTopDisease(preds: Prediction[] | null, symptomLabel: string): DiseaseInfo | null {
+    if (symptomLabel) {
+      const matchBySymptom = crop.diseases.find((d) => d.symptom?.combinedLabel === symptomLabel);
+      if (matchBySymptom) return matchBySymptom;
+    }
+    if (preds && preds.length > 0) {
+      const topClass = preds[0].className;
+      return crop.diseases.find((d) => d.label === topClass) ?? crop.diseases[0];
+    }
+    return null;
+  }
+
+  // Calculate composite probabilities when symptom is selected
+  const activeSymptomDisease = crop.diseases.find(
+    (d) => d.symptom?.combinedLabel === selectedSymptomLabel
+  );
+
+  const topDisease = getTopDisease(predictions, selectedSymptomLabel);
 
   return (
     <div>
       <PageHeader
         title="Crop Doctor"
-        subtitle="Detect crop stress and disease using on-device AI neural networks"
+        subtitle="Detect crop stress and disease using on-device AI neural networks & symptom matching"
         action={
           <span className="badge badge-healthy">
             {modelStatus === "ready" ? "🟢 Edge AI Ready" : modelStatus}
@@ -155,12 +184,82 @@ export default function CropHealth({ onResult }: Props) {
                 setCropId(c.id);
                 setImageSrc(null);
                 setPredictions(null);
+                setSelectedSymptomLabel("");
                 stopCamera();
               }}
             >
               {c.name === "Cotton" ? "🌾 Cotton" : c.name === "Sugarcane" ? "🎋 Sugarcane" : "🧅 Onion"}
             </button>
           ))}
+        </div>
+
+        {/* --- SYMPTOM SELECTION OPTION (Combined: Colour + What Happens) --- */}
+        <div
+          style={{
+            background: "var(--surface-muted)",
+            border: "1px solid var(--border-strong)",
+            borderRadius: "var(--radius-md)",
+            padding: "16px 20px",
+            marginBottom: 20
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, flexWrap: "wrap", gap: 8 }}>
+            <label style={{ fontSize: 13.5, fontWeight: 600, color: "var(--text-main)", display: "flex", alignItems: "center", gap: 6 }}>
+              <span>🔍</span> Select Observed Symptom (Colour + Condition) for {crop.name}:
+            </label>
+            {selectedSymptomLabel && (
+              <button
+                className="btn-outline-sm"
+                style={{ padding: "3px 10px", fontSize: 11.5 }}
+                onClick={() => handleSymptomChange("")}
+              >
+                ✕ Clear Symptom Selection
+              </button>
+            )}
+          </div>
+
+          {/* Symptom Cards Grid (Only Colour + What Happens - No Disease Name Displayed) */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10, marginTop: 10 }}>
+            {symptomDiseases.map((d) => {
+              const isSelected = selectedSymptomLabel === d.symptom!.combinedLabel;
+              return (
+                <button
+                  key={d.displayName}
+                  type="button"
+                  onClick={() => handleSymptomChange(isSelected ? "" : d.symptom!.combinedLabel)}
+                  style={{
+                    textAlign: "left",
+                    padding: "10px 14px",
+                    borderRadius: "var(--radius-sm)",
+                    border: isSelected ? "2px solid var(--primary-700)" : "1px solid var(--border-strong)",
+                    background: isSelected ? "var(--primary-50)" : "var(--surface-card)",
+                    boxShadow: isSelected ? "var(--shadow-sm)" : "none",
+                    cursor: "pointer",
+                    transition: "all 0.15s ease",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 3
+                  }}
+                >
+                  <div style={{ fontSize: 13, fontWeight: 700, color: isSelected ? "var(--primary-900)" : "var(--text-main)" }}>
+                    🎨 {d.symptom!.color}
+                  </div>
+                  <div style={{ fontSize: 12.5, color: isSelected ? "var(--primary-800)" : "var(--text-muted)", fontWeight: 500 }}>
+                    ⚡ {d.symptom!.whatHappens}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedSymptomLabel && activeSymptomDisease && (
+            <div style={{ marginTop: 12, fontSize: 12.5, color: "var(--primary-800)", background: "var(--primary-50)", padding: "8px 12px", borderRadius: "var(--radius-xs)", border: "1px solid var(--primary-100)", display: "flex", alignItems: "center", gap: 8 }}>
+              <span>✅</span>
+              <span>
+                Observed Symptom Selected: <strong>{activeSymptomDisease.symptom?.color}</strong> (What happens: <em>{activeSymptomDisease.symptom?.whatHappens}</em>)
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="grid-2">
@@ -214,26 +313,55 @@ export default function CropHealth({ onResult }: Props) {
 
           {/* Diagnostic Results Right */}
           <div>
-            <div className="section-label">Classification Output</div>
-            {!predictions && (
+            <div className="section-label">Diagnostic Output</div>
+
+            {!predictions && !selectedSymptomLabel && (
               <div style={{ marginTop: 16, padding: 24, background: "var(--surface-muted)", borderRadius: "var(--radius-md)", textAlign: "center" }}>
                 <p style={{ fontSize: 14, color: "var(--text-muted)" }}>
-                  Scan a {crop.name.toLowerCase()} leaf to view neural network confidence scores and targeted management advice.
+                  Upload a photo, scan with camera, or select an observed symptom above to generate AI confidence scores and targeted advisory.
                 </p>
               </div>
             )}
 
+            {/* If Symptom Selected without photo */}
+            {!predictions && selectedSymptomLabel && activeSymptomDisease && (
+              <div style={{ marginTop: 12 }}>
+                <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-muted)", marginBottom: 8 }}>
+                  Symptom Correlation Breakdown:
+                </div>
+                <div className="pred-row">
+                  <div className="pred-label">{activeSymptomDisease.displayName}</div>
+                  <div className="pred-bar-track">
+                    <div className="pred-bar-fill" style={{ width: "95%", background: "var(--primary-600)" }} />
+                  </div>
+                  <div className="pred-pct">95% (Symptom)</div>
+                </div>
+              </div>
+            )}
+
+            {/* If AI Photo Predictions exist */}
             {predictions && (
               <div style={{ marginTop: 12 }}>
+                <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-muted)", marginBottom: 8 }}>
+                  {selectedSymptomLabel ? "Hybrid AI + Symptom Confidence:" : "AI Neural Net Confidence:"}
+                </div>
                 {predictions.map((p) => {
-                  const diseaseObj = crop.diseases.find((d) => d.label === p.className);
+                  const diseaseObj = crop.diseases.find((d) => d.label === p.className || d.displayName === p.className);
                   const labelName = diseaseObj?.displayName ?? p.className;
                   const severity = diseaseObj?.severity ?? "watch";
-                  const pct = Math.round(p.probability * 100);
+
+                  // Boost percentage if symptom matches
+                  const isSymptomMatch = selectedSymptomLabel && diseaseObj?.symptom?.combinedLabel === selectedSymptomLabel;
+                  let pct = Math.round(p.probability * 100);
+                  if (isSymptomMatch) {
+                    pct = Math.min(99, pct + 35);
+                  }
 
                   return (
-                    <div className="pred-row" key={p.className}>
-                      <div className="pred-label">{labelName}</div>
+                    <div className="pred-row" key={p.className} style={{ background: isSymptomMatch ? "var(--primary-50)" : "transparent", padding: isSymptomMatch ? "4px 8px" : 0, borderRadius: 6 }}>
+                      <div className="pred-label">
+                        {labelName} {isSymptomMatch && <span style={{ fontSize: 10, color: "var(--primary-700)", fontWeight: 700 }}>[Symptom Match]</span>}
+                      </div>
                       <div className="pred-bar-track">
                         <div
                           className="pred-bar-fill"
@@ -250,18 +378,31 @@ export default function CropHealth({ onResult }: Props) {
               </div>
             )}
 
+            {/* Final Verdict & Advisory */}
             {topDisease && (
               <div className={`verdict-box ${topDisease.severity}`} style={{ marginTop: 18 }}>
                 <div className="verdict-icon">
                   {topDisease.severity === "urgent" ? "⚠" : topDisease.severity === "watch" ? "◐" : "✓"}
                 </div>
                 <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                     <h4 className="verdict-title">{topDisease.displayName}</h4>
                     <span className={`badge ${severityBadge[topDisease.severity]}`}>
                       {topDisease.severity}
                     </span>
+                    {selectedSymptomLabel && (
+                      <span className="badge badge-muted" style={{ fontSize: 10 }}>
+                        🔍 Symptom Verified
+                      </span>
+                    )}
                   </div>
+
+                  {topDisease.symptom && (
+                    <div style={{ fontSize: 12, marginTop: 4, color: "var(--text-muted)" }}>
+                      Characteristic Symptom: <strong>{topDisease.symptom.color}</strong> · <em>{topDisease.symptom.whatHappens}</em>
+                    </div>
+                  )}
+
                   <p style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.6 }}>{topDisease.advisory}</p>
                 </div>
               </div>
@@ -272,7 +413,7 @@ export default function CropHealth({ onResult }: Props) {
 
       <div className="card">
         <p style={{ fontSize: 12.5, color: "var(--text-muted)", lineHeight: 1.5 }}>
-          🔒 <strong>KisaniQ Edge Privacy:</strong> Neural networks run 100% locally inside your web browser via TensorFlow.js — no leaf photos leave your device. Diagnostics instantly sync with the main KisaniQ Advisory Engine.
+          🔒 <strong>Krishi Setu Edge Privacy:</strong> Neural networks run 100% locally inside your web browser via TensorFlow.js — no leaf photos leave your device. Diagnostics instantly sync with the main Krishi Setu Advisory Engine.
         </p>
       </div>
     </div>

@@ -1,8 +1,8 @@
-export type TabType = "dashboard" | "crop" | "water" | "climate" | "advisory" | "schemes";
+import { Tab } from "../App";
 
 interface Props {
-  currentTab: TabType;
-  onSelectTab: (tab: TabType) => void;
+  currentTab: Tab;
+  onSelectTab: (tab: Tab) => void;
 }
 
 export default function MobileNav({ currentTab, onSelectTab }: Props) {
@@ -22,6 +22,14 @@ export default function MobileNav({ currentTab, onSelectTab }: Props) {
       >
         <span className="mobile-nav-icon">🌱</span>
         <span>Crop Doctor</span>
+      </button>
+
+      <button
+        className={`mobile-nav-btn ${currentTab === "machinery" ? "active" : ""}`}
+        onClick={() => onSelectTab("machinery")}
+      >
+        <span className="mobile-nav-icon">🚜</span>
+        <span>Machinery</span>
       </button>
 
       <button

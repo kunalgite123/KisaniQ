@@ -9,25 +9,38 @@ export default function ClimateView() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    let cancelled = false;
+  // OpenWeather API Key state
+  const [apiKeyInput, setApiKeyInput] = useState(() => localStorage.getItem("krishi_openweather_api_key") || "");
+  const [showKeyConfig, setShowKeyConfig] = useState(false);
+
+  function loadWeatherData(key?: string) {
     setLoading(true);
-    fetchKopargaonWeather()
+    fetchKopargaonWeather(key)
       .then((snap) => {
-        if (cancelled) return;
         setWeather(snap);
         setRisk(assessClimateRisk(snap));
         setError(null);
       })
       .catch((err) => {
-        if (cancelled) return;
         setError(err.message ?? "Could not fetch weather");
       })
-      .finally(() => !cancelled && setLoading(false));
-    return () => {
-      cancelled = true;
-    };
+      .finally(() => setLoading(false));
+  }
+
+  useEffect(() => {
+    loadWeatherData();
   }, []);
+
+  function handleSaveApiKey(e: React.FormEvent) {
+    e.preventDefault();
+    if (apiKeyInput.trim()) {
+      localStorage.setItem("krishi_openweather_api_key", apiKeyInput.trim());
+    } else {
+      localStorage.removeItem("krishi_openweather_api_key");
+    }
+    setShowKeyConfig(false);
+    loadWeatherData(apiKeyInput.trim());
+  }
 
   return (
     <div>
@@ -45,14 +58,79 @@ export default function ClimateView() {
 
       {/* 7-Day Forecast & Live Metrics */}
       <div className="card">
-        <div className="card-header">
+        <div className="card-header" style={{ flexWrap: "wrap", gap: 12 }}>
           <div>
-            <span className="section-label">Live Open-Meteo Satellite Feed · Kopargaon (19.88° N, 74.47° E)</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span className="section-label">
+                {weather?.provider === "OpenWeatherMap"
+                  ? "🌐 Live OpenWeatherMap Feed"
+                  : "📡 Open-Meteo Satellite Feed"}{" "}
+                · Kopargaon (19.88° N, 74.47° E)
+              </span>
+              <span className={`badge ${weather?.provider === "OpenWeatherMap" ? "badge-healthy" : "badge-muted"}`} style={{ fontSize: 10 }}>
+                Provider: {weather?.provider ?? "Detecting..."}
+              </span>
+            </div>
             <h3 className="section-title">7-Day Forecast &amp; Risk Metrics</h3>
           </div>
+
+          <button
+            className="btn-outline-sm"
+            style={{ fontSize: 12, padding: "5px 12px" }}
+            onClick={() => setShowKeyConfig(!showKeyConfig)}
+          >
+            🔑 {apiKeyInput ? "OpenWeather Key Active" : "Configure OpenWeather API Key"}
+          </button>
         </div>
 
-        {loading && <p style={{ padding: 20, color: "var(--text-muted)" }}>Fetching live satellite forecast for Kopargaon block…</p>}
+        {/* API Key Configuration Collapsible Box */}
+        {showKeyConfig && (
+          <form
+            onSubmit={handleSaveApiKey}
+            style={{
+              background: "var(--surface-muted)",
+              padding: 16,
+              borderRadius: "var(--radius-md)",
+              marginBottom: 16,
+              border: "1px solid var(--border-subtle)"
+            }}
+          >
+            <div style={{ fontWeight: 600, fontSize: 13.5, marginBottom: 4 }}>
+              OpenWeatherMap API Key Integration
+            </div>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 10 }}>
+              Enter your custom OpenWeather API Key below (saved locally in your browser). If empty or invalid, the app automatically uses the open-access satellite feed.
+            </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <input
+                type="text"
+                className="input-text"
+                placeholder="Paste OpenWeatherMap API Key (e.g. 4a8b...)"
+                value={apiKeyInput}
+                onChange={(e) => setApiKeyInput(e.target.value)}
+                style={{ flex: 1, minWidth: 260 }}
+              />
+              <button type="submit" className="btn-primary-sm">
+                Save &amp; Fetch
+              </button>
+              {apiKeyInput && (
+                <button
+                  type="button"
+                  className="btn-outline-sm"
+                  onClick={() => {
+                    setApiKeyInput("");
+                    localStorage.removeItem("krishi_openweather_api_key");
+                    loadWeatherData("");
+                  }}
+                >
+                  Clear Key
+                </button>
+              )}
+            </div>
+          </form>
+        )}
+
+        {loading && <p style={{ padding: 20, color: "var(--text-muted)" }}>Fetching live weather forecast for Kopargaon block…</p>}
         {error && <p style={{ padding: 20, color: "var(--alert-red)" }}>{error}</p>}
 
         {weather && risk && (

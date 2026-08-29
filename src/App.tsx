@@ -8,10 +8,11 @@ import WaterSoil from "./components/WaterSoil";
 import ClimateView from "./components/ClimateView";
 import AdvisoryPage from "./components/AdvisoryPage";
 import Schemes from "./components/Schemes";
+import LabourMachinery from "./components/LabourMachinery";
 import { Village } from "./data/villages";
 import { CropModel, DiseaseInfo } from "./data/cropModels";
 
-export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes";
+export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -62,11 +63,12 @@ export default function App() {
             />
           )}
           {tab === "schemes" && <Schemes />}
+          {tab === "machinery" && <LabourMachinery />}
         </main>
 
         {/* App Footer */}
         <footer className="app-footer">
-          KisaniQ — Built for Smart India Hackathon Grand Finale 2026 · AI-Powered Farm Intelligence · All rights reserved.
+          Krishi Setu — Built for Smart India Hackathon Grand Finale 2026 · AI-Powered Farm Intelligence · All rights reserved.
         </footer>
       </div>
 

@@ -8,7 +8,7 @@ export default function Header({ selectedVillageName }: Props) {
       <div className="nav-brand">
         <div className="brand-icon">🛡️</div>
         <div>
-          <div className="brand-title">Kisan Kavach</div>
+          <div className="brand-title">Krishi Setu</div>
           <div className="brand-subtitle">AI Farm Intelligence · SKH 2026</div>
         </div>
       </div>

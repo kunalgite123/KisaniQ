@@ -87,7 +87,7 @@ export default function AdvisoryPage({ climateRisk, village, detectedDisease, cr
       <div className="card">
         <div className="card-header">
           <div>
-            <span className="section-label">KisaniQ AI Engine Output · Action Schedule</span>
+            <span className="section-label">Krishi Setu AI Engine Output · Action Schedule</span>
             <h3 className="section-title">Categorized Action Items</h3>
           </div>
           <span className="badge badge-healthy">4 Active Recommendations</span>

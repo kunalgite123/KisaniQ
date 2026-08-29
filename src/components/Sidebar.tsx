@@ -21,6 +21,7 @@ const NAV_ITEMS: NavConfig[] = [
   { id: "climate", label: "Climate", icon: "🌦️", description: "Weather & climate risk" },
   { id: "water", label: "Water & Soil", icon: "💧", description: "Groundwater & soil intelligence" },
   { id: "advisory", label: "Advisory", icon: "🤖", description: "AI-powered recommendations" },
+  { id: "machinery", label: "Labour & Machinery", icon: "🚜", description: "Rent & list farm equipment & labour" },
   { id: "schemes", label: "Schemes", icon: "🏛️", description: "Government agriculture schemes" }
 ];
 
@@ -36,10 +37,10 @@ export default function Sidebar({
       {/* Sidebar Brand Area */}
       <div className="sidebar-header">
         <div className="brand-container">
-          <div className="brand-logo-box">Q</div>
+          <div className="brand-logo-box">K</div>
           {!collapsed && (
             <div className="brand-text-box">
-              <span className="brand-name">KisaniQ</span>
+              <span className="brand-name">Krishi Setu</span>
               <span className="brand-subtitle">AI Farm Intelligence</span>
             </div>
           )}
@@ -107,7 +108,7 @@ export default function Sidebar({
           <span className="status-dot-green" />
           {!collapsed ? (
             <div>
-              <div style={{ fontWeight: 600, color: "var(--text-main)", fontSize: 12 }}>KisaniQ AI Online</div>
+              <div style={{ fontWeight: 600, color: "var(--text-main)", fontSize: 12 }}>Krishi Setu AI Online</div>
               <div style={{ fontSize: 10, color: "var(--text-muted)" }}>All systems operational</div>
             </div>
           ) : (

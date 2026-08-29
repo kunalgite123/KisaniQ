@@ -13,11 +13,12 @@ const TAB_TITLES: Record<Tab, { title: string; breadcrumb: string }> = {
   climate: { title: "Climate Risk", breadcrumb: "Home / Climate" },
   water: { title: "Water & Soil Intelligence", breadcrumb: "Home / Water & Soil" },
   advisory: { title: "AI Farm Advisory", breadcrumb: "Home / Advisory" },
+  machinery: { title: "Labour & Machinery Monitoring", breadcrumb: "Home / Labour & Machinery" },
   schemes: { title: "Agriculture Schemes", breadcrumb: "Home / Schemes" }
 };
 
 export default function TopNavbar({ currentTab, village, onSelectVillage }: Props) {
-  const currentInfo = TAB_TITLES[currentTab] ?? { title: "KisaniQ", breadcrumb: "Home" };
+  const currentInfo = TAB_TITLES[currentTab] ?? { title: "Krishi Setu", breadcrumb: "Home" };
 
   return (
     <header className="top-navbar">
