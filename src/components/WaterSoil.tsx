@@ -584,24 +584,14 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
             </div>
 
             <div style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-              {onNavigateTab && (
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => onNavigateTab("schemes")}
-                  style={{ fontSize: 13, fontWeight: 700, padding: "8px 18px" }}
-                >
-                  {language === "mr" ? "शासकीय योजनांमध्ये अर्ज करा / माहिती पहा →" : "View Scheme Details & Apply →"}
-                </button>
-              )}
               <a
                 href="https://mahadbt.maharashtra.gov.in/Farmer/SchemeData/SchemeData?str=E9DDFA703C38E51AC7B56240D6D84F28"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-outline-sm"
-                style={{ fontSize: 12, padding: "6px 14px" }}
+                className="btn btn-primary"
+                style={{ fontSize: 13, fontWeight: 700, padding: "8px 18px", textDecoration: "none" }}
               >
-                Official Portal (mahadbt.maharashtra.gov.in) ↗
+                {language === "mr" ? "शासकीय योजनांमध्ये अर्ज करा / माहिती पहा →" : "View Scheme Details & Apply →"}
               </a>
             </div>
           </div>
