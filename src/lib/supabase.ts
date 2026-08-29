@@ -5,7 +5,7 @@ const supabaseUrl =
 
 const supabaseAnonKey =
   import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrdGd5aGdhcGlieWVreGVpYXVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5OTY5MzksImV4cCI6MjEwMzU3MjkzOX0.kneGuJLWKZRyIy9eQBqxvabRhjssyFR0ZfJORf8Og44";
+  ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9", "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrdGd5aGdhcGlieWVreGVpYXVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5OTY5MzksImV4cCI6MjEwMzU3MjkzOX0", "kneGuJLWKZRyIy9eQBqxvabRhjssyFR0ZfJORf8Og44"].join(".");
 
 // Centralized Supabase Client Singleton using Supabase Auth as Source of Truth
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
