@@ -56,16 +56,24 @@ export async function analyzeImageWithGemini(
   const promptText = `You are an expert agricultural plant pathologist specializing in Indian crops (Cotton, Sugarcane, Onion, Wheat, Rice, Tomato, Soybean, Maize). Analyze this crop leaf image carefully.
 CropHint: ${cropHint}.
 
+Primary Reference Dataset Classes (Kaggle Cotton Disease Corpus):
+- Bacterial Blight (Xanthomonas axonopodis pv. malvacearum: angular water-soaked spots, shot-holes)
+- Leaf Curl Virus (CLCuV: upward curling, vein thickening)
+- Alternaria Leaf Spot (concentric target-board brown spots)
+- Fusarium Wilt / Root Rot (yellowing foliage, vascular browning)
+- Verticillium Wilt (mottled V-shaped yellowing on leaf margins)
+- Healthy Leaf (normal chlorophyll, no lesions)
+
 Identify the crop name and any disease, fungal rust, bacterial spot, viral curling, pest damage, or nutrient deficiency present on the leaf.
 Respond ONLY with a valid JSON object matching this schema (do NOT surround with markdown code blocks or additional text):
 {
   "cropName": "${cropHint}",
-  "displayName": "Leaf Curl Virus",
+  "displayName": "Bacterial Blight",
   "severity": "urgent",
-  "confidencePct": 92,
-  "advisory": "Upward leaf curling and dark green vein thickening observed. Whitefly vector detected.",
-  "treatment": "Spray Imidacloprid 17.8 SL @ 0.5 ml/L + install yellow sticky traps.",
-  "avoid": "Avoid excess nitrogen fertilizers which attract whiteflies."
+  "confidencePct": 94,
+  "advisory": "Angular water-soaked lesions bounded by veins drying into shot-holes observed.",
+  "treatment": "Spray Copper Oxychloride 50% WP @ 2.5 g/L + Streptocycline @ 0.1 g/L.",
+  "avoid": "Avoid late-evening overhead sprinkler watering and infected debris build-up."
 }
 Field constraints:
 - "severity" must be strictly one of: "urgent", "watch", or "healthy".
