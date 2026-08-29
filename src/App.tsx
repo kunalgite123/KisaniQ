@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Sidebar from "./components/Sidebar";
@@ -11,8 +11,10 @@ import ClimateView from "./components/ClimateView";
 import AdvisoryPage from "./components/AdvisoryPage";
 import Schemes from "./components/Schemes";
 import LabourMachinery from "./components/LabourMachinery";
+import VoiceFloatingButton from "./components/voice/VoiceFloatingButton";
 import { Village } from "./data/villages";
 import { CropModel, DiseaseInfo } from "./data/cropModels";
+import { fetchKopargaonWeather, assessClimateRisk, WeatherSnapshot, ClimateRisk } from "./lib/weather";
 
 export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery";
 
@@ -22,6 +24,19 @@ function MainAppContent() {
   const [village, setVillage] = useState<Village | null>(null);
   const [cropName, setCropName] = useState<string | null>(null);
   const [detectedDisease, setDetectedDisease] = useState<DiseaseInfo | null>(null);
+  const [weather, setWeather] = useState<WeatherSnapshot | null>(null);
+  const [risk, setRisk] = useState<ClimateRisk | null>(null);
+
+  useEffect(() => {
+    fetchKopargaonWeather()
+      .then((snap) => {
+        setWeather(snap);
+        setRisk(assessClimateRisk(snap));
+      })
+      .catch((err) => {
+        console.warn("Could not fetch background weather for voice assistant:", err);
+      });
+  }, []);
 
   function handleCropResult(crop: CropModel, disease: DiseaseInfo | null) {
     setCropName(crop.name);
@@ -90,6 +105,19 @@ function MainAppContent() {
           Krishi Setu — Built for Smart India Hackathon Grand Finale 2026 · AI-Powered Farm Intelligence · Observe. Understand. Decide. Act.
         </footer>
       </div>
+
+      {/* Multilingual Voice Navigation & Farm Assistant Floating Control */}
+      <VoiceFloatingButton
+        context={{
+          village,
+          cropName,
+          detectedDisease,
+          weather,
+          risk,
+          currentTab: tab
+        }}
+        onNavigateTab={(targetTab) => setTab(targetTab)}
+      />
 
       {/* Mobile Bottom Navigation Bar */}
       <MobileNav currentTab={tab} onSelectTab={setTab} />
