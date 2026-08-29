@@ -178,53 +178,38 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
               </div>
             </div>
 
-            <div className="readout">
-              <div className="readout-label">{t("recharge_site")}</div>
-              <div style={{ fontSize: 15, fontWeight: 700, marginTop: 6 }}>
-                {village.proposedRecharge ? "Yes — Percolation Tank / Recharge Shaft" : "Standard Monitoring Site"}
-              </div>
-              <div className="readout-label" style={{ marginTop: 14 }}>
-                {t("groundwater_status")}
-              </div>
-              <div style={{ fontSize: 14, marginTop: 2, color: "var(--text-main)", fontWeight: 700 }}>
-                {t("semi_critical_status")}
-              </div>
-            </div>
+            {/* Card 2: CGWB Recharge Site & Dynamic Distance Decision (Case 1 / 2 / 3) */}
+            <div className="readout" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                  <div className="readout-label">{t("recharge_site")}</div>
+                  <span className="section-label" style={{ fontSize: 10 }}>{decision.ruleLabel}</span>
+                </div>
+                <div style={{ fontSize: 14.5, fontWeight: 700, marginTop: 2 }}>
+                  {village.proposedRecharge ? "Yes — Percolation Tank / Recharge Shaft" : "Standard Monitoring Site"}
+                </div>
 
-            {/* Dynamic Distance Threshold Decision Block for Selected Village */}
-            <div
-              style={{
-                gridColumn: "1 / -1",
-                marginTop: 14,
-                padding: 16,
-                background: "var(--surface-bg)",
-                border: "1px solid var(--border-strong)",
-                borderRadius: "var(--radius-md)"
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                <span className="section-label" style={{ fontSize: 10 }}>
-                  {decision.ruleLabel}
-                </span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-700)" }}>
-                  {decision.depthTypeLabel}: {decision.referenceDepthRange}
-                </span>
-              </div>
+                <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 4 }}>
+                  <span className="readout-label" style={{ marginTop: 0 }}>{decision.depthTypeLabel}:</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--primary-700)" }}>{decision.referenceDepthRange}</span>
+                </div>
 
-              <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text-main)" }}>
-                "{decision.interpretationText}"
+                <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text-main)", marginTop: 6, lineHeight: 1.5 }}>
+                  "{decision.interpretationText}"
+                </div>
               </div>
 
               <div
                 style={{
-                  marginTop: 8,
-                  padding: "8px 12px",
-                  background: "var(--surface-card)",
+                  marginTop: 12,
+                  padding: "10px 14px",
+                  background: "var(--surface-bg)",
                   borderRadius: "var(--radius-sm)",
                   borderLeft: "4px solid var(--primary-500)",
                   fontSize: 13,
                   fontWeight: 700,
-                  color: "var(--text-main)"
+                  color: "var(--text-main)",
+                  lineHeight: 1.5
                 }}
               >
                 <strong>{language === "mr" ? "शिफारस केलेली कृती:" : "Recommended action:"}</strong> {decision.recommendedAction}
