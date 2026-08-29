@@ -218,18 +218,19 @@ export default function CropHealth({ onResult }: Props) {
             )}
           </div>
 
-          {/* Symptom Cards Grid (Only Colour + What Happens - No Disease Name Displayed) */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10, marginTop: 10 }}>
+          {/* Symptom Cards Grid (Visual Image Thumbnails + Colour + What Happens) */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12, marginTop: 12 }}>
             {symptomDiseases.map((d) => {
               const isSelected = selectedSymptomLabel === d.symptom!.combinedLabel;
+              const sym = d.symptom!;
               return (
                 <button
                   key={d.displayName}
                   type="button"
-                  onClick={() => handleSymptomChange(isSelected ? "" : d.symptom!.combinedLabel)}
+                  onClick={() => handleSymptomChange(isSelected ? "" : sym.combinedLabel)}
                   style={{
                     textAlign: "left",
-                    padding: "10px 14px",
+                    padding: "10px 12px",
                     borderRadius: "var(--radius-sm)",
                     border: isSelected ? "2px solid var(--primary-700)" : "1px solid var(--border-strong)",
                     background: isSelected ? "var(--primary-50)" : "var(--surface-card)",
@@ -237,15 +238,43 @@ export default function CropHealth({ onResult }: Props) {
                     cursor: "pointer",
                     transition: "all 0.15s ease",
                     display: "flex",
-                    flexDirection: "column",
-                    gap: 3
+                    alignItems: "center",
+                    gap: 12
                   }}
                 >
-                  <div style={{ fontSize: 13, fontWeight: 700, color: isSelected ? "var(--primary-900)" : "var(--text-main)" }}>
-                    🎨 {d.symptom!.color}
+                  {/* Thumbnail Image / Visual Icon */}
+                  <div
+                    style={{
+                      width: 46,
+                      height: 46,
+                      borderRadius: "var(--radius-xs)",
+                      overflow: "hidden",
+                      flexShrink: 0,
+                      background: sym.iconBg || "var(--primary-50)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      border: "1px solid var(--border-subtle)"
+                    }}
+                  >
+                    {sym.imageUrl ? (
+                      <img
+                        src={sym.imageUrl}
+                        alt={sym.color}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    ) : (
+                      <span style={{ fontSize: 18 }}>🍃</span>
+                    )}
                   </div>
-                  <div style={{ fontSize: 12.5, color: isSelected ? "var(--primary-800)" : "var(--text-muted)", fontWeight: 500 }}>
-                    ⚡ {d.symptom!.whatHappens}
+
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: isSelected ? "var(--primary-900)" : "var(--text-main)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      🎨 {sym.color}
+                    </div>
+                    <div style={{ fontSize: 12, color: isSelected ? "var(--primary-800)" : "var(--text-muted)", fontWeight: 500, marginTop: 2 }}>
+                      ⚡ {sym.whatHappens}
+                    </div>
                   </div>
                 </button>
               );

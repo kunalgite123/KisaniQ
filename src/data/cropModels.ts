@@ -2,6 +2,8 @@ export interface SymptomOption {
   color: string;
   whatHappens: string;
   combinedLabel: string; // e.g. "Dark green — Leaves curl"
+  imageUrl?: string;
+  iconBg?: string;
 }
 
 export interface DiseaseInfo {
@@ -32,7 +34,9 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Dark green",
           whatHappens: "Leaves curl",
-          combinedLabel: "Dark green — Leaves curl"
+          combinedLabel: "Dark green — Leaves curl",
+          imageUrl: "/symptoms/cotton_leaf_curl.jpg",
+          iconBg: "linear-gradient(135deg, #1b5e20, #388e3c)"
         },
         advisory:
           "Upward leaf curling and dark green vein thickening signal Cotton Leaf Curl Virus (CLCuV). Control whitefly vectors using yellow sticky traps and systemic insecticide. Rogue out infected plants early."
@@ -44,7 +48,9 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Black/brown",
           whatHappens: "Spots spread",
-          combinedLabel: "Black/brown — Spots spread"
+          combinedLabel: "Black/brown — Spots spread",
+          imageUrl: "/symptoms/cotton_bacterial_blight.jpg",
+          iconBg: "linear-gradient(135deg, #3e2723, #5d4037)"
         },
         advisory:
           "Angular water-soaked black/brown spots that spread on leaves and bolls indicate Bacterial Blight. Spray copper oxychloride + streptocycline mix and avoid overhead irrigation."
@@ -56,7 +62,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Greyish-white",
           whatHappens: "Powdery growth",
-          combinedLabel: "Greyish-white — Powdery growth"
+          combinedLabel: "Greyish-white — Powdery growth",
+          iconBg: "linear-gradient(135deg, #78909c, #cfd8dc)"
         },
         advisory:
           "Greyish-white powdery fungal growth on lower leaf surfaces. Spray wettable sulphur or carbendazim at first appearance to prevent premature defoliation."
@@ -68,7 +75,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Brown/grey",
           whatHappens: "Spots merge",
-          combinedLabel: "Brown/grey — Spots merge"
+          combinedLabel: "Brown/grey — Spots merge",
+          iconBg: "linear-gradient(135deg, #5d4037, #8d6e63)"
         },
         advisory:
           "Brown/grey concentric target-board spots that merge into large necrotic areas. Apply mancozeb or azoxystrobin spray and maintain proper plant spacing."
@@ -80,7 +88,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Yellow/black",
           whatHappens: "Plant wilts",
-          combinedLabel: "Yellow/black — Plant wilts"
+          combinedLabel: "Yellow/black — Plant wilts",
+          iconBg: "linear-gradient(135deg, #fbc02d, #212121)"
         },
         advisory:
           "Yellowing foliage followed by sudden plant wilting and dark root rot. Drench soil around root zones with Trichoderma viride or carbendazim solution."
@@ -92,7 +101,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Black/brown",
           whatHappens: "Bolls rot",
-          combinedLabel: "Black/brown — Bolls rot"
+          combinedLabel: "Black/brown — Bolls rot",
+          iconBg: "linear-gradient(135deg, #212121, #4e342e)"
         },
         advisory:
           "Black/brown softening and rot of cotton bolls during humid boll-opening stage. Avoid excess nitrogen fertilizer and spray copper hydroxide."
@@ -104,7 +114,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Reddish-brown",
           whatHappens: "Bolls sink",
-          combinedLabel: "Reddish-brown — Bolls sink"
+          combinedLabel: "Reddish-brown — Bolls sink",
+          iconBg: "linear-gradient(135deg, #b71c1c, #8d6e63)"
         },
         advisory:
           "Reddish-brown sunken circular spots on bolls and leaves. Treat seeds with thiram before sowing and spray mancozeb during boll formation."
@@ -135,7 +146,9 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Red (inside stalk)",
           whatHappens: "Stalk rots",
-          combinedLabel: "Red (inside stalk) — Stalk rots"
+          combinedLabel: "Red (inside stalk) — Stalk rots",
+          imageUrl: "/symptoms/sugarcane_red_rot.jpg",
+          iconBg: "linear-gradient(135deg, #c62828, #b71c1c)"
         },
         advisory:
           "Reddish internal stalk discolouration with white cross-bands and alcohol smell. Rogue out infected clumps immediately and do not use setts from affected plots."
@@ -147,7 +160,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Black",
           whatHappens: "Whip forms",
-          combinedLabel: "Black — Whip forms"
+          combinedLabel: "Black — Whip forms",
+          iconBg: "linear-gradient(135deg, #111111, #424242)"
         },
         advisory:
           "Long curved black whip-like structures arising from growing shoot tips. Carefully bag affected whips before cutting to prevent spore dispersal, then destroy Clumps."
@@ -159,7 +173,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Yellow/dry",
           whatHappens: "Plant wilts",
-          combinedLabel: "Yellow/dry — Plant wilts"
+          combinedLabel: "Yellow/dry — Plant wilts",
+          iconBg: "linear-gradient(135deg, #f57f17, #fbc02d)"
         },
         advisory:
           "Gradual yellowing, drying of crown leaves, and hollow pith inside stalk. Improve soil aeration, avoid waterlogging, and apply soil bio-agents."
@@ -171,7 +186,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Orange/brown",
           whatHappens: "Leaves rust",
-          combinedLabel: "Orange/brown — Leaves rust"
+          combinedLabel: "Orange/brown — Leaves rust",
+          iconBg: "linear-gradient(135deg, #e65100, #ef6c00)"
         },
         advisory:
           "Elongated orange/brown pustules on leaf underside. Apply mancozeb or propiconazole spray if rust covers more than 15% leaf area."
@@ -183,7 +199,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "White/yellow",
           whatHappens: "Leaves streak",
-          combinedLabel: "White/yellow — Leaves streak"
+          combinedLabel: "White/yellow — Leaves streak",
+          iconBg: "linear-gradient(135deg, #fff59d, #fbc02d)"
         },
         advisory:
           "Pencil-line white/yellow longitudinal stripes along leaf veins turning necrotic. Dip setts in hot water treatment (50°C for 2 hours) before planting."
@@ -195,7 +212,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Reddish (inside stalk)",
           whatHappens: "Growth stunts",
-          combinedLabel: "Reddish (inside stalk) — Growth stunts"
+          combinedLabel: "Reddish (inside stalk) — Growth stunts",
+          iconBg: "linear-gradient(135deg, #d32f2f, #795548)"
         },
         advisory:
           "Reddish dots at nodes inside stalk causing severe stunting of ratoon crops. Sterilize cutting knives with disinfectant between rows."
@@ -207,7 +225,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Pale yellow",
           whatHappens: "Shoots multiply",
-          combinedLabel: "Pale yellow — Shoots multiply"
+          combinedLabel: "Pale yellow — Shoots multiply",
+          iconBg: "linear-gradient(135deg, #fff59d, #c0ca33)"
         },
         advisory:
           "Profuse pale yellow paper-thin tillers giving a bushy grassy appearance. Uproot infected clumps and control leafhopper/aphid vectors."
@@ -232,7 +251,9 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Purple/brown",
           whatHappens: "Leaves blotch",
-          combinedLabel: "Purple/brown — Leaves blotch"
+          combinedLabel: "Purple/brown — Leaves blotch",
+          imageUrl: "/symptoms/onion_purple_blotch.jpg",
+          iconBg: "linear-gradient(135deg, #4a148c, #6a1b9a)"
         },
         advisory:
           "Purple/brown sunken lesions with yellow halo on leaves. Spray mancozeb or difenoconazole + azoxystrobin and avoid evening overhead sprinkler irrigation."
@@ -244,7 +265,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Pale yellow/grey",
           whatHappens: "Leaves collapse",
-          combinedLabel: "Pale yellow/grey — Leaves collapse"
+          combinedLabel: "Pale yellow/grey — Leaves collapse",
+          iconBg: "linear-gradient(135deg, #fff59d, #90a4ae)"
         },
         advisory:
           "Pale yellow patches with greyish violet fungal growth leading to leaf collapse. Spray metalaxyl + mancozeb or cymoxanil during humid cool weather."
@@ -256,7 +278,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Yellow/brown",
           whatHappens: "Bulb rots",
-          combinedLabel: "Yellow/brown — Bulb rots"
+          combinedLabel: "Yellow/brown — Bulb rots",
+          iconBg: "linear-gradient(135deg, #f57f17, #5d4037)"
         },
         advisory:
           "Yellowing leaf tips with decaying bulb basal plate and white root mycelium. Ensure crop rotation and drench soil with Trichoderma harzianum."
@@ -268,7 +291,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Yellow/white",
           whatHappens: "Leaves twist",
-          combinedLabel: "Yellow/white — Leaves twist"
+          combinedLabel: "Yellow/white — Leaves twist",
+          iconBg: "linear-gradient(135deg, #ffee58, #fff9c4)"
         },
         advisory:
           "Pale yellow/white oval spots causing leaf curling and spiral twister neck twisting. Spray copper oxychloride or hexaconazole."
@@ -280,7 +304,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Dark brown",
           whatHappens: "Tips die",
-          combinedLabel: "Dark brown — Tips die"
+          combinedLabel: "Dark brown — Tips die",
+          iconBg: "linear-gradient(135deg, #3e2723, #4e342e)"
         },
         advisory:
           "Dark brown elongated flecks starting from leaf tips causing tip dieback. Apply iprodione or tebuconazole spray."
@@ -292,7 +317,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Black",
           whatHappens: "Bulb blackens",
-          combinedLabel: "Black — Bulb blackens"
+          combinedLabel: "Black — Bulb blackens",
+          iconBg: "linear-gradient(135deg, #212121, #000000)"
         },
         advisory:
           "Black powdery spore mass between outer bulb scales during storage. Ensure proper field curing and low humidity storage aeration."
@@ -304,7 +330,8 @@ export const cropModels: CropModel[] = [
         symptom: {
           color: "Grey/brown",
           whatHappens: "Neck softens",
-          combinedLabel: "Grey/brown — Neck softens"
+          combinedLabel: "Grey/brown — Neck softens",
+          iconBg: "linear-gradient(135deg, #78909c, #6d4c41)"
         },
         advisory:
           "Grey/brown soft rot near the neck of stored onion bulbs. Allow leaves to dry completely before topping and store under dry ventilated conditions."
