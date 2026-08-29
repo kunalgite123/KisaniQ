@@ -4,7 +4,7 @@ import { kopargaonProfile } from "../data/groundSoil";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
 import { useLanguage } from "../context/LanguageContext";
-import AdvisoryCard, { AdvisoryAlertBox } from "./AdvisoryCard";
+import AdvisoryCard from "./AdvisoryCard";
 import FarmHealthScore from "./FarmHealthScore";
 
 interface Props {
@@ -51,7 +51,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
         cropName={cropName}
       />
 
-      {/* 2. Today's Farm Decision Signal Pipeline */}
+      {/* 2. Flagship ONE DOMINANT CARD: Today's Farm Decision */}
       <AdvisoryCard
         climateRisk={risk}
         village={village}
@@ -170,7 +170,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
       </div>
 
       {/* 4. Water & Soil Intelligence Row */}
-      <div className="card" style={{ padding: 22, marginBottom: 24 }}>
+      <div className="card" style={{ padding: 22, marginBottom: 32 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
           <div>
             <span className="section-label" style={{ fontSize: 11 }}>GROUNDWATER &amp; SOIL HEALTH</span>
@@ -221,15 +221,6 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
           </div>
         </div>
       </div>
-
-      {/* 5. Primary Actionable Verdict Alert Card — Positioned at the very end of Dashboard */}
-      <AdvisoryAlertBox
-        climateRisk={risk}
-        village={village}
-        detectedDisease={detectedDisease}
-        cropName={cropName}
-        onViewDetails={onNavigateTab ? () => onNavigateTab("advisory") : undefined}
-      />
     </div>
   );
 }
