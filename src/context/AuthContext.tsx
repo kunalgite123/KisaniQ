@@ -42,13 +42,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Auto-backfill NULL email/phone into public.profiles if missing in Supabase
       if (!data || !data.email || !data.phone) {
-        await supabase.from("profiles").upsert({
+        const { error } = await supabase.from("profiles").upsert({
           id: currentUser.id,
           full_name: mergedProfile.full_name,
           email: mergedProfile.email,
           phone: mergedProfile.phone,
           updated_at: new Date().toISOString()
         });
+        if (error) {
+          await supabase.from("profiles").insert({
+            id: currentUser.id,
+            full_name: mergedProfile.full_name,
+            email: mergedProfile.email,
+            phone: mergedProfile.phone,
+            updated_at: new Date().toISOString()
+          });
+        }
       }
     } catch {
       const fallbackProfile: UserProfile = {
@@ -134,13 +143,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Upsert full identity into Supabase `public.profiles` table
       if (data.user) {
         try {
-          await supabase.from("profiles").upsert({
+          const { error: upsertErr } = await supabase.from("profiles").upsert({
             id: data.user.id,
             full_name: cleanName,
             email: cleanEmail,
             phone: cleanPhone,
             updated_at: new Date().toISOString()
           });
+
+          if (upsertErr) {
+            await supabase.from("profiles").insert({
+              id: data.user.id,
+              full_name: cleanName,
+              email: cleanEmail,
+              phone: cleanPhone,
+              updated_at: new Date().toISOString()
+            });
+          }
         } catch {}
       }
 

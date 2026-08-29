@@ -282,7 +282,7 @@ export function processVoiceQuery(
     q.includes("पाण्याची परिस्थिती") || q.includes("water situation") || q.includes("near me") || q.includes("जवळ पाणी")
   ) {
     const dec = evaluateWaterSoilDecision({
-      village: context.village,
+      village: context.village ?? null,
       cropName: context.cropName,
       lang: lang as any
     });

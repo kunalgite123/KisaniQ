@@ -125,12 +125,15 @@ export async function saveFarmerProfile(profile: FarmerProfile): Promise<FarmerP
         updated_at: profile.updatedAt
       };
 
+      // Primary Upsert attempt
       const { error } = await supabase
         .from("farmer_profiles")
         .upsert(dbPayload, { onConflict: "user_id" });
 
       if (error) {
-        console.warn("Supabase farmer_profiles sync notice:", error.message);
+        console.warn("Supabase farmer_profiles upsert notice, trying direct insert/update:", error.message);
+        // Secondary Fallback Insert attempt if upsert fails due to constraint mismatch
+        await supabase.from("farmer_profiles").insert(dbPayload);
       }
     }
   } catch (err) {
