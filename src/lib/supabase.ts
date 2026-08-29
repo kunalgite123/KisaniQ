@@ -46,7 +46,7 @@ export function getFriendlyAuthError(error: any): string {
     return "Password must be at least 8 characters long.";
   }
   if (message.includes("Email not confirmed")) {
-    return "Please check your email inbox to confirm your account before signing in.";
+    return "This user account is awaiting email confirmation in Supabase. Disable 'Confirm email' in Supabase Auth Settings or run the SQL auto-confirm script.";
   }
   if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
     return "We couldn't connect to Supabase authentication service. Please check your network connection.";
