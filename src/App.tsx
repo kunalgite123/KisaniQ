@@ -59,7 +59,13 @@ function MainAppContent() {
             />
           )}
           {tab === "crop" && <CropHealth onResult={handleCropResult} />}
-          {tab === "climate" && <ClimateView />}
+          {tab === "climate" && (
+            <ClimateView
+              village={village}
+              cropName={cropName}
+              onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
+            />
+          )}
           {tab === "water" && <WaterSoil village={village} onSelectVillage={setVillage} />}
           {tab === "advisory" && (
             <AdvisoryPage
