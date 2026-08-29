@@ -208,7 +208,7 @@ export const cropModels: CropModel[] = [
           color: "White/yellow",
           whatHappens: "Leaves streak",
           combinedLabel: "White/yellow — Leaves streak",
-          imageUrl: "/symptoms/sugarcane_leaf_scald.svg",
+          imageUrl: "/symptoms/sugarcane_leaf_scald.jpg",
           iconBg: "linear-gradient(135deg, #fff59d, #fbc02d)"
         },
         advisory:
@@ -222,7 +222,7 @@ export const cropModels: CropModel[] = [
           color: "Reddish (inside stalk)",
           whatHappens: "Growth stunts",
           combinedLabel: "Reddish (inside stalk) — Growth stunts",
-          imageUrl: "/symptoms/sugarcane_ratoon_stunting.svg",
+          imageUrl: "/symptoms/sugarcane_ratoon_stunting.jpg",
           iconBg: "linear-gradient(135deg, #d32f2f, #795548)"
         },
         advisory:
@@ -236,7 +236,7 @@ export const cropModels: CropModel[] = [
           color: "Pale yellow",
           whatHappens: "Shoots multiply",
           combinedLabel: "Pale yellow — Shoots multiply",
-          imageUrl: "/symptoms/sugarcane_grassy_shoot.svg",
+          imageUrl: "/symptoms/sugarcane_grassy_shoot.jpg",
           iconBg: "linear-gradient(135deg, #fff59d, #c0ca33)"
         },
         advisory:
@@ -277,7 +277,7 @@ export const cropModels: CropModel[] = [
           color: "Pale yellow/grey",
           whatHappens: "Leaves collapse",
           combinedLabel: "Pale yellow/grey — Leaves collapse",
-          imageUrl: "/symptoms/onion_downy_mildew.svg",
+          imageUrl: "/symptoms/onion_downy_mildew.jpg",
           iconBg: "linear-gradient(135deg, #fff59d, #90a4ae)"
         },
         advisory:
@@ -291,7 +291,7 @@ export const cropModels: CropModel[] = [
           color: "Yellow/brown",
           whatHappens: "Bulb rots",
           combinedLabel: "Yellow/brown — Bulb rots",
-          imageUrl: "/symptoms/onion_basal_rot.svg",
+          imageUrl: "/symptoms/onion_basal_rot.jpg",
           iconBg: "linear-gradient(135deg, #f57f17, #5d4037)"
         },
         advisory:
@@ -305,7 +305,7 @@ export const cropModels: CropModel[] = [
           color: "Yellow/white",
           whatHappens: "Leaves twist",
           combinedLabel: "Yellow/white — Leaves twist",
-          imageUrl: "/symptoms/onion_anthracnose_twister.svg",
+          imageUrl: "/symptoms/onion_anthracnose_twister.jpg",
           iconBg: "linear-gradient(135deg, #ffee58, #fff9c4)"
         },
         advisory:
@@ -319,7 +319,7 @@ export const cropModels: CropModel[] = [
           color: "Dark brown",
           whatHappens: "Tips die",
           combinedLabel: "Dark brown — Tips die",
-          imageUrl: "/symptoms/onion_stemphylium_blight.svg",
+          imageUrl: "/symptoms/onion_stemphylium_blight.jpg",
           iconBg: "linear-gradient(135deg, #3e2723, #4e342e)"
         },
         advisory:
@@ -333,7 +333,7 @@ export const cropModels: CropModel[] = [
           color: "Black",
           whatHappens: "Bulb blackens",
           combinedLabel: "Black — Bulb blackens",
-          imageUrl: "/symptoms/onion_black_mould.svg",
+          imageUrl: "/symptoms/onion_black_mould.jpg",
           iconBg: "linear-gradient(135deg, #212121, #000000)"
         },
         advisory:
@@ -347,7 +347,7 @@ export const cropModels: CropModel[] = [
           color: "Grey/brown",
           whatHappens: "Neck softens",
           combinedLabel: "Grey/brown — Neck softens",
-          imageUrl: "/symptoms/onion_neck_rot.svg",
+          imageUrl: "/symptoms/onion_neck_rot.jpg",
           iconBg: "linear-gradient(135deg, #78909c, #6d4c41)"
         },
         advisory:
