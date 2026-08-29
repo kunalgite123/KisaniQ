@@ -1,4 +1,5 @@
 import React from "react";
+import { Sprout } from "lucide-react";
 
 interface Props {
   children: React.ReactNode;
@@ -11,7 +12,9 @@ export default function AuthLayout({ children }: Props) {
         {/* Left Branding Side (Desktop) */}
         <div className="auth-brand-side">
           <div className="auth-brand-content">
-            <div className="auth-logo-badge">K</div>
+            <div className="auth-logo-badge" style={{ width: 54, height: 54, borderRadius: 10, overflow: "hidden", border: "2px solid #ffffff", padding: 0 }}>
+              <img src="/farmer_logo.jpg" alt="Krishi Setu Farmer" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+            </div>
             <h1 className="auth-brand-title">Krishi Setu</h1>
             <p className="auth-brand-sub">AI-Powered Farm Intelligence</p>
             <p style={{ marginTop: 24, fontSize: 14, color: "rgba(255, 255, 255, 0.8)", lineHeight: 1.6 }}>
