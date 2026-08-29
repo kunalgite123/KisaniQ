@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#37474f"/>
-  <path d="M 50 30 Q 80 50 70 80 Q 50 90 30 80 Q 20 50 50 30 Z" fill="#ffb74d"/>
-  <!-- Grey brown neck rot -->
-  <path d="M 40 35 Q 50 20 60 35 Z" fill="#5d4037"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" fill="#263238"/>
+  <!-- Onion Bulb Body -->
+  <path d="M 200 120 Q 340 220 280 340 Q 200 380 120 340 Q 60 220 200 120 Z" fill="#ffb74d"/>
+  <!-- Soft Rotted Grey/Brown Neck Top -->
+  <path d="M 170 140 Q 200 60 230 140 Q 200 190 170 140 Z" fill="#5d4037"/>
+  <path d="M 180 130 Q 200 80 220 130 Z" fill="#78909c"/>
 </svg>

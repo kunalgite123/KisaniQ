@@ -1,5 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#2e7d32"/>
-  <!-- Spiral twisted curling onion leaf -->
-  <path d="M 50 90 C 20 70 80 50 50 30 C 30 20 70 10 50 5" stroke="#fbc02d" stroke-width="8" fill="none" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" fill="#1b5e20"/>
+  <!-- Twisted spiral neck & leaf -->
+  <path d="M 200 380 C 80 300 320 220 180 140 C 80 80 300 40 200 10" stroke="#fbc02d" stroke-width="26" fill="none" stroke-linecap="round"/>
+  <path d="M 200 380 C 80 300 320 220 180 140 C 80 80 300 40 200 10" stroke="#4caf50" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <!-- Pale yellow white lesions along twist -->
+  <circle cx="160" cy="270" r="10" fill="#fff9c4"/>
+  <circle cx="240" cy="190" r="12" fill="#fff9c4"/>
+  <circle cx="150" cy="110" r="9" fill="#ffffff"/>
 </svg>

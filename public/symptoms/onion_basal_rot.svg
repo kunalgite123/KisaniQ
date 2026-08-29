@@ -1,8 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#4e342e"/>
-  <!-- Onion bulb shape -->
-  <path d="M 50 20 Q 80 40 70 70 Q 50 85 30 70 Q 20 40 50 20 Z" fill="#ffb74d"/>
-  <!-- Rotted yellow/brown basal plate & white root rot -->
-  <path d="M 35 65 Q 50 80 65 65 Z" fill="#5d4037"/>
-  <path d="M 40 75 L 35 90 M 50 78 L 50 95 M 60 75 L 65 90" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bulbGrad" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffe0b2"/>
+      <stop offset="70%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#f57c00"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="#3e2723"/>
+  <!-- Onion Bulb Cutout -->
+  <path d="M 200 60 Q 330 140 300 280 Q 200 340 100 280 Q 70 140 200 60 Z" fill="url(#bulbGrad)"/>
+  <!-- Concentric Scale Ring Lines -->
+  <path d="M 200 100 Q 280 160 260 260 M 200 100 Q 120 160 140 260" stroke="#ffe0b2" stroke-width="4" fill="none"/>
+  <!-- Decaying Yellow-Brown Basal Plate -->
+  <path d="M 120 260 Q 200 350 280 260 Z" fill="#5d4037"/>
+  <path d="M 140 270 Q 200 340 260 270 Z" fill="#3e2723"/>
+  <!-- Rotted White Mycelium Roots -->
+  <path d="M 140 320 L 120 370 M 170 330 L 165 385 M 200 335 L 200 395 M 230 330 L 235 385 M 260 320 L 280 370" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
 </svg>

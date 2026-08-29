@@ -1,6 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#1b5e20"/>
-  <!-- Leaf tip dying black/brown -->
-  <path d="M 35 90 L 50 20 L 65 90 Z" fill="#4caf50"/>
-  <path d="M 45 45 L 50 20 L 55 45 Z" fill="#3e2723"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" fill="#1b5e20"/>
+  <!-- Healthy Green Leaf Base -->
+  <path d="M 120 380 L 200 40 L 280 380 Z" fill="#4caf50"/>
+  <!-- Blighted Dark Brown Dieback Top -->
+  <path d="M 160 190 L 200 40 L 240 190 Z" fill="#3e2723"/>
+  <path d="M 165 210 Q 200 170 235 210" fill="#5d4037"/>
+  <!-- Elongated dark flecks on leaf -->
+  <ellipse cx="180" cy="260" rx="8" ry="24" fill="#3e2723"/>
+  <ellipse cx="220" cy="290" rx="10" ry="28" fill="#3e2723"/>
 </svg>

@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#1b5e20"/>
-  <!-- Bushy multiplication of pale yellow tillers -->
-  <path d="M 50 90 Q 20 50 15 20 M 50 90 Q 30 40 25 10 M 50 90 Q 40 40 40 10 M 50 90 Q 50 30 50 5 M 50 90 Q 60 40 60 10 M 50 90 Q 70 40 75 10 M 50 90 Q 80 50 85 20" stroke="#ffee58" stroke-width="4" fill="none" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" fill="#1b5e20"/>
+  <!-- Soil base -->
+  <ellipse cx="200" cy="360" rx="160" ry="30" fill="#3e2723"/>
+  <!-- Profuse Paper-Thin Pale Yellow Tillers -->
+  <path d="M 200 350 Q 80 200 60 50 M 200 350 Q 110 180 100 40 M 200 350 Q 140 160 130 30 M 200 350 Q 170 140 170 20 M 200 350 Q 200 130 200 10 M 200 350 Q 230 140 230 20 M 200 350 Q 260 160 270 30 M 200 350 Q 290 180 300 40 M 200 350 Q 320 200 340 50" stroke="#fff59d" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M 200 350 Q 90 220 70 70 M 200 350 Q 130 200 120 50 M 200 350 Q 180 160 180 30 M 200 350 Q 220 160 220 30 M 200 350 Q 270 200 280 50 M 200 350 Q 310 220 330 70" stroke="#ffee58" stroke-width="5" fill="none" stroke-linecap="round"/>
 </svg>

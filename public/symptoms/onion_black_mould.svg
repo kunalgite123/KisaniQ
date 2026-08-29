@@ -1,6 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#424242"/>
-  <!-- Blackened onion bulb -->
-  <circle cx="50" cy="50" r="32" fill="#ffb74d"/>
-  <circle cx="50" cy="50" r="28" fill="#212121" stroke="#ffb74d" stroke-width="4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bulbGrad2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe0b2"/>
+      <stop offset="80%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="#212121"/>
+  <!-- Onion Bulb -->
+  <circle cx="200" cy="200" r="140" fill="url(#bulbGrad2)"/>
+  <!-- Outer Scale Lines -->
+  <circle cx="200" cy="200" r="120" stroke="#f57c00" stroke-width="4" fill="none"/>
+  <!-- Black Powdery Spore Mass -->
+  <path d="M 120 160 Q 200 90 280 160 Q 260 260 140 250 Z" fill="#111111" opacity="0.95"/>
+  <circle cx="160" cy="180" r="40" fill="#000000"/>
+  <circle cx="230" cy="190" r="50" fill="#000000"/>
+  <circle cx="190" cy="230" r="35" fill="#111111"/>
 </svg>
