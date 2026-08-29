@@ -38,6 +38,14 @@ export const translations = {
     system_status_online: "Krishi Setu AI Online",
     all_systems_ok: "All systems operational",
 
+    // Voice Assistant i18n Keys
+    voice_listening: "Listening... Speak naturally",
+    voice_processing: "Understanding your query...",
+    voice_speaking: "Krishi Setu AI is speaking...",
+    voice_unsupported: "Voice input is not supported in this browser.",
+    voice_error_try_again: "Could not understand speech. Please try speaking again.",
+    voice_navigating_to: "Navigating to",
+
     // Dashboard Greeting & Score
     greeting_good_morning: "Good morning 👋",
     greeting_intelligence_sub: "Your farm intelligence for today • ",
@@ -307,6 +315,14 @@ export const translations = {
     district_name: "अहिल्यानगर, महाराष्ट्र",
     system_status_online: "कृषी सेतू एआय ऑनलाइन",
     all_systems_ok: "सर्व प्रणाली सुव्यवस्थित",
+
+    // Voice Assistant i18n Keys
+    voice_listening: "मी ऐकत आहे... बोला",
+    voice_processing: "तुमचा प्रश्न समजून घेत आहे...",
+    voice_speaking: "कृषी सेतू एआय बोलत आहे...",
+    voice_unsupported: "तुमच्या ब्राउझरमध्ये व्हॉईस सपोर्ट उपलब्ध नाही.",
+    voice_error_try_again: "माफ करा, समजू शकलो नाही. पुन्हा प्रयत्न करा.",
+    voice_navigating_to: "विभाग उघडत आहे",
 
     // Dashboard Greeting & Score
     greeting_good_morning: "शुभ प्रभात 👋",
