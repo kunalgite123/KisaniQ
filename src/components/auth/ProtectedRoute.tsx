@@ -36,8 +36,8 @@ export default function ProtectedRoute({ children }: Props) {
           gap: 16
         }}
       >
-        <div className="brand-logo-box" style={{ width: 48, height: 48 }}>
-          <Sprout size={26} color="#ffffff" strokeWidth={2.5} />
+        <div className="brand-logo-box" style={{ width: 54, height: 54 }}>
+          <img src="/farmer_logo.jpg" alt="Krishi Setu Farmer" className="brand-logo-img" />
         </div>
         <div style={{ fontSize: 18, fontWeight: 700, color: "var(--primary-900)" }}>Krishi Setu</div>
         <div style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>

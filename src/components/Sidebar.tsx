@@ -47,7 +47,7 @@ export default function Sidebar({
       <div className="sidebar-header">
         <div className="brand-container">
           <div className="brand-logo-box">
-            <Sprout size={20} color="#ffffff" strokeWidth={2.5} />
+            <img src="/farmer_logo.jpg" alt="Krishi Setu Farmer" className="brand-logo-img" />
           </div>
           {!collapsed && (
             <div className="brand-text-box">
