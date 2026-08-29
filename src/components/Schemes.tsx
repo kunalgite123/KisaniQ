@@ -3,7 +3,7 @@ import PageHeader from "./PageHeader";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
 import { ClimateRisk } from "../lib/weather";
-import { GOVERNMENT_SCHEMES, GovernmentScheme } from "../data/schemesData";
+import { GOVERNMENT_SCHEMES } from "../data/schemesData";
 import { evaluateSchemeRelevance, SchemeEvaluationResult } from "../lib/schemeMatching";
 import SchemeCard from "./schemes/SchemeCard";
 import SchemeDetailModal from "./schemes/SchemeDetailModal";
@@ -21,6 +21,10 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("all");
   const [activeModalScheme, setActiveModalScheme] = useState<SchemeEvaluationResult | null>(null);
+
+  const locationText = village
+    ? `${village.name}, Kopargaon Taluka, Ahmednagar`
+    : "Kopargaon Taluka (Centre), Ahmednagar, Maharashtra";
 
   const evaluatedSchemes = useMemo(() => {
     return GOVERNMENT_SCHEMES.map((scheme) =>
@@ -51,53 +55,43 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
 
   return (
     <div>
-      {/* Page Title & Location Context */}
+      {/* Clean Page Title */}
       <PageHeader
         title="Government Schemes & Benefits"
-        subtitle="Government support, insurance, irrigation, soil and market services — personalized for your farm."
+        subtitle="Discover official support, insurance, irrigation, soil health, and market access services for your farm."
       />
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: -12, marginBottom: 20 }}>
-        <span className="badge badge-healthy" style={{ fontSize: 12.5, padding: "5px 12px" }}>
-          📍 Selected Location: {village ? `${village.name}, Kopargaon, Ahmednagar` : "Kopargaon Taluka (Centre), Maharashtra"}
-        </span>
-        {cropName && (
-          <span className="badge badge-watch" style={{ fontSize: 12.5, padding: "5px 12px" }}>
-            🌱 Active Crop: {cropName}
-          </span>
-        )}
-      </div>
-
-      {/* Hero: Your Scheme Match */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, var(--primary-900), var(--primary-800))",
-          borderRadius: "var(--radius-lg)",
-          padding: 24,
-          color: "#ffffff",
-          boxShadow: "var(--shadow-md)",
-          marginBottom: 24
-        }}
-      >
+      {/* Clean Farm Location & Context Banner */}
+      <div className="card" style={{ marginBottom: 24, padding: "20px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <div>
-            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--primary-500)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              KISANIQ SCHEME INTELLIGENCE ENGINE
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span className="section-label">FARM SCHEME MATCHING</span>
+              <span className="badge badge-healthy" style={{ fontSize: 11.5, padding: "3px 10px" }}>
+                📍 {locationText}
+              </span>
+              {cropName && (
+                <span className="badge badge-watch" style={{ fontSize: 11.5, padding: "3px 10px" }}>
+                  🌱 {cropName} Crop
+                </span>
+              )}
             </div>
-            <h2 style={{ fontSize: 22, color: "#ffffff", marginTop: 4 }}>🎯 Your Scheme Match</h2>
-            <p style={{ fontSize: 13.5, color: "rgba(255, 255, 255, 0.85)", marginTop: 4, maxWidth: 600 }}>
-              Discover official government schemes relevant to your crop, location, groundwater profile, and climate context.
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--text-main)", marginTop: 6 }}>
+              Personalized Government Support
+            </h2>
+            <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginTop: 2, maxWidth: 640 }}>
+              Matched against your active crop, soil profile, Kopargaon groundwater table, and satellite weather forecast.
             </p>
           </div>
 
-          <div style={{ display: "flex", gap: 12 }}>
-            <div style={{ background: "rgba(255, 255, 255, 0.1)", borderRadius: "var(--radius-md)", padding: "10px 16px", textAlign: "center" }}>
-              <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "var(--font-mono)" }}>5</div>
-              <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.8)" }}>Official Schemes</div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <div className="readout" style={{ padding: "10px 16px", textAlign: "center", minWidth: 100 }}>
+              <div className="readout-value" style={{ fontSize: 20 }}>5</div>
+              <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>Active Schemes</div>
             </div>
-            <div style={{ background: "rgba(255, 255, 255, 0.1)", borderRadius: "var(--radius-md)", padding: "10px 16px", textAlign: "center" }}>
-              <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "var(--font-mono)" }}>5</div>
-              <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.8)" }}>Categories</div>
+            <div className="readout" style={{ padding: "10px 16px", textAlign: "center", minWidth: 100 }}>
+              <div className="readout-value" style={{ fontSize: 20 }}>5</div>
+              <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>Categories</div>
             </div>
           </div>
         </div>
@@ -107,7 +101,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
       <div style={{ marginBottom: 28 }}>
         <div className="card-header">
           <div>
-            <span className="section-label">PERSONALIZED RECOMMENDATIONS</span>
+            <span className="section-label">TOP RECOMMENDATIONS</span>
             <h3 className="section-title">Recommended for Your Farm</h3>
           </div>
         </div>
@@ -130,7 +124,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
             <input
               type="text"
               className="form-input"
-              placeholder="🔍 Search government schemes by name, category or keyword..."
+              placeholder="Search government schemes by name, category or keyword..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ width: "100%" }}
