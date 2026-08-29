@@ -4,6 +4,7 @@ import { Tab } from "../../App";
 import { Village, villages } from "../../data/villages";
 import { DiseaseInfo, cropModels } from "../../data/cropModels";
 import { WeatherSnapshot, ClimateRisk } from "../../lib/weather";
+import { evaluateWaterSoilDecision } from "../../lib/waterSoilDecision";
 
 export interface AssistantResponse {
   detectedLang: ResponseLang;
@@ -274,16 +275,26 @@ export function processVoiceQuery(
     }
   }
 
-  // General Groundwater / Water Query
-  if (q.includes("groundwater") || q.includes("well") || q.includes("borewell") || q.includes("भूजल") || q.includes("विहीर") || q.includes("पाणी पातळी")) {
+  // Water Situation / Groundwater Query synced with Water & Soil decision engine
+  if (
+    q.includes("groundwater") || q.includes("well") || q.includes("borewell") ||
+    q.includes("भूजल") || q.includes("विहीर") || q.includes("पाणी पातळी") ||
+    q.includes("पाण्याची परिस्थिती") || q.includes("water situation") || q.includes("near me") || q.includes("जवळ पाणी")
+  ) {
+    const dec = evaluateWaterSoilDecision({
+      village: context.village,
+      cropName: context.cropName,
+      lang: lang as any
+    });
+
     return {
       detectedLang: lang,
-      intent: "GROUNDWATER_KNOWLEDGE",
+      intent: "WATER_DECISION_KNOWLEDGE",
       navigateTab: "water",
       responseText:
         lang === "mr"
-          ? `${location} परिसरातील भूजल पातळी सुमारे ४२.६ मीटर खोलीवर (अर्ध-गंभीर क्षेत्र) आहे. विहिरी कोरड्या पडू नयेत म्हणून ८०% ठिबक सिंचनाची शिफारस केली जाते.`
-          : `Groundwater level for ${location} is at ~42.6m depth (Semi-Critical CGWB zone). Drip micro-irrigation is recommended to protect tube-wells.`
+          ? `तुमच्या ठिकाणापासून जलनिरीक्षण बिंदू ${dec.distanceKm.toFixed(1)} किमी अंतरावर आहे. संदर्भ भूजल खोली ${dec.referenceDepthRange} असून शिफारस: ${dec.recommendedAction}`
+          : `Water monitoring point is ${dec.distanceKm.toFixed(1)} km from your location. Reference groundwater depth is ${dec.referenceDepthRange}. Recommended action: ${dec.recommendedAction}`
     };
   }
 

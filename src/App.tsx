@@ -81,7 +81,14 @@ function MainAppContent() {
               onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
             />
           )}
-          {tab === "water" && <WaterSoil village={village} onSelectVillage={setVillage} />}
+          {tab === "water" && (
+            <WaterSoil
+              village={village}
+              onSelectVillage={setVillage}
+              cropName={cropName}
+              onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
+            />
+          )}
           {tab === "advisory" && (
             <AdvisoryPage
               climateRisk={null}
