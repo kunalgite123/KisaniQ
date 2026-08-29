@@ -14,12 +14,12 @@ export default function WaterSoil({ village, onSelectVillage }: Props) {
     <div>
       <PageHeader
         title={t("water_soil_title")}
-        subtitle="Groundwater level trends, canal reach proximity and soil quality profile"
+        subtitle={t("water_soil_subtitle")}
       />
 
       <div className="card">
-        <div className="section-label">Village location selector</div>
-        <h3 className="section-title">Select your village in Kopargaon taluka</h3>
+        <div className="section-label">{t("village_selector_label")}</div>
+        <h3 className="section-title">{t("select_your_village")}</h3>
 
         <div style={{ marginTop: 14, maxWidth: 420 }}>
           <select
@@ -30,7 +30,7 @@ export default function WaterSoil({ village, onSelectVillage }: Props) {
               onSelectVillage(selected);
             }}
           >
-            <option value="">-- Select Village --</option>
+            <option value="">-- {t("select_your_village")} --</option>
             {villages.map((v) => (
               <option key={v.name} value={v.name}>
                 {v.name}
@@ -42,12 +42,12 @@ export default function WaterSoil({ village, onSelectVillage }: Props) {
         {village && (
           <div className="grid-2" style={{ marginTop: 18 }}>
             <div className="readout">
-              <div className="readout-label">Primary Irrigation Source</div>
+              <div className="readout-label">{t("primary_source")}</div>
               <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4 }}>
                 <span className={`tag ${village.waterSourceType}`}>{waterSourceLabel[village.waterSourceType]}</span>
               </div>
               <div className="readout-label" style={{ marginTop: 12 }}>
-                Distance to Godavari River
+                {t("distance_godavari")}
               </div>
               <div className="readout-value" style={{ fontSize: 24, marginTop: 2 }}>
                 {village.distanceToGodavariKm.toFixed(1)} km
@@ -55,15 +55,15 @@ export default function WaterSoil({ village, onSelectVillage }: Props) {
             </div>
 
             <div className="readout">
-              <div className="readout-label">CGWB Artificial Recharge Site</div>
+              <div className="readout-label">{t("recharge_site")}</div>
               <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4 }}>
-                {village.proposedRecharge ? "Yes — Listed for Percolation Tank / Recharge Shaft" : "Standard Monitoring Site"}
+                {village.proposedRecharge ? "Yes — Percolation Tank / Recharge Shaft" : "Standard Monitoring Site"}
               </div>
               <div className="readout-label" style={{ marginTop: 12 }}>
-                Taluka Groundwater Status
+                {t("groundwater_status")}
               </div>
               <div style={{ fontSize: 14, marginTop: 2, color: "var(--text-main)", fontWeight: 600 }}>
-                ↘ Semi-Critical (-0.41 m/yr post-monsoon decline)
+                {t("semi_critical_status")}
               </div>
             </div>
           </div>

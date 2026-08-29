@@ -5,6 +5,7 @@ import { DiseaseInfo } from "../data/cropModels";
 import { ClimateRisk } from "../lib/weather";
 import { GOVERNMENT_SCHEMES } from "../data/schemesData";
 import { evaluateSchemeRelevance, SchemeEvaluationResult } from "../lib/schemeMatching";
+import { useLanguage } from "../context/LanguageContext";
 import SchemeCard from "./schemes/SchemeCard";
 import SchemeDetailModal from "./schemes/SchemeDetailModal";
 
@@ -18,13 +19,14 @@ interface Props {
 type CategoryFilter = "all" | "income" | "insurance" | "irrigation" | "soil" | "market";
 
 export default function Schemes({ village, cropName, detectedDisease, climateRisk }: Props) {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("all");
   const [activeModalScheme, setActiveModalScheme] = useState<SchemeEvaluationResult | null>(null);
 
   const locationText = village
-    ? `${village.name}, Kopargaon Taluka, Ahmednagar`
-    : "Kopargaon Taluka (Centre), Ahmednagar, Maharashtra";
+    ? `${village.name}, Kopargaon`
+    : "Kopargaon Taluka";
 
   const evaluatedSchemes = useMemo(() => {
     return GOVERNMENT_SCHEMES.map((scheme) =>
@@ -57,8 +59,8 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
     <div>
       {/* Clean Page Title */}
       <PageHeader
-        title="Government Schemes & Benefits"
-        subtitle="Discover official support, insurance, irrigation, soil health, and market access services for your farm."
+        title={t("gov_schemes_title")}
+        subtitle={t("gov_schemes_subtitle")}
       />
 
       {/* Clean Farm Location & Context Banner */}

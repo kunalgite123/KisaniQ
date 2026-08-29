@@ -134,6 +134,16 @@ export const translations = {
 
     // Water & Soil Section
     water_soil_title: "Groundwater & Soil Intelligence",
+    water_soil_subtitle: "Groundwater level trends, canal reach proximity and soil quality profile",
+    village_selector_label: "Village location selector",
+    select_your_village: "Select your village in Kopargaon taluka",
+    primary_source: "Primary Irrigation Source",
+    distance_godavari: "Distance to Godavari River",
+    recharge_site: "CGWB Artificial Recharge Site",
+    groundwater_status: "Taluka Groundwater Status",
+    semi_critical_status: "↘ Semi-Critical (-0.41 m/yr post-monsoon decline)",
+    soil_quality_profile: "Soil Quality Profile & NPK Metrics",
+    soil_testing_sub: "Kopargaon block soil sampling averages & crop benchmark targets",
     groundwater_level: "Groundwater Level",
     soil_ph: "Soil pH",
     nitrogen: "Nitrogen (N)",
@@ -162,15 +172,36 @@ export const translations = {
     per_hour: "hour",
     per_day: "day",
     per_acre: "acre",
+    total_listed: "Total Equipment Listed",
+    across_villages: "Across Kopargaon Villages",
+    ready_dispatch: "Ready for field dispatch",
+    heavy_units: "Heavy Units",
+    sugarcane_grain_harvesters: "Sugarcane & Grain Harvesters",
+    cutting_sowing_teams: "Cutting, Spraying & Sowing Teams",
 
-    // Advisory & Schemes
-    active_recommendations: "4 Active Recommendations",
-    action_schedule: "Krishi Setu AI Engine Output · Action Schedule",
-    categorized_actions: "Categorized Action Items",
+    // Advisory Page
+    advisory_subtitle: "AI-powered action schedule and prioritized farm recommendations",
+    recommendation: "Recommendation",
+    reason: "AI Rationale",
+    timeframe: "Timeframe",
+    within_24h: "Within 24 Hours",
+    next_48h: "Next 48 Hours",
+    weekly_maint: "Weekly Maintenance",
+
+    // Schemes Page
     gov_schemes_title: "Government Agriculture Schemes",
+    gov_schemes_subtitle: "Government agriculture schemes, financial assistance & subsidy programs",
     pm_kisan_title: "PM-KISAN Samman Nidhi",
     drip_subsidy_title: "Micro-Irrigation Subsidy (MUKRIS)",
-    crop_insurance_title: "Pradhan Mantri Fasal Bima Yojana (PMFBY)"
+    crop_insurance_title: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+    pm_kisan_desc: "Financial benefit of ₹6,000 per year in three equal installments to all landholding farmer families.",
+    drip_subsidy_desc: "Up to 80% subsidy for small & marginal farmers for installing drip and sprinkler irrigation systems under MUKRIS.",
+    crop_insurance_desc: "Financial support to farmers suffering crop loss/damage arising out of unforeseen weather events.",
+    benefit_amount: "Benefit Amount",
+    eligibility: "Eligibility",
+    apply_now: "Apply / Details",
+    check_eligibility: "Check Eligibility",
+    phase2_notice: "Phase 2 Direct Benefit Transfer (DBT) Integration active for Kopargaon Block."
   },
   mr: {
     // Navigation
@@ -305,6 +336,16 @@ export const translations = {
 
     // Water & Soil Section
     water_soil_title: "भूजल व माती आरोग्य माहिती",
+    water_soil_subtitle: "भूजल पातळीतील बदल, कालवा परिसर आणि माती आरोग्य माहिती",
+    village_selector_label: "गाव निवड केंद्र",
+    select_your_village: "कोपरगाव तालुक्यातील तुमचे गाव निवडा",
+    primary_source: "मुख्य सिंचन स्त्रोत",
+    distance_godavari: "गोदावरी नदीपासून अंतर",
+    recharge_site: "केंद्रीय भूजल मंडळ पुनर्भरण केंद्र",
+    groundwater_status: "तालुका भूजल स्थिती",
+    semi_critical_status: "↘ चिंताजनक (-०.४१ मी/वर्ष पातळी कमी)",
+    soil_quality_profile: "माती गुणवत्ता व एनपीके निर्देशांक",
+    soil_testing_sub: "कोपरगाव तालुका माती नमुने सरासरी व पीक निर्देशांक उद्दिष्टे",
     groundwater_level: "भूजल पातळी",
     soil_ph: "मातीचा सामू (pH)",
     nitrogen: "नत्र (N)",
@@ -333,15 +374,36 @@ export const translations = {
     per_hour: "प्रति तास",
     per_day: "प्रति दिवस",
     per_acre: "प्रति एकर",
+    total_listed: "एकूण नोंदवलेली यंत्रे",
+    across_villages: "कोपरगाव तालुक्यातील गावांनुसार",
+    ready_dispatch: "शेतात कामासाठी तयार",
+    heavy_units: "मोठी यंत्रे",
+    sugarcane_grain_harvesters: "ऊस व धान्य कापणी यंत्रे",
+    cutting_sowing_teams: "ऊस तोडणी, फवारणी व पेरणी टोळ्या",
 
-    // Advisory & Schemes
-    active_recommendations: "४ सक्रिय शिफारसी",
-    action_schedule: "कृषी सेतू एआय शिफारसी · कृती वेळापत्रक",
-    categorized_actions: "वर्गीकृत कृती आराखडा",
+    // Advisory Page
+    advisory_subtitle: "एआय आधारित कृती आराखडा आणि प्राधान्यक्रमानुसार शेती सल्ला",
+    recommendation: "शिफारस",
+    reason: "एआय स्पष्टीकरण",
+    timeframe: "कालावधी",
+    within_24h: "२४ तासांच्या आत",
+    next_48h: "पुढील ४८ तासांत",
+    weekly_maint: "साप्ताहिक देखभाल",
+
+    // Schemes Page
     gov_schemes_title: "शासकीय कृषी योजना",
+    gov_schemes_subtitle: "शासकीय कृषी योजना, आर्थिक मदत व अनुदान कार्यक्रम",
     pm_kisan_title: "पीएम-किसान सन्मान निधी",
-    drip_subsidy_title: "ठिबक सिंचन अनुदान योजना",
-    crop_insurance_title: "प्रधानमंत्री पीक विमा योजना (PMFBY)"
+    drip_subsidy_title: "ठिबक सिंचन अनुदान योजना (MUKRIS)",
+    crop_insurance_title: "प्रधानमंत्री पीक विमा योजना (PMFBY)",
+    pm_kisan_desc: "सर्व अल्पभूधारक शेतकरी कुटुंबांना दरवर्षी ₹६,००० ची आर्थिक मदत ३ हप्त्यांमध्ये दिली जाते.",
+    drip_subsidy_desc: "ठिबक व तुषार सिंचन बसवण्यासाठी अल्प व अत्यल्प भूधारक शेतकऱ्यांना ८०% पर्यंत अनुदान.",
+    crop_insurance_desc: "नैसर्गिक आपत्तीमुळे पिकांचे नुकसान झाल्यास शेतकऱ्यांना आर्थिक भरपाई.",
+    benefit_amount: "अनुदान / लाभ रक्कम",
+    eligibility: "पात्रता निकष",
+    apply_now: "अर्ज करा / तपशील",
+    check_eligibility: "पात्रता तपासा",
+    phase2_notice: "कोपरगाव तालुक्यासाठी डीबीटी थेट लाभ हस्तांतरण प्रणाली सक्रिय."
   }
 };
 
