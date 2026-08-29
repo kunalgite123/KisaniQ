@@ -492,26 +492,28 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
 
           {/* Action CTAs */}
           <div style={{ marginTop: 14, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            {onNavigateTab && (
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => onNavigateTab("advisory")}
-                style={{ fontSize: 13, fontWeight: 700, padding: "8px 16px" }}
-              >
-                {decision.ctaLabel}
-              </button>
-            )}
-
-            {decision.hasGovernmentSupport && onNavigateTab && (
-              <button
-                type="button"
-                className="btn btn-outline"
-                onClick={() => onNavigateTab("schemes")}
-                style={{ fontSize: 13, fontWeight: 700, padding: "8px 16px" }}
-              >
-                🏛 {language === "mr" ? "सिंचन योजना पहा →" : "View Irrigation Schemes →"}
-              </button>
+            {decision.hasGovernmentSupport ? (
+              onNavigateTab && (
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => onNavigateTab("schemes")}
+                  style={{ fontSize: 13, fontWeight: 700, padding: "8px 18px" }}
+                >
+                  🏛 {language === "mr" ? "सिंचन योजना पहा →" : "View Irrigation Schemes →"}
+                </button>
+              )
+            ) : (
+              onNavigateTab && (
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => onNavigateTab("advisory")}
+                  style={{ fontSize: 13, fontWeight: 700, padding: "8px 16px" }}
+                >
+                  {decision.ctaLabel}
+                </button>
+              )
             )}
           </div>
         </div>
