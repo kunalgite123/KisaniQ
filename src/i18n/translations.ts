@@ -97,6 +97,95 @@ export const translations = {
     equipment_labour_network: "Labour & Machinery Network",
     view_machinery_portal: "View Machinery Portal →",
 
+    // Climate View Section Detailed
+    climate_subtitle: "7-day weather outlook and field impact analysis for Kopargaon block",
+    moderate_climate_risk: "MODERATE CLIMATE RISK",
+    agronomic_translation_label: "AGRONOMIC TRANSLATION · WHAT TODAY'S WEATHER MEANS FOR YOUR FARM",
+    field_action_impact_title: "Field Action Impact",
+    irrigation_impact_title: "Irrigation Impact",
+    irrigation_impact_desc_dry: "5+ dry days ahead. Increase micro-irrigation frequency during early morning hours to limit evaporation loss.",
+    irrigation_impact_desc_rain: "Rain expected within next 48 hours. Hold planned overhead pumping to conserve groundwater.",
+    spray_impact_title: "Spraying & Pest Impact",
+    spray_impact_desc_high: "High relative humidity elevates fungal disease threat. Conduct leaf inspections and avoid late-evening watering.",
+    spray_impact_desc_normal: "Wind and moisture levels are clear for scheduled field spraying.",
+    seasonal_baseline_text: "Seasonal baseline context: Kopargaon taluka sits in Maharashtra's Scarcity Zone with 486.1 mm normal annual rainfall.",
+    openweather_config_btn: "Configure OpenWeather API Key",
+
+    // Advisory View Section Detailed
+    advisory_subtitle_detailed: "Prioritized, actionable farm recommendations synthesized from 4 converged signals",
+    action_schedule_label: "KRISHI SETU AI ENGINE OUTPUT · ACTION SCHEDULE",
+    active_recommendations_count: "4 ACTIVE RECOMMENDATIONS",
+    categorized_action_items: "Categorized Action Items",
+    low_priority_tag: "LOW PRIORITY",
+    medium_priority_tag: "MEDIUM PRIORITY",
+    high_priority_tag: "HIGH PRIORITY",
+    timeframe_seasonal: "Timeframe: Seasonal Baseline",
+    timeframe_weekly: "Timeframe: Weekly Routine",
+    timeframe_24h: "Timeframe: Within 24 Hours",
+    water_management_cat: "Water & Irrigation Management",
+    soil_practices_cat: "Soil & Agronomic Practices",
+    water_rec_1: "Select your village in 'Water & Soil' tab to unlock hyper-localized aquifer advice.",
+    water_why_1: "Why? Taluka baseline shows a falling post-monsoon water table (-0.41 m/year).",
+    soil_rec_1: "Maintain organic mulch layers around sugarcane paired-rows and onion raised-beds.",
+    soil_why_1: "Why? Coarse shallow and medium black soils cover 79% of Kopargaon taluka, where soil moisture retention is key.",
+
+    // Schemes View Section Detailed
+    schemes_subtitle_detailed: "Discover official support, insurance, irrigation, soil health, and market access services for your farm.",
+    farm_scheme_matching_label: "FARM SCHEME MATCHING",
+    personalized_gov_support: "Personalized Government Support",
+    matched_against_desc: "Matched against your active crop, soil profile, Kopargaon groundwater table, and satellite weather forecast.",
+    active_schemes_stat: "Active Schemes",
+    categories_stat: "Categories",
+    top_recommendations_label: "TOP RECOMMENDATIONS",
+    recommended_for_your_farm: "Recommended for Your Farm",
+    income_support_tag: "INCOME SUPPORT",
+    soil_health_tag: "SOIL HEALTH / NUTRIENT MANAGEMENT",
+    crop_insurance_tag: "CROP INSURANCE",
+    irrigation_tag: "IRRIGATION / WATER EFFICIENCY",
+    market_access_tag: "MARKET ACCESS",
+    good_match_label: "GOOD MATCH",
+    relevant_label: "RELEVANT",
+    high_relevance_label: "HIGH RELEVANCE",
+    why_recommends_btn: "Why Krishi Setu recommends this ▼",
+    view_detailed_summary: "View Detailed Summary",
+    official_website: "Official Website ↗",
+    search_schemes_placeholder: "Search government schemes by name, category or keyword...",
+    all_schemes_chip: "All Schemes",
+    gov_portal_catalog_label: "GOVERNMENT PORTAL CATALOG",
+    explore_all_schemes: "Explore All Government Schemes",
+    gov_disclaimer_notice: "🏛 Government Source & Verification Notice: Scheme information is compiled from official Government of India portals (pmkisan.gov.in, pmfby.gov.in, pmksy.gov.in, soilhealth.dac.gov.in, enam.gov.in) for guidance.",
+
+    // Water & Soil View Section Detailed
+    cgwb_baseline_label: "CGWB HYDROGEOLOGICAL SURVEY · KOPARGAON BLOCK (2018-19)",
+    block_baseline_title: "Block Groundwater & Soil Baseline",
+    cropped_area_irrigation: "Net Cropped Area under Irrigation",
+    irrigation_wells: "Irrigation from Wells & Borewells",
+    irrigation_canal: "Irrigation from Canal System",
+    soil_composition_title: "Soil Composition Breakdown",
+    col_soil_type: "SOIL TYPE",
+    col_coverage_share: "COVERAGE SHARE (%)",
+    col_agronomic_char: "AGRONOMIC CHARACTERISTIC",
+    crop_benchmarks_title: "Major Crop Yield Benchmarks",
+    col_crop: "CROP",
+    col_current_yield: "CURRENT YIELD (T/HA)",
+    col_potential_yield: "POTENTIAL YIELD (T/HA)",
+    col_yield_gap: "YIELD GAP",
+    col_key_intervention: "KEY INTERVENTION",
+
+    // Soil Types & Notes
+    coarse_shallow: "Coarse shallow",
+    medium_black: "Medium black",
+    deep_black: "Deep black (cotton soil)",
+    reddish: "Reddish",
+    soil_note_1: "Soil moisture is the main limiting factor under rainfed conditions",
+    soil_note_2: "Best moisture retention; most forgiving under dry spells",
+    soil_note_3: "Lower fertility, needs organic amendment",
+
+    // Interventions
+    interv_sugarcane: "Paired-row planting, micro-irrigation, IPM/INM",
+    interv_onion: "Raised-bed planting, micro-irrigation, weed management",
+    interv_cotton: "Wide-row sowing, micro-irrigation, mechanization",
+
     // Crop Doctor Section
     crop_doctor_title: "Crop Doctor",
     crop_doctor_subtitle: "Detect crop stress and disease using on-device AI neural networks & symptom matching",
@@ -128,9 +217,6 @@ export const translations = {
     status_col: "Day Status",
     dry_day: "Dry Day",
     rain_expected: "Rain Expected",
-    field_action_impact: "Field Action Impact",
-    irrigation_impact: "💧 Irrigation Impact",
-    spray_impact: "🐛 Spraying & Pest Impact",
 
     // Water & Soil Section
     water_soil_title: "Groundwater & Soil Intelligence",
@@ -180,28 +266,10 @@ export const translations = {
     cutting_sowing_teams: "Cutting, Spraying & Sowing Teams",
 
     // Advisory Page
-    advisory_subtitle: "AI-powered action schedule and prioritized farm recommendations",
-    recommendation: "Recommendation",
-    reason: "AI Rationale",
-    timeframe: "Timeframe",
-    within_24h: "Within 24 Hours",
-    next_48h: "Next 48 Hours",
-    weekly_maint: "Weekly Maintenance",
-
-    // Schemes Page
     gov_schemes_title: "Government Agriculture Schemes",
-    gov_schemes_subtitle: "Government agriculture schemes, financial assistance & subsidy programs",
     pm_kisan_title: "PM-KISAN Samman Nidhi",
     drip_subsidy_title: "Micro-Irrigation Subsidy (MUKRIS)",
-    crop_insurance_title: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
-    pm_kisan_desc: "Financial benefit of ₹6,000 per year in three equal installments to all landholding farmer families.",
-    drip_subsidy_desc: "Up to 80% subsidy for small & marginal farmers for installing drip and sprinkler irrigation systems under MUKRIS.",
-    crop_insurance_desc: "Financial support to farmers suffering crop loss/damage arising out of unforeseen weather events.",
-    benefit_amount: "Benefit Amount",
-    eligibility: "Eligibility",
-    apply_now: "Apply / Details",
-    check_eligibility: "Check Eligibility",
-    phase2_notice: "Phase 2 Direct Benefit Transfer (DBT) Integration active for Kopargaon Block."
+    crop_insurance_title: "Pradhan Mantri Fasal Bima Yojana (PMFBY)"
   },
   mr: {
     // Navigation
@@ -299,6 +367,95 @@ export const translations = {
     equipment_labour_network: "मजूर व यंत्रसामग्री नेटवर्क",
     view_machinery_portal: "यंत्रसामग्री पोर्टल पहा →",
 
+    // Climate View Section Detailed
+    climate_subtitle: "कोपरगाव तालुक्यासाठी ७ दिवसांचा हवामान अंदाज आणि शेतातील परिणामांचे विश्लेषण",
+    moderate_climate_risk: "मध्यम हवामान धोका",
+    agronomic_translation_label: "कृषी सल्ले · आजच्या हवामानाचा तुमच्या शेतावर होणारा परिणाम",
+    field_action_impact_title: "शेतातील कृतींवरील परिणाम",
+    irrigation_impact_title: "सिंचन नियोजन",
+    irrigation_impact_desc_dry: "पुढील ५+ दिवस कोरडे राहण्याचा अंदाज. बाष्पीभवन कमी करण्यासाठी सकाळी लवकर ठिबक सिंचन करा.",
+    irrigation_impact_desc_rain: "पुढील ४८ तासांत पावसाची शक्यता. विहिरीचे पाणी वाचवण्यासाठी सिंचन पुढे ढकला.",
+    spray_impact_title: "फवारणी व कीड व्यवस्थापन",
+    spray_impact_desc_high: "जास्त आर्द्रतेमुळे बुरशीजन्य रोगांचा धोका वाढतो. पानांची पाहणी करा व संध्याकाळी पाणी देणे टाळा.",
+    spray_impact_desc_normal: "हवामान व वारे फवारणीसाठी अनुकूल आहेत.",
+    seasonal_baseline_text: "हंगामी माहिती: कोपरगाव तालुका महाराष्ट्राच्या दुष्काळी क्षेत्रात असून सरासरी वार्षिक पाऊस ४८६.१ मिमी आहे.",
+    openweather_config_btn: "ओपनवेदर एपीआय की कॉन्फिगर करा",
+
+    // Advisory View Section Detailed
+    advisory_subtitle_detailed: "४ एकत्र आलेल्या निर्देशांकांमधून तयार केलेला प्राधान्यक्रमानुसार शेती सल्ला",
+    action_schedule_label: "कृषी सेतू एआय इंजिन निष्कर्ष · कृती वेळापत्रक",
+    active_recommendations_count: "४ सक्रिय शिफारसी",
+    categorized_action_items: "वर्गीकृत कृती आराखडा",
+    low_priority_tag: "कमी प्राधान्य",
+    medium_priority_tag: "मध्यम प्राधान्य",
+    high_priority_tag: "उच्च प्राधान्य",
+    timeframe_seasonal: "कालावधी: हंगामी",
+    timeframe_weekly: "कालावधी: साप्ताहिक सवय",
+    timeframe_24h: "कालावधी: २४ तासांच्या आत",
+    water_management_cat: "पाणी व सिंचन व्यवस्थापन",
+    soil_practices_cat: "माती व कृषी पद्धती",
+    water_rec_1: "स्थानिक भूजल सल्ला मिळवण्यासाठी 'पाणी व माती' विभागात तुमचे गाव निवडा.",
+    water_why_1: "कारण? तालुक्यात पावसाळ्यानंतरची भूजल पातळी खालावत आहे (-०.४१ मी/वर्ष).",
+    soil_rec_1: "ऊसाच्या जोडओळी आणि कांद्याच्या गादीवाफ्यांवर सेंद्रिय आच्छादन (मल्चिंग) ठेवा.",
+    soil_why_1: "कारण? कोपरगाव तालुक्यात ७९% मध्यम काळी व मुरामाची माती आहे, जिथे ओलावा टिकवणे महत्त्वाचे आहे.",
+
+    // Schemes View Section Detailed
+    schemes_subtitle_detailed: "शासकीय कृषी योजना, आर्थिक मदत व अनुदान कार्यक्रम",
+    farm_scheme_matching_label: "शेती योजना जुळवणी",
+    personalized_gov_support: "तुमच्या शेतासाठी वैयक्तिक शासकीय मदत",
+    matched_against_desc: "तुमचे पीक, माती, भूजल पातळी व हवामान अंदाजानुसार निवडलेल्या योजना.",
+    active_schemes_stat: "सक्रिय योजना",
+    categories_stat: "वर्ग",
+    top_recommendations_label: "प्रमुख शिफारसी",
+    recommended_for_your_farm: "तुमच्या शेतासाठी शिफारस केलेल्या योजना",
+    income_support_tag: "उत्पन्न मदत",
+    soil_health_tag: "माती आरोग्य / खत व्यवस्थापन",
+    crop_insurance_tag: "पीक विमा",
+    irrigation_tag: "सिंचन / पाणी बचत",
+    market_access_tag: "बाजार पेठ",
+    good_match_label: "योग्य जुळणी",
+    relevant_label: "संबंधित",
+    high_relevance_label: "उच्च प्राधान्य",
+    why_recommends_btn: "कृषी सेतू ही शिफारस का करतो ▼",
+    view_detailed_summary: "तपशीलवार माहिती पहा",
+    official_website: "अधिकृत संकेतस्थळ ↗",
+    search_schemes_placeholder: "योजनेचे नाव, वर्ग किंवा शब्दाने शोधा...",
+    all_schemes_chip: "सर्व योजना",
+    gov_portal_catalog_label: "शासकीय दालन सूची",
+    explore_all_schemes: "सर्व शासकीय योजना पहा",
+    gov_disclaimer_notice: "🏛 शासकीय माहिती व पडताळणी सूचना: माहिती सरकारी संकेतस्थळांवरून (pmkisan.gov.in, pmfby.gov.in) संकलित केली आहे.",
+
+    // Water & Soil View Section Detailed
+    cgwb_baseline_label: "केंद्रीय भूजल मंडळ भूजल सर्वेक्षण · कोपरगाव तालुका (२०१८-१९)",
+    block_baseline_title: "तालुका भूजल व माती मूळ माहिती",
+    cropped_area_irrigation: "सिंचनाखालील निव्वळ पीक क्षेत्र",
+    irrigation_wells: "विहीर व कूपनलिका द्वारे सिंचन",
+    irrigation_canal: "कालवा प्रणालीद्वारे सिंचन",
+    soil_composition_title: "माती रचनेचा तपशील",
+    col_soil_type: "मातीचा प्रकार",
+    col_coverage_share: "क्षेत्रफळ प्रमाण (%)",
+    col_agronomic_char: "कृषी वैशिष्ट्ये",
+    crop_benchmarks_title: "प्रमुख पिकांची उत्पन्न उद्दिष्टे",
+    col_crop: "पीक",
+    col_current_yield: "सध्याचे उत्पन्न (टन/हे)",
+    col_potential_yield: "क्षमतेनुसार उत्पन्न (टन/हे)",
+    col_yield_gap: "उत्पन्न फरक",
+    col_key_intervention: "मुख्य उपाय",
+
+    // Soil Types & Notes
+    coarse_shallow: "उथळ मुरामाची माती",
+    medium_black: "मध्यम काळी माती",
+    deep_black: "गाढ काळी (कापसाची माती)",
+    reddish: "तांबडी माती",
+    soil_note_1: "पावसावर आधारित शेतीत मातीतील ओलावा मुख्य घटक आहे",
+    soil_note_2: "ओलावा उत्तम टिकतो; कोरड्या काळात फायदेशीर",
+    soil_note_3: "कमी सुपीकता, सेंद्रिय खतांची गरज",
+
+    // Interventions
+    interv_sugarcane: "जोडओळ पद्धत, ठिबक सिंचन, एकात्मिक कीड व्यवस्थापन",
+    interv_onion: "गादीवाफा पद्धत, ठिबक सिंचन, तण व्यवस्थापन",
+    interv_cotton: "रुंद ओळ पेरणी, ठिबक सिंचन, यांत्रिकीकरण",
+
     // Crop Doctor Section
     crop_doctor_title: "पीक डॉक्टर",
     crop_doctor_subtitle: "कृत्रिम बुद्धिमत्ता (AI) व लक्षण जुळवणीद्वारे पीक रोग निदान करा",
@@ -330,9 +487,6 @@ export const translations = {
     status_col: "दिवसाची स्थिती",
     dry_day: "कोरडा दिवस",
     rain_expected: "पावसाची शक्यता",
-    field_action_impact: "शेतातील कृतींवरील परिणाम",
-    irrigation_impact: "💧 सिंचन नियोजन",
-    spray_impact: "🐛 फवारणी व कीड व्यवस्थापन",
 
     // Water & Soil Section
     water_soil_title: "भूजल व माती आरोग्य माहिती",
@@ -382,28 +536,10 @@ export const translations = {
     cutting_sowing_teams: "ऊस तोडणी, फवारणी व पेरणी टोळ्या",
 
     // Advisory Page
-    advisory_subtitle: "एआय आधारित कृती आराखडा आणि प्राधान्यक्रमानुसार शेती सल्ला",
-    recommendation: "शिफारस",
-    reason: "एआय स्पष्टीकरण",
-    timeframe: "कालावधी",
-    within_24h: "२४ तासांच्या आत",
-    next_48h: "पुढील ४८ तासांत",
-    weekly_maint: "साप्ताहिक देखभाल",
-
-    // Schemes Page
     gov_schemes_title: "शासकीय कृषी योजना",
-    gov_schemes_subtitle: "शासकीय कृषी योजना, आर्थिक मदत व अनुदान कार्यक्रम",
     pm_kisan_title: "पीएम-किसान सन्मान निधी",
     drip_subsidy_title: "ठिबक सिंचन अनुदान योजना (MUKRIS)",
-    crop_insurance_title: "प्रधानमंत्री पीक विमा योजना (PMFBY)",
-    pm_kisan_desc: "सर्व अल्पभूधारक शेतकरी कुटुंबांना दरवर्षी ₹६,००० ची आर्थिक मदत ३ हप्त्यांमध्ये दिली जाते.",
-    drip_subsidy_desc: "ठिबक व तुषार सिंचन बसवण्यासाठी अल्प व अत्यल्प भूधारक शेतकऱ्यांना ८०% पर्यंत अनुदान.",
-    crop_insurance_desc: "नैसर्गिक आपत्तीमुळे पिकांचे नुकसान झाल्यास शेतकऱ्यांना आर्थिक भरपाई.",
-    benefit_amount: "अनुदान / लाभ रक्कम",
-    eligibility: "पात्रता निकष",
-    apply_now: "अर्ज करा / तपशील",
-    check_eligibility: "पात्रता तपासा",
-    phase2_notice: "कोपरगाव तालुक्यासाठी डीबीटी थेट लाभ हस्तांतरण प्रणाली सक्रिय."
+    crop_insurance_title: "प्रधानमंत्री पीक विमा योजना (PMFBY)"
   }
 };
 

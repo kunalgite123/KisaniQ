@@ -71,68 +71,91 @@ export default function WaterSoil({ village, onSelectVillage }: Props) {
       </div>
 
       <div className="card">
-        <div className="section-label">CGWB Hydrogeological Survey · Kopargaon Block (2018-19)</div>
-        <h3 className="section-title">Block Groundwater &amp; Soil Baseline</h3>
+        <div className="section-label">{t("cgwb_baseline_label")}</div>
+        <h3 className="section-title">{t("block_baseline_title")}</h3>
 
         <div className="grid-3" style={{ marginTop: 16 }}>
           <div className="readout">
             <div className="readout-value">{kopargaonProfile.irrigationSharePct}%</div>
-            <div className="readout-label">Net Cropped Area under Irrigation</div>
+            <div className="readout-label">{t("cropped_area_irrigation")}</div>
           </div>
           <div className="readout">
             <div className="readout-value">{kopargaonProfile.irrigationSourceSplit.wellOrLiftPct}%</div>
-            <div className="readout-label">Irrigation from Wells &amp; Borewells</div>
+            <div className="readout-label">{t("irrigation_wells")}</div>
           </div>
           <div className="readout">
             <div className="readout-value">{kopargaonProfile.irrigationSourceSplit.canalPct}%</div>
-            <div className="readout-label">Irrigation from Canal System</div>
+            <div className="readout-label">{t("irrigation_canal")}</div>
           </div>
         </div>
 
-        <h4 style={{ marginTop: 24, marginBottom: 12, fontSize: 16 }}>Soil Composition Breakdown</h4>
+        <h4 style={{ marginTop: 24, marginBottom: 12, fontSize: 16 }}>{t("soil_composition_title")}</h4>
         <div style={{ overflowX: "auto" }}>
           <table className="data-table">
             <thead>
               <tr>
-                <th>Soil Type</th>
-                <th>Coverage Share (%)</th>
-                <th>Agronomic Characteristic</th>
+                <th>{t("col_soil_type")}</th>
+                <th>{t("col_coverage_share")}</th>
+                <th>{t("col_agronomic_char")}</th>
               </tr>
             </thead>
             <tbody>
-              {kopargaonProfile.soilComposition.map((s) => (
-                <tr key={s.type}>
-                  <td style={{ fontWeight: 600 }}>{s.type}</td>
-                  <td className="mono">{s.sharePct}%</td>
-                  <td>{s.note}</td>
-                </tr>
-              ))}
+              {kopargaonProfile.soilComposition.map((s) => {
+                const typeText =
+                  s.type === "Coarse shallow"
+                    ? t("coarse_shallow")
+                    : s.type === "Medium black"
+                    ? t("medium_black")
+                    : s.type === "Deep black (cotton soil)"
+                    ? t("deep_black")
+                    : t("reddish");
+                const noteText =
+                  s.sharePct === 38 || s.sharePct === 41
+                    ? t("soil_note_1")
+                    : s.sharePct === 13
+                    ? t("soil_note_2")
+                    : t("soil_note_3");
+
+                return (
+                  <tr key={s.type}>
+                    <td style={{ fontWeight: 600 }}>{typeText}</td>
+                    <td className="mono">{s.sharePct}%</td>
+                    <td>{noteText}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
 
-        <h4 style={{ marginTop: 24, marginBottom: 12, fontSize: 16 }}>Major Crop Yield Benchmarks</h4>
+        <h4 style={{ marginTop: 24, marginBottom: 12, fontSize: 16 }}>{t("crop_benchmarks_title")}</h4>
         <div style={{ overflowX: "auto" }}>
           <table className="data-table">
             <thead>
               <tr>
-                <th>Crop</th>
-                <th>Current Yield (t/ha)</th>
-                <th>Potential Yield (t/ha)</th>
-                <th>Yield Gap</th>
-                <th>Key Intervention</th>
+                <th>{t("col_crop")}</th>
+                <th>{t("col_current_yield")}</th>
+                <th>{t("col_potential_yield")}</th>
+                <th>{t("col_yield_gap")}</th>
+                <th>{t("col_key_intervention")}</th>
               </tr>
             </thead>
             <tbody>
-              {cropBenchmarks.map((b) => (
-                <tr key={b.crop}>
-                  <td style={{ fontWeight: 600 }}>{b.crop}</td>
-                  <td className="mono">{b.existingTPerHa}</td>
-                  <td className="mono">{b.potentialTPerHa}</td>
-                  <td className="mono">+{b.gapTPerHa}</td>
-                  <td>{b.keyIntervention}</td>
-                </tr>
-              ))}
+              {cropBenchmarks.map((b) => {
+                const cropLabel = b.crop === "Sugarcane" ? t("crop_sugarcane") : b.crop === "Onion" ? t("crop_onion") : t("crop_cotton");
+                const intervLabel =
+                  b.crop === "Sugarcane" ? t("interv_sugarcane") : b.crop === "Onion" ? t("interv_onion") : t("interv_cotton");
+
+                return (
+                  <tr key={b.crop}>
+                    <td style={{ fontWeight: 600 }}>{cropLabel}</td>
+                    <td className="mono">{b.existingTPerHa}</td>
+                    <td className="mono">{b.potentialTPerHa}</td>
+                    <td className="mono">+{b.gapTPerHa}</td>
+                    <td>{intervLabel}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

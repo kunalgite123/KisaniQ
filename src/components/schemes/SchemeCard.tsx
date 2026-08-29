@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SchemeEvaluationResult } from "../../lib/schemeMatching";
+import { useLanguage } from "../../context/LanguageContext";
 
 interface Props {
   evaluation: SchemeEvaluationResult;
@@ -7,8 +8,18 @@ interface Props {
 }
 
 export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
+  const { t } = useLanguage();
   const { scheme, relevanceLabel, badgeClass, whyReasons } = evaluation;
   const [showWhy, setShowWhy] = useState(false);
+
+  const translatedBadge =
+    relevanceLabel === "Good Match"
+      ? t("good_match_label")
+      : relevanceLabel === "High Relevance"
+      ? t("high_relevance_label")
+      : relevanceLabel === "Relevant"
+      ? t("relevant_label")
+      : relevanceLabel;
 
   return (
     <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -24,7 +35,7 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
               </h3>
             </div>
           </div>
-          <span className={`badge ${badgeClass}`}>{relevanceLabel}</span>
+          <span className={`badge ${badgeClass}`}>{translatedBadge}</span>
         </div>
 
         <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-main)", marginTop: 8 }}>
@@ -42,7 +53,7 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
             onClick={() => setShowWhy(!showWhy)}
             style={{ fontSize: 12 }}
           >
-            <span>Why KisaniQ recommends this</span>
+            <span>{t("why_recommends_btn")}</span>
             <span>{showWhy ? "▲" : "▼"}</span>
           </button>
 
@@ -67,7 +78,7 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
           className="btn btn-outline"
           style={{ width: "100%", justifyContent: "center", padding: "9px 12px", fontSize: 12.5 }}
         >
-          View Detailed Summary
+          {t("view_detailed_summary")}
         </button>
 
         <a
@@ -77,7 +88,7 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
           className="btn btn-primary"
           style={{ width: "100%", justifyContent: "center", padding: "9px 12px", fontSize: 12.5, textDecoration: "none" }}
         >
-          Official Website ↗
+          {t("official_website")}
         </a>
       </div>
     </div>

@@ -48,11 +48,11 @@ export default function ClimateView() {
     <div>
       <PageHeader
         title={t("title_climate")}
-        subtitle="7-day weather outlook and field impact analysis for Kopargaon block"
+        subtitle={t("climate_subtitle")}
         action={
           risk && (
             <span className={`badge badge-${risk.level === "high" ? "urgent" : risk.level === "moderate" ? "watch" : "healthy"}`}>
-              {risk.level.toUpperCase()} CLIMATE RISK
+              {risk.level === "high" ? t("status_critical") : risk.level === "moderate" ? t("moderate_climate_risk") : t("status_stable")}
             </span>
           )
         }
@@ -81,7 +81,7 @@ export default function ClimateView() {
             style={{ fontSize: 12, padding: "5px 12px" }}
             onClick={() => setShowKeyConfig(!showKeyConfig)}
           >
-            🔑 {apiKeyInput ? "OpenWeather Key Active" : "Configure OpenWeather API Key"}
+            🔑 {apiKeyInput ? "OpenWeather Key Active" : t("openweather_config_btn")}
           </button>
         </div>
 
@@ -194,31 +194,31 @@ export default function ClimateView() {
 
       {/* Weather to Farm Impact Card */}
       <div className="card">
-        <div className="section-label">Agronomic Translation · What today's weather means for your farm</div>
-        <h3 className="section-title">Field Action Impact</h3>
+        <div className="section-label">{t("agronomic_translation_label")}</div>
+        <h3 className="section-title">{t("field_action_impact_title")}</h3>
 
         <div className="grid-2" style={{ marginTop: 16 }}>
           <div className="readout" style={{ background: "var(--surface-muted)" }}>
-            <h4 style={{ fontSize: 16, marginBottom: 6 }}>💧 Irrigation Impact</h4>
+            <h4 style={{ fontSize: 16, marginBottom: 6 }}>{t("irrigation_impact_title")}</h4>
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.5 }}>
               {risk && risk.dryDaysAhead >= 5
-                ? "5+ dry days ahead. Increase micro-irrigation frequency during early morning hours to limit evaporation loss."
-                : "Rain expected within next 48 hours. Hold planned overhead pumping to conserve groundwater."}
+                ? t("irrigation_impact_desc_dry")
+                : t("irrigation_impact_desc_rain")}
             </p>
           </div>
 
           <div className="readout" style={{ background: "var(--surface-muted)" }}>
-            <h4 style={{ fontSize: 16, marginBottom: 6 }}>🐛 Spraying &amp; Pest Impact</h4>
+            <h4 style={{ fontSize: 16, marginBottom: 6 }}>{t("spray_impact_title")}</h4>
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.5 }}>
               {risk && risk.fungalFavourablePct && risk.fungalFavourablePct > 70
-                ? "High relative humidity elevates fungal disease threat. Conduct leaf inspections and avoid late-evening watering."
-                : "Wind and moisture levels are clear for scheduled field spraying."}
+                ? t("spray_impact_desc_high")
+                : t("spray_impact_desc_normal")}
             </p>
           </div>
         </div>
 
         <p style={{ marginTop: 16, fontSize: 12, color: "var(--text-muted)", opacity: 0.8 }}>
-          Seasonal baseline context: Kopargaon taluka sits in Maharashtra's Scarcity Zone with {kopargaonProfile.normalRainfallMm} mm normal annual rainfall ({kopargaonProfile.rainfallTrend}).
+          {t("seasonal_baseline_text")}
         </p>
       </div>
     </div>

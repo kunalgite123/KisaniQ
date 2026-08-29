@@ -68,32 +68,32 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span className="section-label">FARM SCHEME MATCHING</span>
+              <span className="section-label">{t("farm_scheme_matching_label")}</span>
               <span className="badge badge-healthy" style={{ fontSize: 11.5, padding: "3px 10px" }}>
                 📍 {locationText}
               </span>
               {cropName && (
                 <span className="badge badge-watch" style={{ fontSize: 11.5, padding: "3px 10px" }}>
-                  🌱 {cropName} Crop
+                  🌱 {cropName}
                 </span>
               )}
             </div>
             <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--text-main)", marginTop: 6 }}>
-              Personalized Government Support
+              {t("personalized_gov_support")}
             </h2>
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginTop: 2, maxWidth: 640 }}>
-              Matched against your active crop, soil profile, Kopargaon groundwater table, and satellite weather forecast.
+              {t("matched_against_desc")}
             </p>
           </div>
 
           <div style={{ display: "flex", gap: 10 }}>
             <div className="readout" style={{ padding: "10px 16px", textAlign: "center", minWidth: 100 }}>
               <div className="readout-value" style={{ fontSize: 20 }}>5</div>
-              <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>Active Schemes</div>
+              <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>{t("active_schemes_stat")}</div>
             </div>
             <div className="readout" style={{ padding: "10px 16px", textAlign: "center", minWidth: 100 }}>
               <div className="readout-value" style={{ fontSize: 20 }}>5</div>
-              <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>Categories</div>
+              <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>{t("categories_stat")}</div>
             </div>
           </div>
         </div>
@@ -103,8 +103,8 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
       <div style={{ marginBottom: 28 }}>
         <div className="card-header">
           <div>
-            <span className="section-label">TOP RECOMMENDATIONS</span>
-            <h3 className="section-title">Recommended for Your Farm</h3>
+            <span className="section-label">{t("top_recommendations_label")}</span>
+            <h3 className="section-title">{t("recommended_for_your_farm")}</h3>
           </div>
         </div>
 
@@ -126,7 +126,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
             <input
               type="text"
               className="form-input"
-              placeholder="Search government schemes by name, category or keyword..."
+              placeholder={t("search_schemes_placeholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ width: "100%" }}
@@ -139,42 +139,42 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
               onClick={() => setSelectedCategory("all")}
               style={{ padding: "6px 14px", fontSize: 12.5 }}
             >
-              All Schemes
+              {t("all_schemes_chip")}
             </button>
             <button
               className={`btn ${selectedCategory === "income" ? "btn-primary" : "btn-outline"}`}
               onClick={() => setSelectedCategory("income")}
               style={{ padding: "6px 14px", fontSize: 12.5 }}
             >
-              💰 Income Support
+              💰 {t("income_support_tag")}
             </button>
             <button
               className={`btn ${selectedCategory === "insurance" ? "btn-primary" : "btn-outline"}`}
               onClick={() => setSelectedCategory("insurance")}
               style={{ padding: "6px 14px", fontSize: 12.5 }}
             >
-              🛡️ Crop Insurance
+              🛡️ {t("crop_insurance_tag")}
             </button>
             <button
               className={`btn ${selectedCategory === "irrigation" ? "btn-primary" : "btn-outline"}`}
               onClick={() => setSelectedCategory("irrigation")}
               style={{ padding: "6px 14px", fontSize: 12.5 }}
             >
-              💧 Irrigation
+              💧 {t("irrigation_tag")}
             </button>
             <button
               className={`btn ${selectedCategory === "soil" ? "btn-primary" : "btn-outline"}`}
               onClick={() => setSelectedCategory("soil")}
               style={{ padding: "6px 14px", fontSize: 12.5 }}
             >
-              🌱 Soil Health
+              🌱 {t("soil_health_tag")}
             </button>
             <button
               className={`btn ${selectedCategory === "market" ? "btn-primary" : "btn-outline"}`}
               onClick={() => setSelectedCategory("market")}
               style={{ padding: "6px 14px", fontSize: 12.5 }}
             >
-              🏪 Market Access
+              🏪 {t("market_access_tag")}
             </button>
           </div>
         </div>
@@ -184,8 +184,8 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
       <div style={{ marginBottom: 32 }}>
         <div className="card-header">
           <div>
-            <span className="section-label">GOVERNMENT PORTAL CATALOG</span>
-            <h3 className="section-title">Explore All Government Schemes ({filteredSchemes.length})</h3>
+            <span className="section-label">{t("gov_portal_catalog_label")}</span>
+            <h3 className="section-title">{t("explore_all_schemes")} ({filteredSchemes.length})</h3>
           </div>
         </div>
 
@@ -232,7 +232,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
           lineHeight: 1.6
         }}
       >
-        <strong>🏛 Government Source &amp; Verification Notice:</strong> Scheme information is compiled from official Government of India portals (pmkisan.gov.in, pmfby.gov.in, pmksy.gov.in, soilhealth.dac.gov.in, enam.gov.in) for guidance. Eligibility, benefits, deadlines, notified crops/areas and application requirements may change. Please verify the latest official information on the respective government portal before applying.
+        {t("gov_disclaimer_notice")}
       </div>
 
       {/* Detailed Modal Drawer */}

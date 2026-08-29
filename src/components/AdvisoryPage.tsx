@@ -30,7 +30,7 @@ export default function AdvisoryPage({ climateRisk, village, detectedDisease, cr
       category: "🐛 Crop Health & Pest Diagnostic",
       recommendation: `Apply targeted treatment for ${detectedDisease.displayName} on ${cropName}.`,
       reason: detectedDisease.advisory,
-      timeframe: "Within 24 Hours",
+      timeframe: t("timeframe_24h"),
       confidencePct: 92
     });
   }
@@ -38,21 +38,21 @@ export default function AdvisoryPage({ climateRisk, village, detectedDisease, cr
   if (village) {
     actions.push({
       priority: village.waterSourceType === "groundwater_only" ? "HIGH" : "MEDIUM",
-      category: "💧 Water & Irrigation Management",
+      category: `💧 ${t("water_management_cat")}`,
       recommendation: village.waterSourceType === "groundwater_only"
         ? `Optimize micro-irrigation slots in ${village.name}. Avoid drilling deep borewells beyond 60m.`
         : `Utilize canal water release schedules for ${village.name} before borewell pumping.`,
       reason: `${village.name} is ${village.distanceToGodavariKm.toFixed(1)} km from Godavari river (${waterSourceLabel[village.waterSourceType]}).`,
-      timeframe: "Next 24–48 Hours",
+      timeframe: t("timeframe_24h"),
       confidencePct: 88
     });
   } else {
     actions.push({
       priority: "LOW",
-      category: "💧 Water & Irrigation Management",
-      recommendation: "Select your village in 'Water & Soil' tab to unlock hyper-localized aquifer advice.",
-      reason: "Taluka baseline shows a falling post-monsoon water table (-0.41 m/year).",
-      timeframe: "Seasonal Baseline",
+      category: `💧 ${t("water_management_cat")}`,
+      recommendation: t("water_rec_1"),
+      reason: t("water_why_1"),
+      timeframe: t("timeframe_seasonal"),
       confidencePct: 80
     });
   }
@@ -72,60 +72,64 @@ export default function AdvisoryPage({ climateRisk, village, detectedDisease, cr
 
   actions.push({
     priority: "LOW",
-    category: "🌱 Soil & Agronomic Practices",
-    recommendation: "Maintain organic mulch layers around sugarcane paired-rows and onion raised-beds.",
-    reason: "Coarse shallow and medium black soils cover 79% of Kopargaon taluka, where soil moisture retention is key.",
-    timeframe: "Weekly Routine",
+    category: `🌱 ${t("soil_practices_cat")}`,
+    recommendation: t("soil_rec_1"),
+    reason: t("soil_why_1"),
+    timeframe: t("timeframe_weekly"),
     confidencePct: 85
   });
 
   return (
     <div>
       <PageHeader
-        title="AI Farm Advisory"
-        subtitle="Prioritized, actionable farm recommendations synthesized from 4 converged signals"
+        title={t("title_advisory")}
+        subtitle={t("advisory_subtitle_detailed")}
       />
 
       <div className="card">
         <div className="card-header">
           <div>
-            <span className="section-label">Krishi Setu AI Engine Output · Action Schedule</span>
-            <h3 className="section-title">Categorized Action Items</h3>
+            <span className="section-label">{t("action_schedule_label")}</span>
+            <h3 className="section-title">{t("categorized_action_items")}</h3>
           </div>
-          <span className="badge badge-healthy">4 Active Recommendations</span>
+          <span className="badge badge-healthy">{t("active_recommendations_count")}</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
-          {actions.map((item, idx) => (
-            <div
-              key={idx}
-              style={{
-                background: "var(--surface-muted)",
-                border: "1px solid var(--border-subtle)",
-                borderRadius: "var(--radius-md)",
-                padding: "20px"
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span className={`badge ${item.priority === "HIGH" ? "badge-urgent" : item.priority === "MEDIUM" ? "badge-watch" : "badge-healthy"}`}>
-                    {item.priority} PRIORITY
-                  </span>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>{item.category}</span>
+          {actions.map((item, idx) => {
+            const prioLabel =
+              item.priority === "HIGH" ? t("high_priority_tag") : item.priority === "MEDIUM" ? t("medium_priority_tag") : t("low_priority_tag");
+            return (
+              <div
+                key={idx}
+                style={{
+                  background: "var(--surface-muted)",
+                  border: "1px solid var(--border-subtle)",
+                  borderRadius: "var(--radius-md)",
+                  padding: "20px"
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span className={`badge ${item.priority === "HIGH" ? "badge-urgent" : item.priority === "MEDIUM" ? "badge-watch" : "badge-healthy"}`}>
+                      {prioLabel}
+                    </span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>{item.category}</span>
+                  </div>
+
+                  <div style={{ display: "flex", gap: 12, fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--text-muted)" }}>
+                    <span>⏳ {item.timeframe}</span>
+                    <span>🎯 {t("confidence")}: {item.confidencePct}%</span>
+                  </div>
                 </div>
 
-                <div style={{ display: "flex", gap: 12, fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--text-muted)" }}>
-                  <span>⏳ Timeframe: {item.timeframe}</span>
-                  <span>🎯 Confidence: {item.confidencePct}%</span>
-                </div>
+                <h4 style={{ marginTop: 10, fontSize: 17, color: "var(--text-main)" }}>{item.recommendation}</h4>
+                <p style={{ marginTop: 6, fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                  <strong>Why?</strong> {item.reason}
+                </p>
               </div>
-
-              <h4 style={{ marginTop: 10, fontSize: 17, color: "var(--text-main)" }}>{item.recommendation}</h4>
-              <p style={{ marginTop: 6, fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.5 }}>
-                <strong>Why?</strong> {item.reason}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
