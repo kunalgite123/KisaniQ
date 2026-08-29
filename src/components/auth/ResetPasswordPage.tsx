@@ -47,7 +47,7 @@ export default function ResetPasswordPage({ onSuccess }: Props) {
     <AuthLayout>
       <div className="auth-form-wrapper">
         <h2 className="auth-form-title">Reset your password</h2>
-        <p className="auth-form-sub">Enter a new secure password for your KisaniQ account</p>
+        <p className="auth-form-sub">Enter a new secure password for your Krishi Setu account</p>
 
         {error && <div className="auth-alert auth-alert-error">{error}</div>}
 

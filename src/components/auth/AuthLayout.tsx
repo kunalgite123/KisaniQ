@@ -11,8 +11,8 @@ export default function AuthLayout({ children }: Props) {
         {/* Left Branding Side (Desktop) */}
         <div className="auth-brand-side">
           <div className="auth-brand-content">
-            <div className="auth-logo-badge">Q</div>
-            <h1 className="auth-brand-title">KisaniQ</h1>
+            <div className="auth-logo-badge">K</div>
+            <h1 className="auth-brand-title">Krishi Setu</h1>
             <p className="auth-brand-sub">AI-Powered Farm Intelligence</p>
             <p style={{ marginTop: 24, fontSize: 14, color: "rgba(255, 255, 255, 0.8)", lineHeight: 1.6 }}>
               Observe • Understand • Decide • Act. Join thousands of farmers optimizing crop health, groundwater, and climate risk.

@@ -63,7 +63,7 @@ export default function SignupPage({ onNavigateToLogin }: Props) {
   return (
     <AuthLayout>
       <div className="auth-form-wrapper">
-        <h2 className="auth-form-title">Create your KisaniQ account</h2>
+        <h2 className="auth-form-title">Create your Krishi Setu account</h2>
         <p className="auth-form-sub">Start receiving personalized AI farm advisories today</p>
 
         {error && <div className="auth-alert auth-alert-error">{error}</div>}
