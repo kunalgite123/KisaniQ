@@ -143,10 +143,10 @@ export default function AdviceSectionCard({
             style={{
               fontSize: 18,
               fontWeight: 800,
-              color: isCompleted ? "var(--primary-900)" : "var(--text-main)",
+              color: isCompleted ? "var(--primary-700)" : "var(--text-main)",
               margin: 0,
               lineHeight: 1.35,
-              textDecoration: isCompleted ? "line-through" : "none"
+              textDecoration: "none"
             }}
           >
             {recommendation || title}
