@@ -64,7 +64,7 @@ export default function Sidebar({
                   title={collapsed ? item.label : item.description}
                 >
                   <span className="nav-item-icon">{item.icon}</span>
-                  {!collapsed && <span>{item.label}</span>}
+                  {!collapsed && <span style={{ fontWeight: 700 }}>{item.label}</span>}
                 </button>
               </li>
             ))}

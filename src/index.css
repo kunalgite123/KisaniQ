@@ -247,9 +247,9 @@ button {
   gap: 12px;
   padding: 10px 14px;
   border-radius: var(--radius-md);
-  color: var(--text-muted);
-  font-size: 14px;
-  font-weight: 500;
+  color: var(--text-main);
+  font-size: 14.5px;
+  font-weight: 700;
   text-decoration: none;
   background: transparent;
   border: none;
@@ -268,7 +268,7 @@ button {
 .sidebar-nav-item.active {
   background: var(--primary-100);
   color: var(--primary-800);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .sidebar-nav-item.active::before {
@@ -1299,13 +1299,13 @@ table.data-table th {
 .mobile-nav-btn {
   border: none;
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text-main);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 700;
   padding: 6px 12px;
   border-radius: var(--radius-sm);
   transition: color 0.15s ease;
@@ -1313,7 +1313,7 @@ table.data-table th {
 
 .mobile-nav-btn.active {
   color: var(--primary-700);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .mobile-nav-icon {
