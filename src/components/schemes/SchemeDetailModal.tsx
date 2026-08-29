@@ -43,17 +43,22 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
         {/* Modal Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
               <span className="badge" style={{ background: "var(--surface-muted)", fontSize: 12 }}>
                 {scheme.categoryIcon} {scheme.categoryLabel}
               </span>
               <span className={`badge ${badgeClass}`}>{relevanceLabel}</span>
-              <span className="badge" style={{ background: "var(--primary-100)", color: "var(--primary-800)" }}>
-                🏛 Official Government Scheme
+              <span className="badge" style={{ background: "var(--primary-100)", color: "var(--primary-800)", fontSize: 11 }}>
+                🏛 {scheme.typeLabel}
               </span>
             </div>
             <h2 style={{ fontSize: 24, marginTop: 10, color: "var(--text-main)" }}>{scheme.name}</h2>
             <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>{scheme.shortName}</div>
+            {scheme.programmePeriod && (
+              <div style={{ fontSize: 12, color: "var(--color-urgent)", fontWeight: 600, marginTop: 4 }}>
+                ⏱ {scheme.programmePeriod}
+              </div>
+            )}
           </div>
           <button
             onClick={onClose}
@@ -71,16 +76,16 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
           </button>
         </div>
 
-        {/* 1. What is this scheme? */}
+        {/* 1. What is this? */}
         <div style={{ marginTop: 20 }}>
-          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>What is this scheme?</h4>
+          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>What is this programme / service?</h4>
           <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 6, lineHeight: 1.6 }}>{scheme.summary}</p>
         </div>
 
         {/* 2. Why is it relevant to you? */}
         <div style={{ marginTop: 20, background: "var(--surface-muted)", padding: 16, borderRadius: "var(--radius-md)" }}>
           <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--primary-900)" }}>
-            Why KisaniQ recommends this for your farm
+            Why KisaniQ highlights this for your farm
           </h4>
           <ul style={{ marginTop: 8, listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
             {whyReasons.map((reason, idx) => (
@@ -119,7 +124,7 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
 
         {/* 3. Key Benefits */}
         <div style={{ marginTop: 20 }}>
-          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>Key Benefits</h4>
+          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>Key Benefits / Purpose</h4>
           <ul style={{ marginTop: 8, paddingLeft: 18, fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6 }}>
             {scheme.benefits.map((b, i) => (
               <li key={i} style={{ marginBottom: 4 }}>
@@ -132,7 +137,7 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
         {/* 4. Eligibility & Requirements */}
         <div className="grid-2" style={{ marginTop: 20, gap: 16 }}>
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>Who Can Benefit</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>Who Can Benefit / Use</h4>
             <ul style={{ marginTop: 6, paddingLeft: 16, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
               {scheme.eligibilitySummary.map((e, i) => (
                 <li key={i}>{e}</li>
@@ -141,7 +146,7 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
           </div>
 
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>Documents Required</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>Documents / Tools Needed</h4>
             <ul style={{ marginTop: 6, paddingLeft: 16, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
               {scheme.documentsRequired.map((d, i) => (
                 <li key={i}>{d}</li>

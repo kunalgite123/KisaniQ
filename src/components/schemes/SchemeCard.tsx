@@ -13,13 +13,18 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
   return (
     <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <div>
-        {/* Header */}
+        {/* Header & Badges */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 24, lineHeight: 1 }}>{scheme.categoryIcon}</span>
             <div>
-              <span className="section-label">{scheme.categoryLabel}</span>
-              <h3 style={{ fontSize: 18, fontWeight: 700, marginTop: 2, color: "var(--text-main)" }}>
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                <span className="section-label">{scheme.categoryLabel}</span>
+                <span className="badge" style={{ fontSize: 10, background: "var(--surface-muted)", color: "var(--text-muted)" }}>
+                  {scheme.typeLabel}
+                </span>
+              </div>
+              <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 2, color: "var(--text-main)" }}>
                 {scheme.shortName}
               </h3>
             </div>
@@ -27,9 +32,16 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
           <span className={`badge ${badgeClass}`}>{relevanceLabel}</span>
         </div>
 
-        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-main)", marginTop: 8 }}>
+        {/* Name & Period */}
+        <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-main)", marginTop: 8 }}>
           {scheme.name}
         </div>
+
+        {scheme.programmePeriod && (
+          <div style={{ fontSize: 11, color: "var(--color-urgent)", fontWeight: 600, marginTop: 2 }}>
+            ⏱ {scheme.programmePeriod}
+          </div>
+        )}
 
         <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
           {scheme.summary}
