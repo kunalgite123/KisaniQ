@@ -949,11 +949,26 @@ button {
 /* ---------- AI CONVERGENCE CARD ---------- */
 
 .ai-convergence-card {
-  background: linear-gradient(180deg, #ffffff 0%, var(--surface-bg) 100%);
+  position: relative;
+  background: var(--surface-card);
   border: 2px solid rgba(45, 106, 79, 0.25);
   border-radius: var(--radius-lg);
   padding: 26px;
   box-shadow: var(--shadow-md);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ai-convergence-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/farm_bg.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.20;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .convergence-flow-bar {
