@@ -59,7 +59,7 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         background: "var(--surface-card)"
       }}
     >
-      {/* 2nd Image Background at 20% Visibility */}
+      {/* Background Image: 40% Visibility in Light Mode, 20% in Dark Mode */}
       <div
         style={{
           position: "absolute",
@@ -67,7 +67,7 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
           backgroundImage: 'url("/farm_bg.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.20,
+          opacity: "var(--advisory-bg-opacity, 0.40)" as any,
           pointerEvents: "none",
           zIndex: -1
         }}

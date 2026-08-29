@@ -59,6 +59,8 @@
   --sidebar-width-collapsed: 76px;
   --navbar-height: 64px;
 
+  --advisory-bg-opacity: 0.40;
+
   color-scheme: light;
 }
 
@@ -73,6 +75,8 @@
   --primary-500: #84CC16;
   --primary-100: #092e27;
   --primary-50: #06241e;
+
+  --advisory-bg-opacity: 0.20;
 
   /* App Background: Dark Obsidian */
   --surface-bg: #0B132B;
