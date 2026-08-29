@@ -99,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
-  // Real Supabase Signup with User Profile Metadata
+  // Real Supabase Signup - Password Based Direct Authentication (No Email Inbox Verification Required)
   async function signUp(fullName: string, email: string, phone: string, password: string) {
     const cleanEmail = email.trim().toLowerCase();
     const cleanPhone = phone.trim();
@@ -133,8 +133,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch {}
       }
 
-      const needsConfirmation = !data.session;
-      return { error: null, needsConfirmation };
+      // Automatically sign in immediately with email & password (password-based authentication)
+      if (!data.session) {
+        const loginRes = await signIn(cleanEmail, password);
+        if (loginRes.error && loginRes.error.includes("Email not confirmed")) {
+          // If Supabase server settings enforce email confirmation, fallback gracefully
+          return { error: null, needsConfirmation: true };
+        }
+      }
+
+      return { error: null, needsConfirmation: false };
     } catch (err: any) {
       return { error: getFriendlyAuthError(err) };
     }

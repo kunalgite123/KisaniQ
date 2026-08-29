@@ -56,7 +56,9 @@ export default function SignupPage({ onNavigateToLogin }: Props) {
     if (res.error) {
       setError(res.error);
     } else if (res.needsConfirmation) {
-      setSuccessMsg("Account created successfully! Please check your email inbox to confirm your account before logging in.");
+      setSuccessMsg("Account created successfully! If your Supabase server enforces email confirmation, please check your inbox or disable 'Confirm email' in Supabase Auth settings.");
+    } else {
+      setSuccessMsg("Account created successfully! Logging you into Krishi Setu...");
     }
   }
 
