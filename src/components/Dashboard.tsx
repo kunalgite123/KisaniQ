@@ -10,7 +10,6 @@ import ProfileCompletionCard from "./ProfileCompletionCard";
 import ProfileSetupModal from "./ProfileSetupModal";
 import AdvisoryCard from "./AdvisoryCard";
 import FarmHealthScore from "./FarmHealthScore";
-import SelfHealingBanner from "./SelfHealingBanner";
 
 interface Props {
   village: Village | null;
@@ -70,9 +69,6 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
 
   return (
     <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-      {/* Dual-Storage Self-Healing Architecture Banner & SIH Judge Demo Control */}
-      <SelfHealingBanner />
-
       {/* 0. Profile Completion Banner Card (Displays if completion < 100%) */}
       <ProfileCompletionCard
         profile={farmerProfile}
