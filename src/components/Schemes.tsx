@@ -82,8 +82,8 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
     <div>
       {/* Clean Page Title */}
       <PageHeader
-        title={t("gov_schemes_title")}
-        subtitle={t("gov_schemes_subtitle")}
+        title="Government Schemes & Benefits"
+        subtitle="Personalized recommendations for crops, soil, climate risks, and supplementary side-income subsidies."
       />
 
       {/* Clean Farm Location & Context Banner */}
