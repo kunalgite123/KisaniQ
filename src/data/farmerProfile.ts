@@ -6,13 +6,13 @@ export interface FarmerProfile {
   fullName: string;
   email: string;
   phone: string;
-  locationVillage: string; // Kopargaon, Dhamori, Takli, Ravande, etc.
+  locationVillage: string; // Unfilled initially ("")
   district: string; // Ahilyanagar (Ahmednagar)
-  primaryCrop: string; // Sugarcane, Onion, Pomegranate, Wheat, Cotton
-  landArea: number;
+  primaryCrop: string; // Unfilled initially ("")
+  landArea: number; // Unfilled initially (0)
   landUnit: "acres" | "guntha";
-  waterSource: "godavari_canal" | "borewell_well" | "drip_irrigation" | "rainfed";
-  soilType: "medium_black" | "murrum" | "alluvial" | "red_clay";
+  waterSource: "godavari_canal" | "borewell_well" | "drip_irrigation" | "rainfed" | "";
+  soilType: "medium_black" | "murrum" | "alluvial" | "red_clay" | "";
   primaryGoal: "yield" | "water" | "disease" | "machinery";
   isCompleted: boolean;
   completionPercentage: number;
@@ -23,32 +23,32 @@ export const INITIAL_DEFAULT_PROFILE: FarmerProfile = {
   fullName: "Kisan Farmer",
   email: "farmer@kisaniq.in",
   phone: "+91 98220 12345",
-  locationVillage: "Kopargaon",
+  locationVillage: "",
   district: "Ahilyanagar (Ahmednagar)",
-  primaryCrop: "Sugarcane",
-  landArea: 4.0,
+  primaryCrop: "",
+  landArea: 0,
   landUnit: "acres",
-  waterSource: "godavari_canal",
-  soilType: "medium_black",
+  waterSource: "",
+  soilType: "",
   primaryGoal: "yield",
   isCompleted: false,
   completionPercentage: 35 // Initial signup completion percentage (35%)
 };
 
-const STORAGE_KEY_PROFILE = "kisaniq_farmer_profile_v2";
+const STORAGE_KEY_PROFILE = "kisaniq_farmer_profile_v3";
 
 /**
  * Calculates profile completion percentage dynamically.
- * Account signup (Name + Email + Phone) = 35% base.
- * Adding Village + Crop + Land + Water/Soil brings completion to 100%.
+ * Signup identity (Name + Email + Phone) = 35% base.
+ * Adding Village (+15%) + Crop (+15%) + Land Size (+15%) + Water/Soil (+20%) brings completion to 100%.
  */
 export function calculateCompletionPct(profile: Partial<FarmerProfile>): number {
-  let score = 35; // Base score for completed signup (Name + Email + Phone)
+  let score = 35; // Base score for completed signup identity
 
-  if (profile.locationVillage && profile.locationVillage !== "") score += 15;
-  if (profile.primaryCrop && profile.primaryCrop !== "") score += 15;
+  if (profile.locationVillage && profile.locationVillage.trim() !== "") score += 15;
+  if (profile.primaryCrop && profile.primaryCrop.trim() !== "") score += 15;
   if (profile.landArea && profile.landArea > 0) score += 15;
-  if (profile.waterSource && profile.soilType) score += 20;
+  if (profile.waterSource && profile.soilType && (profile.waterSource as string) !== "" && (profile.soilType as string) !== "") score += 20;
 
   return Math.min(100, score);
 }
@@ -62,10 +62,10 @@ export function loadSavedFarmerProfile(authProfile?: { full_name?: string; email
     if (saved) {
       const parsed: FarmerProfile = JSON.parse(saved);
 
-      // Pre-fill email/name/phone from auth session if available and missing
-      if (authProfile?.email && !parsed.email) parsed.email = authProfile.email;
-      if (authProfile?.full_name && parsed.fullName === "Kisan Farmer") parsed.fullName = authProfile.full_name;
-      if (authProfile?.phone && !parsed.phone) parsed.phone = authProfile.phone;
+      // Pre-fill email/name/phone from auth session if available
+      if (authProfile?.email) parsed.email = authProfile.email;
+      if (authProfile?.full_name && authProfile.full_name !== "Farmer") parsed.fullName = authProfile.full_name;
+      if (authProfile?.phone) parsed.phone = authProfile.phone;
 
       parsed.completionPercentage = calculateCompletionPct(parsed);
       parsed.isCompleted = parsed.completionPercentage >= 95;
@@ -75,7 +75,7 @@ export function loadSavedFarmerProfile(authProfile?: { full_name?: string; email
     console.warn("Could not load farmer profile from localStorage:", err);
   }
 
-  // Initial primary signup state (35% complete)
+  // Initial signup state (35% complete - awaiting remaining farm details)
   const initial: FarmerProfile = {
     ...INITIAL_DEFAULT_PROFILE,
     fullName: authProfile?.full_name || "Kisan Farmer",
@@ -144,5 +144,6 @@ export async function saveFarmerProfile(profile: FarmerProfile): Promise<FarmerP
  * Helper to resolve village object from profile.
  */
 export function getProfileVillage(villageName: string): Village | null {
+  if (!villageName) return villages[0];
   return villages.find((v) => v.name.toLowerCase().includes(villageName.toLowerCase())) || villages[0];
 }
