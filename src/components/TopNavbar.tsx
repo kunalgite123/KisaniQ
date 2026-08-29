@@ -133,11 +133,6 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           <span>{theme === "dark" ? "Light" : "Dark"}</span>
         </button>
 
-        <div className="live-badge">
-          <span className="status-dot-green" />
-          <span>{t("live_data")}</span>
-        </div>
-
         {/* User Profile Dropdown */}
         <div style={{ position: "relative" }}>
           <button
