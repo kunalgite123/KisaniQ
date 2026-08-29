@@ -11,7 +11,7 @@ export interface GeminiCropDiagnosis {
 
 export const DEFAULT_GEMINI_KEY =
   import.meta.env.VITE_GEMINI_API_KEY ||
-  ["AQ", ".Ab8RN6ImHtEfuvqTccDNgRh48zLQg4fl-MsI3jvkkT9BVUlH4A"].join("");
+  ["AQ", ".Ab8RN6Jz6fjikkMMXZE5jHiBu4HoqLSSfvZwfJQzSMagTO-tpg"].join("");
 
 const STORAGE_KEY_GEMINI = "kisaniq_gemini_api_key_v1";
 
