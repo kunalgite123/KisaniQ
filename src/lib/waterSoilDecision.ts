@@ -106,10 +106,10 @@ export function evaluateWaterSoilDecision(input: WaterSoilDecisionInput): WaterS
       : "Groundwater is available nearby and soil conditions are suitable for irrigation planning.";
 
     recommendedAction = isMr
-      ? `मातीतील ओलावा व ${currentCrop} पिकाच्या आवश्यकतेनुसार सिंचनाचा विचार करा.`
+      ? "पिकाची पाण्याची गरज व मातीतील ओलाव्यावर आधारित सिंचनाचा विचार करा."
       : isHi
-      ? `मिट्टी की नमी और ${currentCrop} फसल की आवश्यकता के आधार पर सिंचाई पर विचार करें।`
-      : `Consider irrigation based on ${currentCrop} crop requirement and current soil moisture.`;
+      ? "फसल और मिट्टी की नमी के आधार पर सिंचाई पर विचार करें।"
+      : "Consider irrigation based on crop and soil moisture.";
 
     ctaType = "CHECK_IRRIGATION_ADVISORY";
     ctaLabel = isMr ? "सिंचन सल्लागार उघडा →" : isHi ? "सिंचाई सलाह खोलें →" : "Check Irrigation Advisory →";
@@ -120,16 +120,16 @@ export function evaluateWaterSoilDecision(input: WaterSoilDecisionInput): WaterS
     depthTypeLabel = "Reference depth range";
 
     interpretationText = isMr
-      ? "भूजल अंदाजे १५ ते ३० मीटर संदर्भ खोलीवर उपलब्ध आहे."
+      ? "भूजल अंदाजे १५ ते ३० मीटर खोलीवर उपलब्ध आहे."
       : isHi
-      ? "भूजल अनुमानित 15 से 30 मीटर संदर्भ गहराई पर उपलब्ध है।"
-      : "Groundwater is available at an estimated reference depth of 15–30 m.";
+      ? "भूजल अनुमानित 15 से 30 मीटर गहराई पर उपलब्ध है।"
+      : "Groundwater is available at an estimated depth of 15–30 m.";
 
     recommendedAction = isMr
-      ? `सिंचनाचा विचार केला जाऊ शकतो, परंतु पाणी देण्यापूर्वी मातीतील ओलावा व ${currentCrop} पिकाची गरज तपासा.`
+      ? "पिकाच्या पाण्याची गरज आणि सध्याच्या मातीतील ओलाव्यावर आधारित सिंचनाचा विचार केला जाऊ शकतो."
       : isHi
-      ? `सिंचाई पर विचार किया जा सकता है, लेकिन पानी देने से पहले मिट्टी की नमी और ${currentCrop} फसल की आवश्यकता जांचें।`
-      : `Irrigation can be considered, but check soil moisture and ${currentCrop} crop water requirement before irrigating.`;
+      ? "फसल की पानी की आवश्यकता और वर्तमान मिट्टी की नमी के आधार पर सिंचाई पर विचार किया जा सकता है।"
+      : "Irrigation can be considered based on crop water requirement and current soil moisture.";
 
     ctaType = "CHECK_IRRIGATION_ADVISORY";
     ctaLabel = isMr ? "माती व सिंचन माहिती पहा →" : isHi ? "मिट्टी और सिंचाई विवरण देखें →" : "View Water & Soil →";
@@ -140,16 +140,16 @@ export function evaluateWaterSoilDecision(input: WaterSoilDecisionInput): WaterS
     depthTypeLabel = "Reference depth range";
 
     interpretationText = isMr
-      ? "भूजल तुलनेने खोल (अंदाजे ५० ते ८० मीटर संदर्भ श्रेणी) आहे."
+      ? "भूजल तुलनेने खोल (अंदाजे ५० ते ८० मीटर) आहे."
       : isHi
-      ? "भूजल अपेक्षाकृत गहरा (लगभग 50 से 80 मीटर संदर्भ सीमा) है।"
-      : "Groundwater is relatively deep (approximately 50–80 m reference range).";
+      ? "भूजल अपेक्षाकृत गहरा (लगभग 50 से 80 मीटर) है।"
+      : "Groundwater is relatively deep (approximately 50–80 m).";
 
     recommendedAction = isMr
-      ? "ठिबक किंवा तुषार सारख्या पाणी-कार्यक्षम सिंचनाला प्राधान्य द्या आणि शासकीय अनुदान योजनांची माहिती घ्या."
+      ? "पाणी-कार्यक्षम सिंचनाला प्राधान्य द्या आणि लागू असलेल्या शासकीय सिंचन सबसिडी योजनांची माहिती घ्या."
       : isHi
-      ? "ड्रिप या स्प्रिंकलर जैसी जल-कुशल सिंचाई को प्राथमिकता दें और सरकारी सब्सिडी योजनाओं की जानकारी लें।"
-      : "Prioritize water-efficient drip/sprinkler irrigation and explore applicable government irrigation support.";
+      ? "जल-कुशल सिंचाई को प्राथमिकता दें और लागू सरकारी सिंचाई सब्सिडी विकल्पों का पता लगाएं।"
+      : "Prioritize water-efficient irrigation and explore applicable government irrigation support/subsidy options.";
 
     hasGovernmentSupport = true;
     governmentSupportNotice = isMr

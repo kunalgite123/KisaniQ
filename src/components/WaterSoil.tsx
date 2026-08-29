@@ -190,6 +190,46 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
                 {t("semi_critical_status")}
               </div>
             </div>
+
+            {/* Dynamic Distance Threshold Decision Block for Selected Village */}
+            <div
+              style={{
+                gridColumn: "1 / -1",
+                marginTop: 14,
+                padding: 16,
+                background: "var(--surface-bg)",
+                border: "1px solid var(--border-strong)",
+                borderRadius: "var(--radius-md)"
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                <span className="section-label" style={{ fontSize: 10 }}>
+                  {decision.ruleLabel}
+                </span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-700)" }}>
+                  {decision.depthTypeLabel}: {decision.referenceDepthRange}
+                </span>
+              </div>
+
+              <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text-main)" }}>
+                "{decision.interpretationText}"
+              </div>
+
+              <div
+                style={{
+                  marginTop: 8,
+                  padding: "8px 12px",
+                  background: "var(--surface-card)",
+                  borderRadius: "var(--radius-sm)",
+                  borderLeft: "4px solid var(--primary-500)",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: "var(--text-main)"
+                }}
+              >
+                <strong>{language === "mr" ? "शिफारस केलेली कृती:" : "Recommended action:"}</strong> {decision.recommendedAction}
+              </div>
+            </div>
           </div>
         )}
       </div>
