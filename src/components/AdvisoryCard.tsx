@@ -10,13 +10,13 @@ import {
   Droplets,
   Sprout,
   Zap,
-  ArrowRight,
   AlertTriangle,
   Info,
   CheckCircle,
   ChevronDown,
   ChevronUp,
-  Search
+  Search,
+  Sparkles
 } from "lucide-react";
 
 interface Props {
@@ -27,10 +27,114 @@ interface Props {
   onViewDetails?: () => void;
 }
 
+export function AdvisoryAlertBox({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
+  const { t, language } = useLanguage();
+  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName, lang: language });
+
+  const translatedTitle =
+    verdict.urgency === "urgent"
+      ? t("act_this_week")
+      : verdict.urgency === "watch"
+      ? t("monitor_closely")
+      : t("conditions_stable");
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        background:
+          verdict.urgency === "urgent"
+            ? "rgba(220, 38, 38, 0.08)"
+            : verdict.urgency === "watch"
+            ? "rgba(230, 126, 34, 0.12)"
+            : "rgba(45, 106, 79, 0.08)",
+        backdropFilter: "blur(6px)",
+        border:
+          verdict.urgency === "urgent"
+            ? "1px solid rgba(220, 38, 38, 0.3)"
+            : verdict.urgency === "watch"
+            ? "1px solid rgba(230, 126, 34, 0.35)"
+            : "1px solid rgba(45, 106, 79, 0.3)",
+        borderRadius: "var(--radius-lg)",
+        padding: 22,
+        marginBottom: 32,
+        boxShadow: "var(--shadow-md)",
+        overflow: "hidden",
+        isolation: "isolate"
+      }}
+    >
+      {/* Background Image: 40% Visibility in Light Mode, 20% in Dark Mode */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: 'url("/farm_bg.jpg")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: "var(--advisory-bg-opacity, 0.40)" as any,
+          pointerEvents: "none",
+          zIndex: -1
+        }}
+      />
+
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+        {verdict.urgency === "urgent" ? (
+          <AlertTriangle size={26} style={{ color: "var(--alert-red)", flexShrink: 0, marginTop: 2 }} />
+        ) : verdict.urgency === "watch" ? (
+          <Info size={26} style={{ color: "var(--saffron-orange)", flexShrink: 0, marginTop: 2 }} />
+        ) : (
+          <CheckCircle size={26} style={{ color: "var(--primary-500)", flexShrink: 0, marginTop: 2 }} />
+        )}
+
+        <div style={{ flex: 1 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            <h4 style={{ fontSize: 19, fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
+              {translatedTitle}
+            </h4>
+            <span
+              className="badge"
+              style={{
+                background: "rgba(0, 0, 0, 0.08)",
+                fontSize: 11.5,
+                fontWeight: 700,
+                color: "var(--text-main)"
+              }}
+            >
+              {t("timeframe_label")}
+            </span>
+          </div>
+
+          <ul style={{ marginTop: 12, paddingLeft: 20, fontSize: 14.5, lineHeight: 1.65, color: "var(--text-main)", fontWeight: 500 }}>
+            {verdict.points.map((p, i) => (
+              <li key={i} style={{ marginBottom: 6 }}>{p}</li>
+            ))}
+          </ul>
+
+          {onViewDetails && (
+            <button
+              onClick={onViewDetails}
+              className="btn btn-outline"
+              style={{
+                marginTop: 14,
+                padding: "8px 18px",
+                fontSize: 13,
+                fontWeight: 700,
+                background: "var(--surface-card)"
+              }}
+            >
+              {t("view_full_advisory")}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdvisoryCard({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [showExplainability, setShowExplainability] = useState(false);
-  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName });
+  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName, lang: language });
 
   const confidencePct = detectedDisease ? 92 : climateRisk ? 88 : 84;
   const riskLevel =
@@ -45,20 +149,27 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
 
   return (
     <div
-      className="card"
+      className="ai-convergence-card"
       style={{
+        position: "relative",
         padding: 24,
-        background: "var(--surface-card)",
-        border: "1px solid var(--border-subtle)",
-        borderRadius: "var(--radius-md)",
-        marginBottom: 24
+        border: "2px solid rgba(45, 106, 79, 0.25)",
+        borderRadius: "var(--radius-lg)",
+        marginBottom: 24,
+        overflow: "hidden",
+        isolation: "isolate",
+        boxShadow: "var(--shadow-md)",
+        background: "var(--surface-card)"
       }}
     >
       {/* Card Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 10, marginBottom: 16 }}>
         <div>
-          <span className="section-label" style={{ fontSize: 11 }}>TODAY'S FARM DECISION</span>
-          <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <Sparkles size={14} style={{ color: "var(--primary-500)" }} />
+            <span className="section-label" style={{ fontSize: 11 }}>{t("todays_farm_decision")}</span>
+          </div>
+          <h3 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", marginTop: 4, margin: 0 }}>
             {translatedTitle}
           </h3>
         </div>
@@ -66,8 +177,8 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
           <span className={`badge badge-${verdict.urgency}`} style={{ fontSize: 12.5, padding: "4px 12px" }}>
             {riskLevel}
           </span>
-          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 500 }}>
-            Confidence: {confidencePct}%
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
+            {t("confidence")}: {confidencePct}%
           </span>
         </div>
       </div>
@@ -76,142 +187,104 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
           gap: 12,
           padding: 16,
-          background: "var(--surface-bg)",
-          borderRadius: "var(--radius-sm)",
+          background: "var(--surface-muted)",
+          borderRadius: "var(--radius-md)",
           border: "1px solid var(--border-subtle)",
           marginBottom: 16
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <CloudSun size={18} style={{ color: "var(--primary-700)" }} />
+          <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(45, 106, 79, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <CloudSun size={18} style={{ color: "var(--primary-500)" }} />
+          </div>
           <div>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Climate</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>{t("node_climate")}</div>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-main)" }}>
-              {climateRisk ? `${climateRisk.dryDaysAhead}/7 dry days` : "Live Data"}
+              {climateRisk ? `${climateRisk.dryDaysAhead}/7 ${t("dry_day").toLowerCase()}s` : t("live_data")}
             </div>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Layers size={18} style={{ color: "var(--primary-700)" }} />
+          <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(230, 126, 34, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Layers size={18} style={{ color: "var(--saffron-orange)" }} />
+          </div>
           <div>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Soil</div>
-            <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-main)" }}>Medium Black</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>{t("node_soil")}</div>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-main)" }}>{t("soil_black_murrum")}</div>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Droplets size={18} style={{ color: "var(--primary-700)" }} />
+          <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(0, 119, 182, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Droplets size={18} style={{ color: "var(--ai-blue)" }} />
+          </div>
           <div>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Groundwater</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>{t("node_groundwater")}</div>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-main)" }}>
-              {village ? (village.waterSourceType === "canal_godavari" ? "Canal Reach" : "Well Depleted") : "Semi-Critical"}
+              {village ? (village.waterSourceType === "canal_godavari" ? t("canal_reach") : t("well_depleted")) : t("taluka_baseline")}
             </div>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Sprout size={18} style={{ color: "var(--primary-700)" }} />
+          <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(45, 106, 79, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Sprout size={18} style={{ color: "var(--primary-500)" }} />
+          </div>
           <div>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Crop AI</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>{t("node_crop_ai")}</div>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-main)" }}>
-              {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : "Scouted"}
+              {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : t("leaf_scout")}
             </div>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10, background: "var(--primary-100)", padding: "6px 10px", borderRadius: "var(--radius-sm)" }}>
-          <Zap size={18} style={{ color: "var(--primary-900)" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 10, background: "var(--primary-700)", color: "#ffffff", padding: "8px 12px", borderRadius: "var(--radius-md)" }}>
+          <Zap size={18} style={{ color: "#ffffff" }} />
           <div>
-            <div style={{ fontSize: 11, color: "var(--primary-800)", fontWeight: 700 }}>KisaniQ Action</div>
-            <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--primary-900)" }}>{translatedTitle}</div>
+            <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.8)", fontWeight: 600 }}>{t("node_krishi_ai")}</div>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: "#ffffff" }}>{translatedTitle}</div>
           </div>
         </div>
       </div>
 
-      {/* Primary Actionable Verdict Box */}
-      <div
-        style={{
-          background:
-            verdict.urgency === "urgent"
-              ? "rgba(220, 38, 38, 0.06)"
-              : verdict.urgency === "watch"
-              ? "rgba(217, 119, 6, 0.06)"
-              : "rgba(21, 128, 61, 0.06)",
-          border:
-            verdict.urgency === "urgent"
-              ? "1px solid rgba(220, 38, 38, 0.2)"
-              : verdict.urgency === "watch"
-              ? "1px solid rgba(217, 119, 6, 0.2)"
-              : "1px solid rgba(21, 128, 61, 0.2)",
-          borderRadius: "var(--radius-sm)",
-          padding: 18
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-          {verdict.urgency === "urgent" ? (
-            <AlertTriangle size={22} style={{ color: "var(--color-urgent)" }} />
-          ) : verdict.urgency === "watch" ? (
-            <Info size={22} style={{ color: "#d97706" }} />
-          ) : (
-            <CheckCircle size={22} style={{ color: "var(--primary-700)" }} />
-          )}
-
-          <div style={{ flex: 1 }}>
-            <h4 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
-              {translatedTitle}
-            </h4>
-
-            <ul style={{ marginTop: 8, paddingLeft: 18, fontSize: 13.5, color: "var(--text-main)", lineHeight: 1.6 }}>
-              {verdict.points.map((p, i) => (
-                <li key={i} style={{ marginBottom: 4 }}>{p}</li>
-              ))}
-            </ul>
-
-            {onViewDetails && (
-              <button
-                onClick={onViewDetails}
-                className="btn-outline-sm"
-                style={{ marginTop: 12, fontSize: 12 }}
-              >
-                View full advisory details →
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Explainability Accordion */}
-      <div style={{ marginTop: 14, paddingTop: 10, borderTop: "1px solid var(--border-subtle)" }}>
+      {/* Progressive Disclosure Explainability Accordion */}
+      <div className="explainability-accordion">
         <button
+          className="accordion-toggle-btn"
           onClick={() => setShowExplainability(!showExplainability)}
-          style={{
-            border: "none",
-            background: "transparent",
-            color: "var(--primary-800)",
-            fontWeight: 600,
-            fontSize: 12.5,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: 6
-          }}
         >
           <Search size={14} />
-          <span>Why are we recommending this?</span>
+          <span>{t("why_recommending")}</span>
           {showExplainability ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
 
         {showExplainability && (
-          <div style={{ marginTop: 10, background: "var(--surface-muted)", padding: 12, borderRadius: "var(--radius-sm)", fontSize: 12.5, color: "var(--text-muted)", lineHeight: 1.5 }}>
-            <ul style={{ paddingLeft: 18, margin: 0 }}>
-              {climateRisk && <li><strong>Climate:</strong> {climateRisk.headline}</li>}
-              {village && <li><strong>Groundwater:</strong> {village.name} is {village.distanceToGodavariKm.toFixed(1)} km from Godavari river ({waterSourceLabel[village.waterSourceType]}).</li>}
-              {detectedDisease && cropName && <li><strong>Crop Health:</strong> {detectedDisease.displayName} identified on {cropName}.</li>}
-              {!detectedDisease && <li><strong>Crop Scouting:</strong> Scan a leaf under Crop Doctor to feed real-time disease diagnostic signals.</li>}
+          <div className="explainability-content">
+            <ul className="explain-list">
+              {climateRisk && (
+                <li className="explain-item">
+                  <strong>{language === "mr" ? "हवामान घटक:" : "Climate Factor:"}</strong> {climateRisk.headline}
+                </li>
+              )}
+              {village && (
+                <li className="explain-item">
+                  <strong>{language === "mr" ? "भूजल घटक:" : "Groundwater Factor:"}</strong> {village.name} {language === "mr" ? `हे गाव गोदावरी नदीपासून ${village.distanceToGodavariKm.toFixed(1)} किमी अंतरावर आहे (${waterSourceLabel[village.waterSourceType]}).` : `is ${village.distanceToGodavariKm.toFixed(1)} km from Godavari river (${waterSourceLabel[village.waterSourceType]}).`}
+                </li>
+              )}
+              {detectedDisease && cropName && (
+                <li className="explain-item">
+                  <strong>{language === "mr" ? "पीक निदान घटक:" : "Crop Diagnostic Factor:"}</strong> {detectedDisease.displayName} {language === "mr" ? `हे लक्षण ${cropName} पिकावर वर्गीकरण केले.` : `on ${cropName} leaf.`}
+                </li>
+              )}
+              {!detectedDisease && (
+                <li className="explain-item">
+                  <strong>{language === "mr" ? "पीक पाहणी टीप:" : "Crop Scouting Tip:"}</strong> {language === "mr" ? "या निर्णय इंजिनमध्ये थेट रोग निदान माहिती देण्यासाठी 'पीक डॉक्टर' मध्ये पानाचा फोटो स्कॅन करा." : "Scan a leaf under 'Crop Doctor' to feed real-time disease diagnostic signals into this decision engine."}
+                </li>
+              )}
             </ul>
           </div>
         )}

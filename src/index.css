@@ -59,6 +59,8 @@
   --sidebar-width-collapsed: 76px;
   --navbar-height: 64px;
 
+  --advisory-bg-opacity: 0.40;
+
   color-scheme: light;
 }
 
@@ -73,6 +75,8 @@
   --primary-500: #84CC16;
   --primary-100: #092e27;
   --primary-50: #06241e;
+
+  --advisory-bg-opacity: 0.20;
 
   /* App Background: Dark Obsidian */
   --surface-bg: #0B132B;
@@ -1711,5 +1715,58 @@ table.data-table th {
   * {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* ---------- VOICE ASSISTANT AUDIO WAVE & PULSE ---------- */
+
+.pulse-dot-red {
+  width: 10px;
+  height: 10px;
+  background-color: var(--alert-red);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  animation: pulse-red 1.5s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes pulse-red {
+  to {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+}
+
+.audio-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+}
+
+.audio-wave span {
+  width: 3px;
+  height: 100%;
+  background: var(--alert-red);
+  border-radius: 2px;
+  animation: audio-wave-anim 0.8s ease-in-out infinite alternate;
+}
+
+.audio-wave span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.audio-wave span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.audio-wave span:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+@keyframes audio-wave-anim {
+  0% {
+    height: 4px;
+  }
+  100% {
+    height: 14px;
   }
 }
