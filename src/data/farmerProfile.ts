@@ -1,5 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { villages, Village } from "./villages";
+import { recordInShadowVault } from "../lib/selfHealingVault";
 
 export interface FarmerProfile {
   id?: string;
@@ -89,7 +90,7 @@ export function loadSavedFarmerProfile(authProfile?: { full_name?: string; email
 }
 
 /**
- * Saves farmer profile to localStorage and syncs with Supabase database.
+ * Saves farmer profile simultaneously to local storage, client shadow vault, and Supabase cloud.
  */
 export async function saveFarmerProfile(profile: FarmerProfile): Promise<FarmerProfile> {
   profile.completionPercentage = calculateCompletionPct(profile);
@@ -103,12 +104,14 @@ export async function saveFarmerProfile(profile: FarmerProfile): Promise<FarmerP
     console.warn("Could not save profile to localStorage:", err);
   }
 
-  // 2. Persist to Supabase Database (public.farmer_profiles)
+  // 2. Dual-Write to Client Shadow Vault & Supabase Database
   try {
     const { data: userData } = await supabase.auth.getUser();
     if (userData?.user) {
+      const userId = userData.user.id;
+
       const dbPayload = {
-        user_id: userData.user.id,
+        user_id: userId,
         full_name: profile.fullName,
         email: profile.email,
         phone: profile.phone,
@@ -125,16 +128,35 @@ export async function saveFarmerProfile(profile: FarmerProfile): Promise<FarmerP
         updated_at: profile.updatedAt
       };
 
-      // Primary Upsert attempt
+      // DUAL-WRITE STEP: Write to Client Shadow Vault
+      recordInShadowVault("farmerProfiles", userId, dbPayload);
+      recordInShadowVault("profiles", userId, {
+        id: userId,
+        full_name: profile.fullName,
+        email: profile.email,
+        phone: profile.phone,
+        updated_at: profile.updatedAt
+      });
+
+      // Primary Upsert attempt into Supabase
       const { error } = await supabase
         .from("farmer_profiles")
         .upsert(dbPayload, { onConflict: "user_id" });
 
       if (error) {
         console.warn("Supabase farmer_profiles upsert notice, trying direct insert/update:", error.message);
-        // Secondary Fallback Insert attempt if upsert fails due to constraint mismatch
+        // Secondary Fallback Insert attempt if upsert fails
         await supabase.from("farmer_profiles").insert(dbPayload);
       }
+
+      // Also ensure profiles table is updated
+      await supabase.from("profiles").upsert({
+        id: userId,
+        full_name: profile.fullName,
+        email: profile.email,
+        phone: profile.phone,
+        updated_at: profile.updatedAt
+      });
     }
   } catch (err) {
     console.warn("Supabase profile sync skipped (offline mode):", err);

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase, UserProfile, getFriendlyAuthError } from "../lib/supabase";
+import { recordInShadowVault } from "../lib/selfHealingVault";
 
 interface AuthContextType {
   user: User | null;
@@ -40,6 +41,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       setProfile(mergedProfile);
 
+      // Record in Client Shadow Vault (Dual-Write)
+      recordInShadowVault("profiles", currentUser.id, mergedProfile);
+
       // Auto-backfill NULL email/phone into public.profiles if missing in Supabase
       if (!data || !data.email || !data.phone) {
         const { error } = await supabase.from("profiles").upsert({
@@ -67,6 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         phone: currentUser.user_metadata?.phone || ""
       };
       setProfile(fallbackProfile);
+      recordInShadowVault("profiles", currentUser.id, fallbackProfile);
     }
   }
 
@@ -142,23 +147,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Upsert full identity into Supabase `public.profiles` table
       if (data.user) {
+        const profilePayload = {
+          id: data.user.id,
+          full_name: cleanName,
+          email: cleanEmail,
+          phone: cleanPhone,
+          updated_at: new Date().toISOString()
+        };
+
+        recordInShadowVault("profiles", data.user.id, profilePayload);
+
         try {
-          const { error: upsertErr } = await supabase.from("profiles").upsert({
-            id: data.user.id,
-            full_name: cleanName,
-            email: cleanEmail,
-            phone: cleanPhone,
-            updated_at: new Date().toISOString()
-          });
+          const { error: upsertErr } = await supabase.from("profiles").upsert(profilePayload);
 
           if (upsertErr) {
-            await supabase.from("profiles").insert({
-              id: data.user.id,
-              full_name: cleanName,
-              email: cleanEmail,
-              phone: cleanPhone,
-              updated_at: new Date().toISOString()
-            });
+            await supabase.from("profiles").insert(profilePayload);
           }
         } catch {}
       }
