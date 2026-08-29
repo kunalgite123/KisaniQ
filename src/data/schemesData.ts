@@ -1,11 +1,27 @@
+export type SchemeType = "scheme" | "programme" | "service" | "platform" | "reference";
+
+export type SchemeCategory =
+  | "income"
+  | "insurance"
+  | "climate"
+  | "irrigation"
+  | "groundwater"
+  | "soil"
+  | "pest-disease"
+  | "market"
+  | "employment"
+  | "monitoring";
+
 export interface GovernmentScheme {
   id: string;
   name: string;
   shortName: string;
-  category: "income" | "insurance" | "irrigation" | "soil" | "market";
+  typeLabel: string;
+  category: SchemeCategory;
   categoryLabel: string;
   categoryIcon: string;
   summary: string;
+  programmePeriod?: string;
   benefits: string[];
   eligibilitySummary: string[];
   documentsRequired: string[];
@@ -21,6 +37,7 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     id: "pm-kisan",
     name: "Pradhan Mantri Kisan Samman Nidhi",
     shortName: "PM-KISAN",
+    typeLabel: "SCHEME",
     category: "income",
     categoryLabel: "Income Support",
     categoryIcon: "💰",
@@ -57,6 +74,7 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     id: "pmfby",
     name: "Pradhan Mantri Fasal Bima Yojana",
     shortName: "PMFBY",
+    typeLabel: "CROP INSURANCE SCHEME",
     category: "insurance",
     categoryLabel: "Crop Insurance",
     categoryIcon: "🛡️",
@@ -90,9 +108,45 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     lastVerified: "August 2026"
   },
   {
+    id: "wbcis",
+    name: "Weather Based Crop Insurance Scheme",
+    shortName: "WBCIS",
+    typeLabel: "WEATHER INSURANCE COMPONENT",
+    category: "climate",
+    categoryLabel: "Weather & Climate Risk",
+    categoryIcon: "🌦️",
+    summary:
+      "Insurance protection against specified adverse weather conditions like deficit rainfall, excess rain, extreme temperatures, and high humidity that adversely affect crop production.",
+    benefits: [
+      "Parametric weather index payout based on objective weather data recorded at automated weather stations.",
+      "Protection against drought, heat stress, unseasonal rainfall, and high humidity spells.",
+      "Fast claim processing without requiring individual field crop-cutting estimates."
+    ],
+    eligibilitySummary: [
+      "Farmers growing notified crops in notified weather reference areas.",
+      "Implemented under the PMFBY crop insurance framework."
+    ],
+    documentsRequired: [
+      "Aadhaar Card",
+      "Land 7/12 Extract",
+      "Sowing Declaration Certificate",
+      "Bank Account details"
+    ],
+    howToApplySteps: [
+      "Access WBCIS parameters via pmfby.gov.in or National Portal india.gov.in.",
+      "Check notified weather parameters for Ahmednagar district / Kopargaon block.",
+      "Enroll through local bank branch, CSC center, or online PMFBY portal.",
+      "Claims are automatically triggered if weather stations record adverse index events."
+    ],
+    officialUrl: "https://www.india.gov.in/category/agriculture-rural-environment/subcategory/agricultural-produce/details/weather-based-crop-insurance-scheme-wbcis",
+    officialSourceName: "National Portal of India & PMFBY Framework",
+    lastVerified: "August 2026"
+  },
+  {
     id: "pmksy",
     name: "Pradhan Mantri Krishi Sinchayee Yojana — Per Drop More Crop",
     shortName: "PMKSY — Per Drop More Crop",
+    typeLabel: "IRRIGATION SCHEME",
     category: "irrigation",
     categoryLabel: "Irrigation / Water Efficiency",
     categoryIcon: "💧",
@@ -126,9 +180,43 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     lastVerified: "August 2026"
   },
   {
+    id: "atal-bhujal",
+    name: "Atal Bhujal Yojana — Groundwater Reference",
+    shortName: "Atal Bhujal Yojana",
+    typeLabel: "GROUNDWATER MANAGEMENT REFERENCE",
+    category: "groundwater",
+    categoryLabel: "Groundwater & Water Security",
+    categoryIcon: "💧",
+    programmePeriod: "Programme Period: 2020–2025",
+    summary:
+      "Community-led sustainable groundwater management programme implemented across water-stressed areas to strengthen water budgeting, artificial recharge, and water conservation.",
+    benefits: [
+      "Community water budgeting and rainwater harvesting asset creation.",
+      "Groundwater recharge structure guidelines (percolation tanks, check dams, recharge shafts).",
+      "Support for efficient crop water planning in over-exploited and semi-critical groundwater blocks."
+    ],
+    eligibilitySummary: [
+      "Reference programme implemented in selected water-stressed Gram Panchayats in Maharashtra (2020–2025).",
+      "For active individual drip/sprinkler subsidies, see PMKSY — Per Drop More Crop."
+    ],
+    documentsRequired: [
+      "Gram Panchayat Water Budgeting Plan",
+      "Village Water Security Plan reference"
+    ],
+    howToApplySteps: [
+      "Review official Maharashtra GSDA groundwater reports at gsda.maharashtra.gov.in.",
+      "Participate in Gram Panchayat water security and water budgeting meetings.",
+      "Adopt micro-irrigation via PMKSY for individual farm water saving."
+    ],
+    officialUrl: "https://gsda.maharashtra.gov.in/en-atal-bhujal-project/",
+    officialSourceName: "Groundwater Surveys & Development Agency (GSDA), Govt. of Maharashtra",
+    lastVerified: "August 2026"
+  },
+  {
     id: "soil-health-card",
     name: "Soil Health Card Scheme",
     shortName: "Soil Health Card",
+    typeLabel: "SOIL HEALTH SERVICE",
     category: "soil",
     categoryLabel: "Soil Health / Nutrient Management",
     categoryIcon: "🌱",
@@ -165,9 +253,71 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     lastVerified: "August 2026"
   },
   {
+    id: "ipm",
+    name: "Integrated Pest Management Programme",
+    shortName: "Integrated Pest Management (IPM)",
+    typeLabel: "GOVERNMENT PROGRAMME",
+    category: "pest-disease",
+    categoryLabel: "Crop Disease & Pest Management",
+    categoryIcon: "🐛",
+    summary:
+      "Ecological pest management approach combining biological control, mechanical traps, cultural practices, and judicious chemical pesticide usage below economic threshold levels.",
+    benefits: [
+      "Minimizes chemical pesticide residue on food crops while preserving natural beneficial predator insects.",
+      "Prevents pest resistance development in Cotton (Bollworm/Whitefly), Sugarcane (Borer/Smut), and Onion (Thrips).",
+      "Free field scout training and demonstration through Central IPM Centers and KVKs."
+    ],
+    eligibilitySummary: [
+      "All farmers growing field crops and horticultural crops.",
+      "Guidance available through Directorate of Plant Protection, Quarantine & Storage (PPQS)."
+    ],
+    documentsRequired: [
+      "No formal documents required for technical guidance and IPM field school participation."
+    ],
+    howToApplySteps: [
+      "Visit ppqs.gov.in or contact nearest Krishi Vigyan Kendra.",
+      "Adopt yellow/blue sticky traps and pheromone traps for pest monitoring.",
+      "Use bio-pesticides (Neem oil, Trichoderma, Pseudomonas) before applying chemical sprays."
+    ],
+    officialUrl: "https://ppqs.gov.in/",
+    officialSourceName: "Directorate of Plant Protection, Quarantine & Storage (PPQS), Govt. of India",
+    lastVerified: "August 2026"
+  },
+  {
+    id: "npss",
+    name: "National Pest Surveillance System",
+    shortName: "NPSS",
+    typeLabel: "GOVERNMENT AGRICULTURAL SERVICE",
+    category: "monitoring",
+    categoryLabel: "Crop & Pest Monitoring",
+    categoryIcon: "📡",
+    summary:
+      "AI/ML-enabled national digital surveillance platform developed by ICAR-NCIPM for pest identification, disease diagnostic surveillance, and rapid crop protection advisories.",
+    benefits: [
+      "AI-assisted instant pest and disease photo identification on mobile devices.",
+      "Geo-tagged real-time pest outbreak alerts for neighboring talukas and districts.",
+      "Direct connection with ICAR plant protection scientists for expert advisories."
+    ],
+    eligibilitySummary: [
+      "Free digital agricultural service open to all farmers, agricultural extension officers, and scientists."
+    ],
+    documentsRequired: [
+      "Smartphone with camera and internet connectivity."
+    ],
+    howToApplySteps: [
+      "Visit nriipm.res.in or download the NPSS App from Google Play Store.",
+      "Register with Mobile Number and location (Ahmednagar / Kopargaon).",
+      "Upload leaf disease/pest photo to receive AI diagnostic feedback and ICAR guidance."
+    ],
+    officialUrl: "https://nriipm.res.in/",
+    officialSourceName: "ICAR — National Research Centre for Integrated Pest Management",
+    lastVerified: "August 2026"
+  },
+  {
     id: "enam",
     name: "National Agriculture Market (e-NAM)",
     shortName: "e-NAM",
+    typeLabel: "GOVERNMENT PLATFORM",
     category: "market",
     categoryLabel: "Market Access",
     categoryIcon: "🏪",
@@ -196,6 +346,38 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://enam.gov.in/",
     officialSourceName: "Small Farmers' Agribusiness Consortium (SFAC), Govt. of India",
+    lastVerified: "August 2026"
+  },
+  {
+    id: "mgnrega",
+    name: "Mahatma Gandhi National Rural Employment Guarantee Scheme",
+    shortName: "MGNREGA",
+    typeLabel: "RURAL EMPLOYMENT & ASSET PROGRAMME",
+    category: "employment",
+    categoryLabel: "Rural Employment & Labour",
+    categoryIcon: "👷",
+    summary:
+      "National social security scheme guaranteeing 100 days of wage employment per financial year to rural households, while building community assets for water conservation and land development.",
+    benefits: [
+      "Guaranteed wage employment for rural households for up to 100 days per year.",
+      "Funding for rural asset creation: farm ponds, check dams, trenching, and soil conservation.",
+      "Direct wage credit to Aadhaar-seeded bank/post office accounts."
+    ],
+    eligibilitySummary: [
+      "Adult members of rural households residing in Gram Panchayat area willing to do unskilled manual work."
+    ],
+    documentsRequired: [
+      "MGNREGA Job Card",
+      "Aadhaar Card",
+      "Bank/Post Office Account details"
+    ],
+    howToApplySteps: [
+      "Visit nrega.nic.in or apply at local Gram Panchayat office.",
+      "Submit application for Job Card issuance with household details.",
+      "Submit written application for work to Gram Panchayat / Programme Officer."
+    ],
+    officialUrl: "https://nrega.nic.in/",
+    officialSourceName: "Ministry of Rural Development, Govt. of India",
     lastVerified: "August 2026"
   }
 ];
