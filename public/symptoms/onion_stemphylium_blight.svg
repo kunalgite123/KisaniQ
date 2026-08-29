@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#1b5e20"/>
+  <!-- Leaf tip dying black/brown -->
+  <path d="M 35 90 L 50 20 L 65 90 Z" fill="#4caf50"/>
+  <path d="M 45 45 L 50 20 L 55 45 Z" fill="#3e2723"/>
+</svg>

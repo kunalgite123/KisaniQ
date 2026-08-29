@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#37474f"/>
+  <!-- Collapsed bent onion leaf -->
+  <path d="M 30 90 Q 35 40 65 40 T 80 80" stroke="#c0ca33" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <!-- Grey violet fuzz patch -->
+  <path d="M 40 45 Q 60 35 70 55" stroke="#7e57c2" stroke-width="6" fill="none" stroke-dasharray="2,3"/>
+</svg>

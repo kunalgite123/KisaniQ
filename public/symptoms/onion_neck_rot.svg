@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#37474f"/>
+  <path d="M 50 30 Q 80 50 70 80 Q 50 90 30 80 Q 20 50 50 30 Z" fill="#ffb74d"/>
+  <!-- Grey brown neck rot -->
+  <path d="M 40 35 Q 50 20 60 35 Z" fill="#5d4037"/>
+</svg>
