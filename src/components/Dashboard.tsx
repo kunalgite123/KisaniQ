@@ -42,7 +42,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
   }, []);
 
   return (
-    <div>
+    <div style={{ maxWidth: 1120, margin: "0 auto" }}>
       {/* 1. Farm Health Greeting Banner */}
       <FarmHealthScore
         climateRisk={risk}
@@ -52,160 +52,171 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
       />
 
       {/* 2. Flagship ONE DOMINANT CARD: Today's Farm Decision */}
-      <div style={{ marginTop: 20 }}>
-        <AdvisoryCard
-          climateRisk={risk}
-          village={village}
-          detectedDisease={detectedDisease}
-          cropName={cropName}
-          onViewDetails={onNavigateTab ? () => onNavigateTab("advisory") : undefined}
-        />
-      </div>
+      <AdvisoryCard
+        climateRisk={risk}
+        village={village}
+        detectedDisease={detectedDisease}
+        cropName={cropName}
+        onViewDetails={onNavigateTab ? () => onNavigateTab("advisory") : undefined}
+      />
 
-      {/* 3. Balanced Grid for Climate, Water & Crop Intelligence */}
-      <div className="grid-2" style={{ marginTop: 20 }}>
-        {/* Climate Intelligence */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <span className="section-label">{t("climate_intelligence")}</span>
-              <h3 className="section-title">{t("weather_dry_spell")}</h3>
-            </div>
-            {onNavigateTab && (
-              <button
-                className="accordion-toggle-btn"
-                onClick={() => onNavigateTab("climate")}
-              >
-                {t("view_7day_forecast")}
-              </button>
-            )}
-          </div>
-
-          {loading && <p style={{ color: "var(--text-muted)", fontSize: 13 }}>Fetching satellite forecast…</p>}
-          {error && <p style={{ color: "var(--alert-red)", fontSize: 13 }}>{error}</p>}
-
-          {weather && risk && (
-            <div>
-              <div style={{ display: "flex", gap: 16, alignItems: "baseline" }}>
-                <span className="mono" style={{ fontSize: 32, fontWeight: 700 }}>
-                  {Math.round(weather.days[0]?.tempMaxC ?? 32)}°C
-                </span>
-                <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
-                  {t("chance_col")}: {Math.round(weather.days[0]?.precipitationProbabilityPct ?? 0)}%
-                </span>
+      {/* 3. Balanced Grid for Climate & Crop Intelligence */}
+      <div className="grid-2" style={{ gap: 20, marginBottom: 24 }}>
+        {/* Climate Intelligence Card */}
+        <div className="card" style={{ padding: 22, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+              <div>
+                <span className="section-label" style={{ fontSize: 11 }}>CLIMATE INTELLIGENCE</span>
+                <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
+                  Weather &amp; Dry-Spell Risk
+                </h3>
               </div>
-
-              <div style={{ marginTop: 12, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
-                {risk.headline}
-              </div>
-
-              <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
-                <span className={`badge badge-${risk.level === "high" ? "urgent" : risk.level === "moderate" ? "watch" : "healthy"}`}>
-                  {risk.dryDaysAhead}/7 {t("dry_day")}s
-                </span>
-                <span className="badge badge-healthy">
-                  {risk.heatStressDays} {t("heat_stress_days")}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Crop Diagnostic Intelligence */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <span className="section-label">{t("crop_intelligence")}</span>
-              <h3 className="section-title">{t("pest_disease_diag")}</h3>
-            </div>
-            {onNavigateTab && (
-              <button
-                className="accordion-toggle-btn"
-                onClick={() => onNavigateTab("crop")}
-              >
-                {t("open_crop_doctor")}
-              </button>
-            )}
-          </div>
-
-          {detectedDisease && cropName ? (
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 18, fontWeight: 600, color: "var(--text-main)" }}>
-                  {cropName}: {detectedDisease.displayName}
-                </span>
-                <span className={`badge badge-${detectedDisease.severity}`}>
-                  {detectedDisease.severity}
-                </span>
-              </div>
-              <p style={{ marginTop: 8, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
-                {detectedDisease.advisory}
-              </p>
-            </div>
-          ) : (
-            <div>
-              <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>
-                No active disease detected. Scan a leaf sample using the edge AI neural network to detect early stress.
-              </p>
               {onNavigateTab && (
                 <button
-                  className="btn btn-outline"
-                  onClick={() => onNavigateTab("crop")}
-                  style={{ marginTop: 14, padding: "6px 16px", fontSize: 12.5 }}
+                  className="btn-outline-sm"
+                  onClick={() => onNavigateTab("climate")}
+                  style={{ fontSize: 12 }}
                 >
-                  📷 {t("open_crop_doctor")}
+                  View 7-day forecast →
                 </button>
               )}
             </div>
-          )}
+
+            {loading && <p style={{ color: "var(--text-muted)", fontSize: 13 }}>Fetching satellite forecast…</p>}
+            {error && <p style={{ color: "var(--color-urgent)", fontSize: 13 }}>{error}</p>}
+
+            {weather && risk && (
+              <div>
+                <div style={{ display: "flex", gap: 16, alignItems: "baseline" }}>
+                  <span style={{ fontSize: 36, fontWeight: 800, fontFamily: "var(--font-mono)", color: "var(--text-main)" }}>
+                    {Math.round(weather.days[0]?.tempMaxC ?? 32)}°C
+                  </span>
+                  <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
+                    Rain chance: {Math.round(weather.days[0]?.precipitationProbabilityPct ?? 0)}%
+                  </span>
+                </div>
+
+                <p style={{ marginTop: 10, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                  {risk.headline}
+                </p>
+
+                <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span className={`badge badge-${risk.level === "high" ? "urgent" : risk.level === "moderate" ? "watch" : "healthy"}`}>
+                    {risk.dryDaysAhead}/7 dry days
+                  </span>
+                  <span className="badge badge-healthy">
+                    {risk.heatStressDays} heat-stress days
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Crop Diagnostic Intelligence Card */}
+        <div className="card" style={{ padding: 22, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+              <div>
+                <span className="section-label" style={{ fontSize: 11 }}>CROP INTELLIGENCE</span>
+                <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
+                  Pest &amp; Disease Diagnostics
+                </h3>
+              </div>
+              {onNavigateTab && (
+                <button
+                  className="btn-outline-sm"
+                  onClick={() => onNavigateTab("crop")}
+                  style={{ fontSize: 12 }}
+                >
+                  Open Crop Doctor →
+                </button>
+              )}
+            </div>
+
+            {detectedDisease && cropName ? (
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)" }}>
+                    {cropName}: {detectedDisease.displayName}
+                  </span>
+                  <span className={`badge badge-${detectedDisease.severity}`}>
+                    {detectedDisease.severity}
+                  </span>
+                </div>
+                <p style={{ marginTop: 8, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                  {detectedDisease.advisory}
+                </p>
+              </div>
+            ) : (
+              <div>
+                <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                  No active disease detected. Scan a leaf sample using Crop Doctor neural network to check for early stress symptoms.
+                </p>
+                {onNavigateTab && (
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => onNavigateTab("crop")}
+                    style={{ marginTop: 14, padding: "6px 16px", fontSize: 12 }}
+                  >
+                    📷 Open Crop Doctor Diagnostic Scanner
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* 4. Water & Soil Intelligence Row */}
-      <div className="card" style={{ marginTop: 20 }}>
-        <div className="card-header">
+      <div className="card" style={{ padding: 22, marginBottom: 32 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
           <div>
-            <span className="section-label">{t("groundwater_soil_intel")}</span>
-            <h3 className="section-title">{t("groundwater_soil_desc")}</h3>
+            <span className="section-label" style={{ fontSize: 11 }}>GROUNDWATER &amp; SOIL HEALTH</span>
+            <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
+              Groundwater Level &amp; Soil Baseline
+            </h3>
           </div>
           {onNavigateTab && (
             <button
-              className="accordion-toggle-btn"
+              className="btn-outline-sm"
               onClick={() => onNavigateTab("water")}
+              style={{ fontSize: 12 }}
             >
-              {t("view_water_soil_details")}
+              View Water &amp; Soil details →
             </button>
           )}
         </div>
 
-        <div className="grid-3">
-          <div className="readout">
-            <div className="readout-label">{t("node_groundwater")}</div>
-            <div style={{ fontSize: 15, fontWeight: 600, marginTop: 4 }}>
-              {village ? village.waterSourceType.replace("_", " ").toUpperCase() : t("taluka_baseline")}
+        <div className="grid-3" style={{ gap: 16 }}>
+          <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Groundwater Source</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)", marginTop: 4 }}>
+              {village ? village.waterSourceType.replace("_", " ").toUpperCase() : "Taluka Baseline"}
             </div>
-            <div className="readout-label" style={{ marginTop: 8 }}>
-              Status: <strong>↘ Semi-Critical</strong>
+            <div style={{ fontSize: 12, color: "var(--color-urgent)", marginTop: 6, fontWeight: 600 }}>
+              Status: ↘ Semi-Critical Zone
             </div>
           </div>
 
-          <div className="readout">
-            <div className="readout-label">Distance to Godavari River</div>
-            <div className="readout-value" style={{ fontSize: 24, marginTop: 4 }}>
+          <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Distance to Godavari River</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-main)", marginTop: 2 }}>
               {village ? `${village.distanceToGodavariKm.toFixed(1)} km` : "Centre"}
             </div>
-            <div className="readout-label" style={{ marginTop: 8 }}>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
               {village?.proposedRecharge ? "Recharge Site" : "Standard Monitoring"}
             </div>
           </div>
 
-          <div className="readout">
-            <div className="readout-label">{t("node_soil")}</div>
-            <div style={{ fontSize: 15, fontWeight: 600, marginTop: 4 }}>
-              {t("soil_black_murrum")}
+          <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Soil Type</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)", marginTop: 4 }}>
+              Medium Black / Murrum
             </div>
-            <div className="readout-label" style={{ marginTop: 8 }}>
-              Annual Rainfall: {kopargaonProfile.normalRainfallMm} mm
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
+              Normal Rainfall: {kopargaonProfile.normalRainfallMm} mm/year
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { ClimateRisk } from "../lib/weather";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
 import { useLanguage } from "../context/LanguageContext";
-import { CloudSun, Droplets, Sprout, Activity } from "lucide-react";
+import { CloudSun, Droplets, Sprout } from "lucide-react";
 
 interface Props {
   climateRisk: ClimateRisk | null;
@@ -32,44 +32,104 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
     : t("live_data");
 
   return (
-    <div className="farm-score-banner">
-      <div className="score-left">
-        <div className="score-gauge">
-          <div className="score-inner">
-            <span className="score-num">{score}</span>
-            <span className="score-label">/ 100</span>
+    <div
+      className="card"
+      style={{
+        padding: 24,
+        background: "var(--surface-card)",
+        border: "1px solid var(--border-subtle)",
+        borderRadius: "var(--radius-md)",
+        marginBottom: 20
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
+        {/* Left Side: Score & Greeting */}
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          {/* Circular Score Gauge */}
+          <div
+            style={{
+              width: 72,
+              height: 72,
+              borderRadius: "50%",
+              border: "3px solid var(--primary-600)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "var(--surface-bg)"
+            }}
+          >
+            <span style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", lineHeight: 1 }}>{score}</span>
+            <span style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>/ 100</span>
+          </div>
+
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-800)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+              Krishi Setu Daily Index
+            </div>
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
+              Good morning, Kisan 🌾
+            </h2>
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
+              Here's your farm intelligence for today · 📍 <strong>{village ? village.name : "Kopargaon"}, Maharashtra</strong>
+            </div>
           </div>
         </div>
 
-        <div className="score-greeting">
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-            <Activity size={14} style={{ color: "var(--primary-500)" }} />
-            <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--primary-500)", fontWeight: 700 }}>
-              {t("node_krishi_ai")} Daily Index
-            </span>
+        {/* Right Side: 3 Compact Signal Chips */}
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <div
+            style={{
+              background: "var(--surface-bg)",
+              border: "1px solid var(--border-subtle)",
+              padding: "8px 12px",
+              borderRadius: "var(--radius-sm)",
+              fontSize: 12,
+              display: "flex",
+              alignItems: "center",
+              gap: 6
+            }}
+          >
+            <CloudSun size={14} style={{ color: "var(--primary-700)" }} />
+            <span style={{ color: "var(--text-muted)" }}>Climate:</span>
+            <strong style={{ color: "var(--text-main)" }}>{climateText}</strong>
           </div>
-          <h2>{t("greeting_good_morning")}</h2>
-          <p>
-            {t("greeting_intelligence_sub")}{" "}
-            <strong>{village ? village.name : "Kopargaon"}, {t("maharashtra")}</strong>
-          </p>
-        </div>
-      </div>
 
-      <div className="signals-summary-row">
-        <div className="signal-pill">
-          <CloudSun size={14} style={{ color: "var(--primary-500)" }} />
-          <span>{t("signal_climate")}: <strong>{climateText}</strong></span>
-        </div>
+          <div
+            style={{
+              background: "var(--surface-bg)",
+              border: "1px solid var(--border-subtle)",
+              padding: "8px 12px",
+              borderRadius: "var(--radius-sm)",
+              fontSize: 12,
+              display: "flex",
+              alignItems: "center",
+              gap: 6
+            }}
+          >
+            <Droplets size={14} style={{ color: "var(--primary-700)" }} />
+            <span style={{ color: "var(--text-muted)" }}>Water:</span>
+            <strong style={{ color: "var(--text-main)" }}>Monitored</strong>
+          </div>
 
-        <div className="signal-pill">
-          <Droplets size={14} style={{ color: "var(--water-600)" }} />
-          <span>{t("signal_water")}: <strong>{t("signal_monitored")}</strong></span>
-        </div>
-
-        <div className="signal-pill">
-          <Sprout size={14} style={{ color: "var(--primary-500)" }} />
-          <span>{t("signal_crop_ai")}: <strong>{detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : t("signal_scouted")}</strong></span>
+          <div
+            style={{
+              background: "var(--surface-bg)",
+              border: "1px solid var(--border-subtle)",
+              padding: "8px 12px",
+              borderRadius: "var(--radius-sm)",
+              fontSize: 12,
+              display: "flex",
+              alignItems: "center",
+              gap: 6
+            }}
+          >
+            <Sprout size={14} style={{ color: "var(--primary-700)" }} />
+            <span style={{ color: "var(--text-muted)" }}>Crop AI:</span>
+            <strong style={{ color: "var(--text-main)" }}>
+              {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : "Scouted"}
+            </strong>
+          </div>
         </div>
       </div>
     </div>
