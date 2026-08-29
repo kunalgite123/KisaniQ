@@ -181,12 +181,14 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
             {/* Card 2: CGWB Recharge Site & Dynamic Distance Decision (Case 1 / 2 / 3) */}
             <div className="readout" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <div className="readout-label">{t("recharge_site")}</div>
-                  <span className="section-label" style={{ fontSize: 10 }}>{decision.ruleLabel}</span>
-                </div>
-                <div style={{ fontSize: 14.5, fontWeight: 700, marginTop: 2 }}>
-                  {village.proposedRecharge ? "Yes — Percolation Tank / Recharge Shaft" : "Standard Monitoring Site"}
+                <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 8 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 6 }}>
+                    <div className="readout-label" style={{ margin: 0 }}>{t("recharge_site")}</div>
+                    <span className="section-label" style={{ fontSize: 9.5, letterSpacing: "0.02em" }}>{decision.ruleLabel}</span>
+                  </div>
+                  <div style={{ fontSize: 14.5, fontWeight: 700 }}>
+                    {village.proposedRecharge ? "Yes — Percolation Tank / Recharge Shaft" : "Standard Monitoring Site"}
+                  </div>
                 </div>
 
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 4 }}>
@@ -514,40 +516,93 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
           </div>
         </div>
 
-        {/* GOVERNMENT SUPPORT NOTICE (FOR > 10 KM / DEEP GROUNDWATER) */}
+        {/* DEDICATED RECOMMENDED GOVERNMENT SCHEME CARD FOR > 10 KM (PMKSY - PER DROP MORE CROP) */}
         {decision.hasGovernmentSupport && (
           <div
             style={{
-              padding: 16,
-              background: "rgba(0, 119, 182, 0.08)",
-              border: "1px solid var(--ai-blue)",
+              padding: 22,
+              background: "var(--surface-card)",
+              border: "2px solid var(--ai-blue)",
               borderRadius: "var(--radius-md)",
-              marginBottom: 18,
-              display: "flex",
-              alignItems: "flex-start",
-              gap: 12
+              marginBottom: 20,
+              boxShadow: "var(--shadow-sm)"
             }}
           >
-            <Building2 size={20} style={{ color: "var(--ai-blue)", flexShrink: 0, marginTop: 2 }} />
-            <div>
-              <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text-main)" }}>
-                {decision.governmentSupportNotice}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, marginBottom: 10 }}>
+              <span
+                style={{
+                  background: "rgba(0, 119, 182, 0.12)",
+                  color: "var(--ai-blue)",
+                  padding: "3px 10px",
+                  borderRadius: "var(--radius-full)",
+                  fontSize: 11,
+                  fontWeight: 800,
+                  letterSpacing: "0.04em"
+                }}
+              >
+                🏛 RECOMMENDED SCHEME FOR DEEP GROUNDWATER (&gt; 10 KM)
+              </span>
+              <span style={{ fontSize: 11.5, color: "var(--text-muted)", fontWeight: 600 }}>
+                Department: Agriculture Department
+              </span>
+            </div>
+
+            <h4 style={{ fontSize: 19, fontWeight: 800, color: "var(--text-main)", margin: "0 0 14px 0", borderBottom: "2px solid var(--ai-blue)", paddingBottom: 8 }}>
+              Pradhan Mantri Krishi Sinchayee Yojana - Per Drop More Crop (Micro-irrigation Component)
+            </h4>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: 4 }}>
+                  {language === "mr" ? "योजनेबद्दल / Overview" : "Overview"}
+                </div>
+                <p style={{ fontSize: 13.5, lineHeight: 1.65, color: "var(--text-main)", margin: 0 }}>
+                  The major objective of PMKSY is to achieve convergence of investments in irrigation at the field level, expand cultivable area under assured irrigation, improve on-farm water use efficiency to reduce wastage of water, enhance the adoption of precision-irrigation and other water saving technologies (More crop per drop), enhance recharge of aquifers.
+                </p>
               </div>
-              <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
-                {language === "mr"
-                  ? "प्रधानमंत्री कृषी सिंचन योजना (PMKSY) अंतर्गत ठिबक व तुषार सिंचनासाठी सबसिडी उपलब्ध आहे."
-                  : "PMKSY micro-irrigation subsidies (55%-80%) may apply for deep groundwater recharge zones."}
+
+              <div
+                style={{
+                  padding: 14,
+                  background: "var(--surface-muted)",
+                  borderRadius: "var(--radius-sm)",
+                  border: "1px solid var(--border-subtle)"
+                }}
+              >
+                <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-main)", marginBottom: 8 }}>
+                  Related Documents
+                </div>
+                <a
+                  href="https://pmksy.gov.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ fontSize: 12.5, color: "var(--primary-700)", fontWeight: 700, display: "flex", alignItems: "center", gap: 6, textDecoration: "none" }}
+                >
+                  📄 Government Resolution ↗
+                </a>
               </div>
+            </div>
+
+            <div style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
               {onNavigateTab && (
                 <button
                   type="button"
-                  className="btn-outline-sm"
+                  className="btn btn-primary"
                   onClick={() => onNavigateTab("schemes")}
-                  style={{ marginTop: 10, fontSize: 12, padding: "4px 12px" }}
+                  style={{ fontSize: 13, fontWeight: 700, padding: "8px 18px" }}
                 >
-                  {language === "mr" ? "शासकीय योजना उघडा →" : "Open Government Schemes →"}
+                  {language === "mr" ? "शासकीय योजनांमध्ये अर्ज करा / माहिती पहा →" : "View Scheme Details & Apply →"}
                 </button>
               )}
+              <a
+                href="https://pmksy.gov.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline-sm"
+                style={{ fontSize: 12, padding: "6px 14px" }}
+              >
+                Official Portal (pmksy.gov.in) ↗
+              </a>
             </div>
           </div>
         )}
