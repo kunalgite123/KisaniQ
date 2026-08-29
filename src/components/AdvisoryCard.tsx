@@ -28,8 +28,8 @@ interface Props {
 }
 
 export function AdvisoryAlertBox({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
-  const { t } = useLanguage();
-  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName });
+  const { t, language } = useLanguage();
+  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName, lang: language });
 
   const translatedTitle =
     verdict.urgency === "urgent"
@@ -132,9 +132,9 @@ export function AdvisoryAlertBox({ climateRisk, village, detectedDisease, cropNa
 }
 
 export default function AdvisoryCard({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [showExplainability, setShowExplainability] = useState(false);
-  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName });
+  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName, lang: language });
 
   const confidencePct = detectedDisease ? 92 : climateRisk ? 88 : 84;
   const riskLevel =
@@ -267,22 +267,22 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
             <ul className="explain-list">
               {climateRisk && (
                 <li className="explain-item">
-                  <strong>Climate Factor:</strong> {climateRisk.headline}
+                  <strong>{language === "mr" ? "हवामान घटक:" : "Climate Factor:"}</strong> {climateRisk.headline}
                 </li>
               )}
               {village && (
                 <li className="explain-item">
-                  <strong>Groundwater Factor:</strong> {village.name} is {village.distanceToGodavariKm.toFixed(1)} km from Godavari river ({waterSourceLabel[village.waterSourceType]}).
+                  <strong>{language === "mr" ? "भूजल घटक:" : "Groundwater Factor:"}</strong> {village.name} {language === "mr" ? `हे गाव गोदावरी नदीपासून ${village.distanceToGodavariKm.toFixed(1)} किमी अंतरावर आहे (${waterSourceLabel[village.waterSourceType]}).` : `is ${village.distanceToGodavariKm.toFixed(1)} km from Godavari river (${waterSourceLabel[village.waterSourceType]}).`}
                 </li>
               )}
               {detectedDisease && cropName && (
                 <li className="explain-item">
-                  <strong>Crop Diagnostic Factor:</strong> Edge TF.js model classified {detectedDisease.displayName} on {cropName} leaf.
+                  <strong>{language === "mr" ? "पीक निदान घटक:" : "Crop Diagnostic Factor:"}</strong> {detectedDisease.displayName} {language === "mr" ? `हे लक्षण ${cropName} पिकावर वर्गीकरण केले.` : `on ${cropName} leaf.`}
                 </li>
               )}
               {!detectedDisease && (
                 <li className="explain-item">
-                  <strong>Crop Scouting Tip:</strong> Scan a leaf under 'Crop Doctor' to feed real-time disease diagnostic signals into this decision engine.
+                  <strong>{language === "mr" ? "पीक पाहणी टीप:" : "Crop Scouting Tip:"}</strong> {language === "mr" ? "या निर्णय इंजिनमध्ये थेट रोग निदान माहिती देण्यासाठी 'पीक डॉक्टर' मध्ये पानाचा फोटो स्कॅन करा." : "Scan a leaf under 'Crop Doctor' to feed real-time disease diagnostic signals into this decision engine."}
                 </li>
               )}
             </ul>
