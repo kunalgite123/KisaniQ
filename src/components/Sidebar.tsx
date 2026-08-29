@@ -10,7 +10,8 @@ import {
   Bot,
   MapPin,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Sprout
 } from "lucide-react";
 
 interface Props {
@@ -45,7 +46,9 @@ export default function Sidebar({
       {/* Sidebar Brand Area */}
       <div className="sidebar-header">
         <div className="brand-container">
-          <div className="brand-logo-box">K</div>
+          <div className="brand-logo-box">
+            <Sprout size={20} color="#ffffff" strokeWidth={2.5} />
+          </div>
           {!collapsed && (
             <div className="brand-text-box">
               <span className="brand-name">Krishi Setu</span>

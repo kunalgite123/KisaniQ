@@ -4,6 +4,7 @@ import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
 import ForgotPasswordPage from "./ForgotPasswordPage";
 import ResetPasswordPage from "./ResetPasswordPage";
+import { Sprout } from "lucide-react";
 
 interface Props {
   children: React.ReactNode;
@@ -35,10 +36,10 @@ export default function ProtectedRoute({ children }: Props) {
           gap: 16
         }}
       >
-        <div className="brand-logo-box" style={{ width: 48, height: 48, fontSize: 24 }}>
-          Q
+        <div className="brand-logo-box" style={{ width: 48, height: 48 }}>
+          <Sprout size={26} color="#ffffff" strokeWidth={2.5} />
         </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--primary-900)" }}>KisaniQ</div>
+        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--primary-900)" }}>Krishi Setu</div>
         <div style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>
           Loading authentication...
         </div>
