@@ -112,21 +112,6 @@ export default function Sidebar({
           </div>
         )}
       </div>
-
-      {/* Sidebar Footer System Status */}
-      <div className="sidebar-footer">
-        <div className="system-status-box">
-          <span className="status-dot-green" />
-          {!collapsed ? (
-            <div>
-              <div style={{ fontWeight: 600, color: "var(--text-main)", fontSize: 12 }}>{t("system_status_online")}</div>
-              <div style={{ fontSize: 10, color: "var(--text-muted)" }}>{t("all_systems_ok")}</div>
-            </div>
-          ) : (
-            <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--primary-700)" }}>OK</span>
-          )}
-        </div>
-      </div>
     </aside>
   );
 }
