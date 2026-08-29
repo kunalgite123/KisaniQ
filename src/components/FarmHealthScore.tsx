@@ -1,6 +1,7 @@
 import { ClimateRisk } from "../lib/weather";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Props {
   climateRisk: ClimateRisk | null;
@@ -10,8 +11,8 @@ interface Props {
 }
 
 export default function FarmHealthScore({ climateRisk, village, detectedDisease, cropName }: Props) {
+  const { t } = useLanguage();
   let score = 82; // Base score
-  let statusText = "Good";
 
   if (climateRisk?.level === "high") score -= 15;
   else if (climateRisk?.level === "moderate") score -= 8;
@@ -21,9 +22,13 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
   if (detectedDisease?.severity === "urgent") score -= 25;
   else if (detectedDisease?.severity === "watch") score -= 12;
 
-  if (score >= 80) statusText = "Optimal";
-  else if (score >= 60) statusText = "Moderate";
-  else statusText = "Action Required";
+  const climateText = climateRisk
+    ? climateRisk.level === "high"
+      ? t("status_critical")
+      : climateRisk.level === "moderate"
+      ? t("status_moderate")
+      : t("status_stable")
+    : t("live_data");
 
   return (
     <div className="farm-score-banner">
@@ -36,25 +41,28 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
         </div>
 
         <div className="score-greeting">
-          <h2>Good morning 👋</h2>
-          <p>Your farm intelligence for today • <strong>{village ? village.name : "Kopargaon"}, Maharashtra</strong></p>
+          <h2>{t("greeting_good_morning")}</h2>
+          <p>
+            {t("greeting_intelligence_sub")}
+            <strong>{village ? village.name : "Kopargaon"}, {t("maharashtra")}</strong>
+          </p>
         </div>
       </div>
 
       <div className="signals-summary-row">
         <div className="signal-pill">
           <span>🌦️</span>
-          <span>Climate: {climateRisk ? climateRisk.level.toUpperCase() : "Live API"}</span>
+          <span>{t("signal_climate")}: {climateText}</span>
         </div>
 
         <div className="signal-pill">
           <span>💧</span>
-          <span>Water: {village ? village.waterSourceType.split("_")[0] : "Monitored"}</span>
+          <span>{t("signal_water")}: {t("signal_monitored")}</span>
         </div>
 
         <div className="signal-pill">
           <span>🍃</span>
-          <span>Crop AI: {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : "Scouted"}</span>
+          <span>{t("signal_crop_ai")}: {detectedDisease ? `${cropName}: ${detectedDisease.displayName}` : t("signal_scouted")}</span>
         </div>
       </div>
     </div>

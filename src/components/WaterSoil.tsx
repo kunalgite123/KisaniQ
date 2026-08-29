@@ -1,5 +1,6 @@
 import { villages, Village, waterSourceLabel } from "../data/villages";
 import { kopargaonProfile, cropBenchmarks } from "../data/groundSoil";
+import { useLanguage } from "../context/LanguageContext";
 import PageHeader from "./PageHeader";
 
 interface Props {
@@ -8,10 +9,11 @@ interface Props {
 }
 
 export default function WaterSoil({ village, onSelectVillage }: Props) {
+  const { t } = useLanguage();
   return (
     <div>
       <PageHeader
-        title="Water &amp; Soil Intelligence"
+        title={t("water_soil_title")}
         subtitle="Groundwater level trends, canal reach proximity and soil quality profile"
       />
 

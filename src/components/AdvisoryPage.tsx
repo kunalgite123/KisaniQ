@@ -1,6 +1,7 @@
 import { ClimateRisk } from "../lib/weather";
 import { Village, waterSourceLabel } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
+import { useLanguage } from "../context/LanguageContext";
 import PageHeader from "./PageHeader";
 
 interface Props {
@@ -20,6 +21,7 @@ interface ActionItem {
 }
 
 export default function AdvisoryPage({ climateRisk, village, detectedDisease, cropName }: Props) {
+  const { t } = useLanguage();
   const actions: ActionItem[] = [];
 
   if (detectedDisease && cropName) {

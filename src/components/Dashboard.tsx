@@ -3,6 +3,7 @@ import { fetchKopargaonWeather, assessClimateRisk, WeatherSnapshot, ClimateRisk 
 import { kopargaonProfile } from "../data/groundSoil";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
+import { useLanguage } from "../context/LanguageContext";
 import AdvisoryCard from "./AdvisoryCard";
 import FarmHealthScore from "./FarmHealthScore";
 
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function Dashboard({ village, detectedDisease, cropName, onNavigateTab }: Props) {
+  const { t } = useLanguage();
   const [weather, setWeather] = useState<WeatherSnapshot | null>(null);
   const [risk, setRisk] = useState<ClimateRisk | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -66,15 +68,15 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
         <div className="card">
           <div className="card-header">
             <div>
-              <span className="section-label">Climate Intelligence</span>
-              <h3 className="section-title">Weather &amp; Dry-Spell Risk</h3>
+              <span className="section-label">{t("climate_intelligence")}</span>
+              <h3 className="section-title">{t("weather_dry_spell")}</h3>
             </div>
             {onNavigateTab && (
               <button
                 className="accordion-toggle-btn"
                 onClick={() => onNavigateTab("climate")}
               >
-                View 7-day forecast →
+                {t("view_7day_forecast")}
               </button>
             )}
           </div>
@@ -89,7 +91,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
                   {Math.round(weather.days[0]?.tempMaxC ?? 32)}°C
                 </span>
                 <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
-                  Rain chance: {Math.round(weather.days[0]?.precipitationProbabilityPct ?? 0)}%
+                  {t("chance_col")}: {Math.round(weather.days[0]?.precipitationProbabilityPct ?? 0)}%
                 </span>
               </div>
 
@@ -99,10 +101,10 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
 
               <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
                 <span className={`badge badge-${risk.level === "high" ? "urgent" : risk.level === "moderate" ? "watch" : "healthy"}`}>
-                  {risk.dryDaysAhead}/7 Dry Days
+                  {risk.dryDaysAhead}/7 {t("dry_day")}s
                 </span>
                 <span className="badge badge-healthy">
-                  {risk.heatStressDays} Heat Stress Days
+                  {risk.heatStressDays} {t("heat_stress_days")}
                 </span>
               </div>
             </div>
@@ -113,15 +115,15 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
         <div className="card">
           <div className="card-header">
             <div>
-              <span className="section-label">Crop Intelligence</span>
-              <h3 className="section-title">Pest &amp; Disease Diagnostics</h3>
+              <span className="section-label">{t("crop_intelligence")}</span>
+              <h3 className="section-title">{t("pest_disease_diag")}</h3>
             </div>
             {onNavigateTab && (
               <button
                 className="accordion-toggle-btn"
                 onClick={() => onNavigateTab("crop")}
               >
-                Open Crop Doctor →
+                {t("open_crop_doctor")}
               </button>
             )}
           </div>
@@ -151,7 +153,7 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
                   onClick={() => onNavigateTab("crop")}
                   style={{ marginTop: 14, padding: "6px 16px", fontSize: 12.5 }}
                 >
-                  📷 Scan Leaf Now
+                  📷 {t("open_crop_doctor")}
                 </button>
               )}
             </div>
@@ -163,24 +165,24 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
       <div className="card" style={{ marginTop: 20 }}>
         <div className="card-header">
           <div>
-            <span className="section-label">Resource Health</span>
-            <h3 className="section-title">Groundwater &amp; Soil Status</h3>
+            <span className="section-label">{t("groundwater_soil_intel")}</span>
+            <h3 className="section-title">{t("groundwater_soil_desc")}</h3>
           </div>
           {onNavigateTab && (
             <button
               className="accordion-toggle-btn"
               onClick={() => onNavigateTab("water")}
             >
-              View soil analysis →
+              {t("view_water_soil_details")}
             </button>
           )}
         </div>
 
         <div className="grid-3">
           <div className="readout">
-            <div className="readout-label">Primary Water Source</div>
+            <div className="readout-label">{t("node_groundwater")}</div>
             <div style={{ fontSize: 15, fontWeight: 600, marginTop: 4 }}>
-              {village ? village.waterSourceType.replace("_", " ").toUpperCase() : "TALUKA BASELINE"}
+              {village ? village.waterSourceType.replace("_", " ").toUpperCase() : t("taluka_baseline")}
             </div>
             <div className="readout-label" style={{ marginTop: 8 }}>
               Status: <strong>↘ Semi-Critical</strong>
@@ -198,9 +200,9 @@ export default function Dashboard({ village, detectedDisease, cropName, onNaviga
           </div>
 
           <div className="readout">
-            <div className="readout-label">Dominant Soil Type</div>
+            <div className="readout-label">{t("node_soil")}</div>
             <div style={{ fontSize: 15, fontWeight: 600, marginTop: 4 }}>
-              Medium Black / Coarse
+              {t("soil_black_murrum")}
             </div>
             <div className="readout-label" style={{ marginTop: 8 }}>
               Annual Rainfall: {kopargaonProfile.normalRainfallMm} mm
