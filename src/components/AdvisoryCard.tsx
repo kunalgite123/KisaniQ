@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ClimateRisk } from "../lib/weather";
 import { Village, waterSourceLabel } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
@@ -8,21 +9,22 @@ interface Props {
   village: Village | null;
   detectedDisease: DiseaseInfo | null;
   cropName: string | null;
+  onViewDetails?: () => void;
 }
 
-export default function AdvisoryCard({ climateRisk, village, detectedDisease, cropName }: Props) {
+export default function AdvisoryCard({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
+  const [showExplainability, setShowExplainability] = useState(false);
   const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName });
 
-  // Calculate confidence & risk level for display
   const confidencePct = detectedDisease ? 92 : climateRisk ? 88 : 84;
-  const riskLevel = verdict.urgency === "urgent" ? "HIGH RISK" : verdict.urgency === "watch" ? "MODERATE RISK" : "STABLE";
+  const riskLevel = verdict.urgency === "urgent" ? "CRITICAL" : verdict.urgency === "watch" ? "MONITOR" : "STABLE";
 
   return (
     <div className="ai-convergence-card">
       <div className="card-header">
         <div>
-          <span className="section-label">AI Convergence Engine · 4 Signals Integrated</span>
-          <h3 className="section-title">Today's Farming Decision</h3>
+          <span className="section-label">TODAY'S FARM DECISION · KisaniQ AI Convergence</span>
+          <h3 className="section-title">{verdict.title}</h3>
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <span className={`badge badge-${verdict.urgency}`}>{riskLevel}</span>
@@ -30,7 +32,7 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         </div>
       </div>
 
-      {/* Convergence Visual Flow Diagram */}
+      {/* Signal Flow Visualizer */}
       <div className="convergence-flow-bar">
         <div className="flow-node">
           <div className="node-icon">🌦️</div>
@@ -72,12 +74,12 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
 
         <div className="flow-node" style={{ background: "var(--primary-700)", color: "#ffffff", padding: "6px 12px", borderRadius: "var(--radius-md)" }}>
           <div className="node-icon" style={{ background: "transparent", color: "#ffffff" }}>⚡</div>
-          <span className="node-title" style={{ color: "rgba(255,255,255,0.8)" }}>AI Decision</span>
+          <span className="node-title" style={{ color: "rgba(255,255,255,0.8)" }}>KisaniQ AI</span>
           <span className="node-val" style={{ color: "#ffffff" }}>{verdict.title}</span>
         </div>
       </div>
 
-      {/* Decision Verdict Box */}
+      {/* Primary Actionable Verdict Box */}
       <div className={`verdict-box ${verdict.urgency}`}>
         <div className="verdict-icon">
           {verdict.urgency === "urgent" ? "⚠" : verdict.urgency === "watch" ? "◐" : "✓"}
@@ -85,44 +87,65 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         <div style={{ flex: 1 }}>
           <div className="verdict-header">
             <h4 className="verdict-title">{verdict.title}</h4>
-            <span className="badge" style={{ background: "rgba(0,0,0,0.08)" }}>
-              Recommended Horizon: 24–48 Hours
+            <span className="badge" style={{ background: "rgba(0,0,0,0.06)" }}>
+              Timeframe: 24–48 Hours
             </span>
           </div>
 
-          <ul style={{ marginTop: 10, paddingLeft: 18, fontSize: 14.5, lineHeight: 1.6 }}>
+          <ul style={{ marginTop: 10, paddingLeft: 18, fontSize: 14, lineHeight: 1.6 }}>
             {verdict.points.map((p, i) => (
               <li key={i} style={{ marginBottom: 4 }}>{p}</li>
             ))}
           </ul>
+
+          {onViewDetails && (
+            <button
+              onClick={onViewDetails}
+              className="btn btn-outline"
+              style={{ marginTop: 14, padding: "6px 16px", fontSize: 12.5 }}
+            >
+              View Full Advisory Details →
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Explainability Section ("Why are we recommending this?") */}
-      <div className="explainability-section">
-        <div className="explain-title">🔍 Why is the AI recommending this action?</div>
-        <ul className="explain-list">
-          {climateRisk && (
-            <li className="explain-item">
-              <strong>Weather Signal:</strong> {climateRisk.headline}
-            </li>
-          )}
-          {village && (
-            <li className="explain-item">
-              <strong>Groundwater &amp; Proximity Signal:</strong> {village.name} is {village.distanceToGodavariKm.toFixed(1)} km from Godavari river ({waterSourceLabel[village.waterSourceType]}).
-            </li>
-          )}
-          {detectedDisease && cropName && (
-            <li className="explain-item">
-              <strong>Crop Diagnostic Signal:</strong> On-device model detected {detectedDisease.displayName} on {cropName} leaf.
-            </li>
-          )}
-          {!detectedDisease && (
-            <li className="explain-item">
-              <strong>Crop Scouting Tip:</strong> Scan a leaf under 'Crop Doctor' tab to include real-time TF.js disease diagnostics into this decision model.
-            </li>
-          )}
-        </ul>
+      {/* Progressive Disclosure Explainability Accordion */}
+      <div className="explainability-accordion">
+        <button
+          className="accordion-toggle-btn"
+          onClick={() => setShowExplainability(!showExplainability)}
+        >
+          <span>🔍 Why are we recommending this?</span>
+          <span>{showExplainability ? "▲ Hide reasoning" : "▼ Show AI reasoning"}</span>
+        </button>
+
+        {showExplainability && (
+          <div className="explainability-content">
+            <ul className="explain-list">
+              {climateRisk && (
+                <li className="explain-item">
+                  <strong>Climate Factor:</strong> {climateRisk.headline}
+                </li>
+              )}
+              {village && (
+                <li className="explain-item">
+                  <strong>Groundwater Factor:</strong> {village.name} is {village.distanceToGodavariKm.toFixed(1)} km from Godavari river ({waterSourceLabel[village.waterSourceType]}).
+                </li>
+              )}
+              {detectedDisease && cropName && (
+                <li className="explain-item">
+                  <strong>Crop Diagnostic Factor:</strong> Edge TF.js model classified {detectedDisease.displayName} on {cropName} leaf.
+                </li>
+              )}
+              {!detectedDisease && (
+                <li className="explain-item">
+                  <strong>Crop Scouting Tip:</strong> Scan a leaf under 'Crop Doctor' to feed real-time disease diagnostic signals into this decision engine.
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

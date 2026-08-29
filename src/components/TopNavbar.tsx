@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Village, villages } from "../data/villages";
 import { Tab } from "../App";
+import { useAuth } from "../context/AuthContext";
 
 interface Props {
   currentTab: Tab;
@@ -18,7 +20,17 @@ const TAB_TITLES: Record<Tab, { title: string; breadcrumb: string }> = {
 };
 
 export default function TopNavbar({ currentTab, village, onSelectVillage }: Props) {
-  const currentInfo = TAB_TITLES[currentTab] ?? { title: "Krishi Setu", breadcrumb: "Home" };
+  const { profile, user, signOut } = useAuth();
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const currentInfo = TAB_TITLES[currentTab] ?? { title: "KisaniQ", breadcrumb: "Home" };
+
+  const fullName = profile?.full_name || user?.email?.split("@")[0] || "Farmer";
+  const userInitials = fullName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .substring(0, 2)
+    .toUpperCase() || "KQ";
 
   return (
     <header className="top-navbar">
@@ -30,7 +42,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
         </div>
       </div>
 
-      {/* Right Location Selector & Live Badge */}
+      {/* Right Location Selector, Live Badge & Profile Menu */}
       <div className="navbar-right">
         <div className="location-select-box">
           <span>📍</span>
@@ -55,20 +67,52 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           <span>Live Data</span>
         </div>
 
-        <div
-          style={{
-            width: "34px",
-            height: "34px",
-            borderRadius: "50%",
-            background: "var(--surface-muted)",
-            border: "1px solid var(--border-subtle)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "14px"
-          }}
-        >
-          👨‍🌾
+        {/* User Profile Dropdown */}
+        <div style={{ position: "relative" }}>
+          <button
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              background: "var(--primary-700)",
+              color: "#ffffff",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: "pointer",
+              boxShadow: "var(--shadow-sm)"
+            }}
+            title={fullName}
+          >
+            {userInitials}
+          </button>
+
+          {showProfileMenu && (
+            <div className="profile-dropdown-menu">
+              <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--border-subtle)" }}>
+                <div style={{ fontWeight: 600, fontSize: 13.5, color: "var(--text-main)" }}>{fullName}</div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {user?.email}
+                </div>
+              </div>
+
+              <div style={{ padding: 4 }}>
+                <button
+                  className="dropdown-menu-item"
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    signOut();
+                  }}
+                >
+                  🚪 Sign Out
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

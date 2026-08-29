@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Sidebar from "./components/Sidebar";
 import TopNavbar from "./components/TopNavbar";
 import MobileNav from "./components/MobileNav";
@@ -14,7 +16,7 @@ import { CropModel, DiseaseInfo } from "./data/cropModels";
 
 export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery";
 
-export default function App() {
+function MainAppContent() {
   const [tab, setTab] = useState<Tab>("dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [village, setVillage] = useState<Village | null>(null);
@@ -49,7 +51,12 @@ export default function App() {
         {/* Dynamic Page Content View */}
         <main className="page-content-area">
           {tab === "dashboard" && (
-            <Dashboard village={village} detectedDisease={detectedDisease} cropName={cropName} />
+            <Dashboard
+              village={village}
+              detectedDisease={detectedDisease}
+              cropName={cropName}
+              onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
+            />
           )}
           {tab === "crop" && <CropHealth onResult={handleCropResult} />}
           {tab === "climate" && <ClimateView />}
@@ -68,12 +75,22 @@ export default function App() {
 
         {/* App Footer */}
         <footer className="app-footer">
-          Krishi Setu — Built for Smart India Hackathon Grand Finale 2026 · AI-Powered Farm Intelligence · All rights reserved.
+          KisaniQ · Krishi Setu — Built for Smart India Hackathon Grand Finale 2026 · AI-Powered Farm Intelligence · Observe. Understand. Decide. Act.
         </footer>
       </div>
 
       {/* Mobile Bottom Navigation Bar */}
       <MobileNav currentTab={tab} onSelectTab={setTab} />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <ProtectedRoute>
+        <MainAppContent />
+      </ProtectedRoute>
+    </AuthProvider>
   );
 }
