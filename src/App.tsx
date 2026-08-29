@@ -69,7 +69,13 @@ function MainAppContent() {
               cropName={cropName}
             />
           )}
-          {tab === "schemes" && <Schemes />}
+          {tab === "schemes" && (
+            <Schemes
+              village={village}
+              cropName={cropName}
+              detectedDisease={detectedDisease}
+            />
+          )}
           {tab === "machinery" && <LabourMachinery />}
         </main>
 

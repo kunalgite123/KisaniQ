@@ -246,6 +246,13 @@ export const cropModels: CropModel[] = [
         label: "mosaic",
         displayName: "Mosaic Virus",
         severity: "watch",
+        symptom: {
+          color: "Light/dark green",
+          whatHappens: "Leaves mottle",
+          combinedLabel: "Light/dark green — Leaves mottle",
+          imageUrl: "/symptoms/sugarcane_mosaic_virus.jpg",
+          iconBg: "linear-gradient(135deg, #33691e, #689f38)"
+        },
         advisory: "Light and dark green mottling on leaves. Use healthy setts and control aphid vectors."
       }
     ]

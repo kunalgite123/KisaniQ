@@ -1,25 +1,251 @@
+import { useState, useMemo } from "react";
 import PageHeader from "./PageHeader";
+import { Village } from "../data/villages";
+import { DiseaseInfo } from "../data/cropModels";
+import { ClimateRisk } from "../lib/weather";
+import { GOVERNMENT_SCHEMES, GovernmentScheme } from "../data/schemesData";
+import { evaluateSchemeRelevance, SchemeEvaluationResult } from "../lib/schemeMatching";
+import SchemeCard from "./schemes/SchemeCard";
+import SchemeDetailModal from "./schemes/SchemeDetailModal";
 
-export default function Schemes() {
+interface Props {
+  village?: Village | null;
+  cropName?: string | null;
+  detectedDisease?: DiseaseInfo | null;
+  climateRisk?: ClimateRisk | null;
+}
+
+type CategoryFilter = "all" | "income" | "insurance" | "irrigation" | "soil" | "market";
+
+export default function Schemes({ village, cropName, detectedDisease, climateRisk }: Props) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("all");
+  const [activeModalScheme, setActiveModalScheme] = useState<SchemeEvaluationResult | null>(null);
+
+  const evaluatedSchemes = useMemo(() => {
+    return GOVERNMENT_SCHEMES.map((scheme) =>
+      evaluateSchemeRelevance(scheme, village ?? null, cropName ?? null, detectedDisease ?? null, climateRisk ?? null)
+    );
+  }, [village, cropName, detectedDisease, climateRisk]);
+
+  const recommendedSchemes = useMemo(() => {
+    return [...evaluatedSchemes].sort((a, b) => {
+      const order = { "High Relevance": 3, "Good Match": 2, "Relevant": 1, "Explore": 0 };
+      return order[b.relevanceLabel] - order[a.relevanceLabel];
+    });
+  }, [evaluatedSchemes]);
+
+  const filteredSchemes = useMemo(() => {
+    return recommendedSchemes.filter((item) => {
+      const matchesCategory = selectedCategory === "all" || item.scheme.category === selectedCategory;
+      const q = searchQuery.toLowerCase().trim();
+      const matchesQuery =
+        !q ||
+        item.scheme.name.toLowerCase().includes(q) ||
+        item.scheme.shortName.toLowerCase().includes(q) ||
+        item.scheme.categoryLabel.toLowerCase().includes(q) ||
+        item.scheme.summary.toLowerCase().includes(q);
+      return matchesCategory && matchesQuery;
+    });
+  }, [recommendedSchemes, selectedCategory, searchQuery]);
+
   return (
     <div>
+      {/* Page Title & Location Context */}
       <PageHeader
-        title="Agriculture Schemes &amp; FPO Matching"
-        subtitle="PM-KISAN, micro-irrigation subsidies and crop insurance matching"
+        title="Government Schemes & Benefits"
+        subtitle="Government support, insurance, irrigation, soil and market services — personalized for your farm."
       />
 
-      <div className="card">
-        <div className="section-label">Government Schemes &amp; Subsidy Engine · Phase 2</div>
-        <div style={{ marginTop: 24, textAlign: "center", padding: "40px 20px" }}>
-          <div style={{ fontSize: 42, marginBottom: 12 }}>🏛️</div>
-          <h3 className="section-title" style={{ fontSize: 22 }}>
-            Government Scheme Matching Arrives in Next Release
-          </h3>
-          <p style={{ marginTop: 10, fontSize: 14, maxWidth: 520, marginInline: "auto", color: "var(--text-muted)", lineHeight: 1.6 }}>
-            We're sequencing data streams by farmer impact per build-hour. Weather, groundwater and crop-health advisories ship first because they change weekly farming decisions. Scheme and FPO matching (PM-KISAN eligibility, crop insurance windows, drip irrigation subsidies) is scheduled for Phase 2.
-          </p>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: -12, marginBottom: 20 }}>
+        <span className="badge badge-healthy" style={{ fontSize: 12.5, padding: "5px 12px" }}>
+          📍 Selected Location: {village ? `${village.name}, Kopargaon, Ahmednagar` : "Kopargaon Taluka (Centre), Maharashtra"}
+        </span>
+        {cropName && (
+          <span className="badge badge-watch" style={{ fontSize: 12.5, padding: "5px 12px" }}>
+            🌱 Active Crop: {cropName}
+          </span>
+        )}
+      </div>
+
+      {/* Hero: Your Scheme Match */}
+      <div
+        style={{
+          background: "linear-gradient(135deg, var(--primary-900), var(--primary-800))",
+          borderRadius: "var(--radius-lg)",
+          padding: 24,
+          color: "#ffffff",
+          boxShadow: "var(--shadow-md)",
+          marginBottom: 24
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--primary-500)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+              KISANIQ SCHEME INTELLIGENCE ENGINE
+            </div>
+            <h2 style={{ fontSize: 22, color: "#ffffff", marginTop: 4 }}>🎯 Your Scheme Match</h2>
+            <p style={{ fontSize: 13.5, color: "rgba(255, 255, 255, 0.85)", marginTop: 4, maxWidth: 600 }}>
+              Discover official government schemes relevant to your crop, location, groundwater profile, and climate context.
+            </p>
+          </div>
+
+          <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ background: "rgba(255, 255, 255, 0.1)", borderRadius: "var(--radius-md)", padding: "10px 16px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "var(--font-mono)" }}>5</div>
+              <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.8)" }}>Official Schemes</div>
+            </div>
+            <div style={{ background: "rgba(255, 255, 255, 0.1)", borderRadius: "var(--radius-md)", padding: "10px 16px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "var(--font-mono)" }}>5</div>
+              <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.8)" }}>Categories</div>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Recommended for Your Farm */}
+      <div style={{ marginBottom: 28 }}>
+        <div className="card-header">
+          <div>
+            <span className="section-label">PERSONALIZED RECOMMENDATIONS</span>
+            <h3 className="section-title">Recommended for Your Farm</h3>
+          </div>
+        </div>
+
+        <div className="grid-2">
+          {recommendedSchemes.slice(0, 2).map((item) => (
+            <SchemeCard
+              key={item.scheme.id}
+              evaluation={item}
+              onOpenDetail={() => setActiveModalScheme(item)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Search & Category Filter Chips */}
+      <div className="card" style={{ marginBottom: 24 }}>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ flex: 1, minWidth: 260 }}>
+            <input
+              type="text"
+              className="form-input"
+              placeholder="🔍 Search government schemes by name, category or keyword..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ width: "100%" }}
+            />
+          </div>
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button
+              className={`btn ${selectedCategory === "all" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setSelectedCategory("all")}
+              style={{ padding: "6px 14px", fontSize: 12.5 }}
+            >
+              All Schemes
+            </button>
+            <button
+              className={`btn ${selectedCategory === "income" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setSelectedCategory("income")}
+              style={{ padding: "6px 14px", fontSize: 12.5 }}
+            >
+              💰 Income Support
+            </button>
+            <button
+              className={`btn ${selectedCategory === "insurance" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setSelectedCategory("insurance")}
+              style={{ padding: "6px 14px", fontSize: 12.5 }}
+            >
+              🛡️ Crop Insurance
+            </button>
+            <button
+              className={`btn ${selectedCategory === "irrigation" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setSelectedCategory("irrigation")}
+              style={{ padding: "6px 14px", fontSize: 12.5 }}
+            >
+              💧 Irrigation
+            </button>
+            <button
+              className={`btn ${selectedCategory === "soil" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setSelectedCategory("soil")}
+              style={{ padding: "6px 14px", fontSize: 12.5 }}
+            >
+              🌱 Soil Health
+            </button>
+            <button
+              className={`btn ${selectedCategory === "market" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setSelectedCategory("market")}
+              style={{ padding: "6px 14px", fontSize: 12.5 }}
+            >
+              🏪 Market Access
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* All Schemes Grid */}
+      <div style={{ marginBottom: 32 }}>
+        <div className="card-header">
+          <div>
+            <span className="section-label">GOVERNMENT PORTAL CATALOG</span>
+            <h3 className="section-title">Explore All Government Schemes ({filteredSchemes.length})</h3>
+          </div>
+        </div>
+
+        {filteredSchemes.length === 0 ? (
+          <div className="card" style={{ textAlign: "center", padding: "40px 20px" }}>
+            <div style={{ fontSize: 32 }}>🔍</div>
+            <h4 style={{ fontSize: 18, marginTop: 8 }}>No matching schemes found</h4>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4 }}>
+              Try adjusting your search query or category filter.
+            </p>
+            <button
+              className="btn btn-outline"
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedCategory("all");
+              }}
+              style={{ marginTop: 14 }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid-2">
+            {filteredSchemes.map((item) => (
+              <SchemeCard
+                key={item.scheme.id}
+                evaluation={item}
+                onOpenDetail={() => setActiveModalScheme(item)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Government Source & Verification Disclaimer Notice */}
+      <div
+        style={{
+          background: "var(--surface-muted)",
+          border: "1px solid var(--border-subtle)",
+          borderRadius: "var(--radius-md)",
+          padding: 16,
+          fontSize: 12,
+          color: "var(--text-muted)",
+          lineHeight: 1.6
+        }}
+      >
+        <strong>🏛 Government Source &amp; Verification Notice:</strong> Scheme information is compiled from official Government of India portals (pmkisan.gov.in, pmfby.gov.in, pmksy.gov.in, soilhealth.dac.gov.in, enam.gov.in) for guidance. Eligibility, benefits, deadlines, notified crops/areas and application requirements may change. Please verify the latest official information on the respective government portal before applying.
+      </div>
+
+      {/* Detailed Modal Drawer */}
+      {activeModalScheme && (
+        <SchemeDetailModal
+          evaluation={activeModalScheme}
+          onClose={() => setActiveModalScheme(null)}
+        />
+      )}
     </div>
   );
 }
