@@ -180,8 +180,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
       "Select authorized drip manufacturer and submit application.",
       "Field inspection by Agriculture Officer followed by subsidy release."
     ],
-    officialUrl: "https://pmksy.gov.in/",
-    officialSourceName: "Department of Agriculture & Farmers Welfare, Govt. of India",
+    officialUrl: "https://mahadbt.maharashtra.gov.in/Farmer/SchemeData/SchemeData?str=E9DDFA703C38E51AC7B56240D6D84F28",
+    officialSourceName: "MahaDBT Farmer Portal & Agriculture Department, Govt. of Maharashtra",
     lastVerified: "August 2026",
     disruptionTags: ["water", "drought"]
   },

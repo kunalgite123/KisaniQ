@@ -573,12 +573,12 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
                   Related Documents
                 </div>
                 <a
-                  href="https://pmksy.gov.in/"
+                  href="https://mahadbt.maharashtra.gov.in/Farmer/SchemeData/SchemeData?str=E9DDFA703C38E51AC7B56240D6D84F28"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ fontSize: 12.5, color: "var(--primary-700)", fontWeight: 700, display: "flex", alignItems: "center", gap: 6, textDecoration: "none" }}
                 >
-                  📄 Government Resolution ↗
+                  📄 Government Resolution / Scheme GR ↗
                 </a>
               </div>
             </div>
@@ -595,13 +595,13 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
                 </button>
               )}
               <a
-                href="https://pmksy.gov.in/"
+                href="https://mahadbt.maharashtra.gov.in/Farmer/SchemeData/SchemeData?str=E9DDFA703C38E51AC7B56240D6D84F28"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-outline-sm"
                 style={{ fontSize: 12, padding: "6px 14px" }}
               >
-                Official Portal (pmksy.gov.in) ↗
+                Official Portal (mahadbt.maharashtra.gov.in) ↗
               </a>
             </div>
           </div>
