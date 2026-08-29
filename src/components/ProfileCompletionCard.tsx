@@ -1,5 +1,5 @@
 import { FarmerProfile } from "../data/farmerProfile";
-import { Sparkles, ArrowRight, CheckCircle, UserCheck } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle2, UserCheck, Edit3 } from "lucide-react";
 
 interface Props {
   profile: FarmerProfile;
@@ -10,8 +10,66 @@ export default function ProfileCompletionCard({ profile, onOpenSetup }: Props) {
   const pct = profile.completionPercentage || 35;
   const is100 = pct >= 95;
 
-  if (is100) return null; // Hide card when profile is 100% complete
+  if (is100) {
+    // Render 100% Completed Verified Card (Always visible on Dashboard!)
+    return (
+      <div
+        style={{
+          background: "rgba(21, 128, 61, 0.06)",
+          border: "1.5px solid rgba(21, 128, 61, 0.25)",
+          borderRadius: "var(--radius-md)",
+          padding: "16px 22px",
+          marginBottom: 24,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 16
+        }}
+      >
+        <div style={{ flex: 1, minWidth: 280 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+            <CheckCircle2 size={16} style={{ color: "var(--primary-700)" }} />
+            <span style={{ fontSize: 11, fontWeight: 800, color: "var(--primary-900)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              FARM PROFILE · 100% COMPLETE &amp; VERIFIED
+            </span>
+          </div>
 
+          <h3 style={{ fontSize: 16.5, fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
+            📍 {profile.locationVillage || "Kopargaon"} · {profile.primaryCrop || "Sugarcane"} ({profile.landArea || 4} {profile.landUnit || "acres"})
+          </h3>
+
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
+            <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+              👤 {profile.fullName}
+            </span>
+            <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+              📧 {profile.email}
+            </span>
+            {profile.phone && (
+              <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+                📞 {profile.phone}
+              </span>
+            )}
+            <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+              🌱 Soil: {profile.soilType || "Medium Black"}
+            </span>
+          </div>
+        </div>
+
+        <button
+          className="btn-outline-sm"
+          onClick={onOpenSetup}
+          style={{ fontSize: 12, padding: "8px 16px", display: "flex", alignItems: "center", gap: 6 }}
+        >
+          <Edit3 size={13} />
+          <span>Edit Farm Setup</span>
+        </button>
+      </div>
+    );
+  }
+
+  // Render Partial Completion Card (< 100%)
   return (
     <div
       style={{
