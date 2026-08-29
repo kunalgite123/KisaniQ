@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { VoiceRecognitionService, isSpeechRecognitionSupported } from "../../services/voice/speechRecognition";
+import { VoiceRecognitionService } from "../../services/voice/speechRecognition";
 import { VoiceSynthesisService, ResponseLang } from "../../services/voice/speechSynthesis";
 import { processVoiceQuery, AssistantContext } from "../../services/voice/intentEngine";
 import { Tab } from "../../App";
@@ -29,7 +29,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
     {
       id: "init",
       sender: "assistant",
-      text: "Namaste! Speak naturally in English, Marathi, or Hindi, or ask a farm question.",
+      text: "Namaste! I am Kisan Setu. Speak naturally in English, Marathi, or Hindi, or ask a farm question.",
       lang: "en"
     }
   ]);
@@ -74,7 +74,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
       },
       onError: (err) => {
         setStatus("ERROR");
-        setErrorMessage(err);
+        setErrorMessage("Could not understand speech. Please try speaking again.");
       },
       onEnd: () => {
         if (status === "LISTENING") {
@@ -134,7 +134,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
       } else {
         setStatus("IDLE");
       }
-    }, 400);
+    }, 350);
   }
 
   function handleTextSubmit(e: React.FormEvent) {
@@ -145,37 +145,37 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
     }
   }
 
-  // Page-aware suggestion prompts
+  // Context-aware page suggestions
   const currentTab = context.currentTab || "dashboard";
   const suggestions: { text: string; label: string }[] =
     currentTab === "climate"
       ? [
-          { text: "आज पाऊस पडेल का?", label: "आज पाऊस पडेल का? (MR)" },
-          { text: "Will it rain today?", label: "Will it rain? (EN)" },
-          { text: "आज मौसम कैसा है?", label: "आज मौसम कैसा है? (HI)" }
+          { text: "आज पाऊस पडेल का?", label: "आज पाऊस पडेल का?" },
+          { text: "Will it rain today?", label: "Will it rain today?" },
+          { text: "आज मौसम कैसा है?", label: "आज मौसम कैसा है?" }
         ]
       : currentTab === "water"
       ? [
-          { text: "माझी माती कशी आहे?", label: "माझी माती कशी आहे? (MR)" },
-          { text: "Is groundwater low?", label: "Groundwater level? (EN)" },
-          { text: "मेरी मिट्टी की स्थिति दिखाओ", label: "मिट्टी की स्थिति (HI)" }
+          { text: "माझी माती कशी आहे?", label: "माझी माती कशी आहे?" },
+          { text: "Is groundwater low?", label: "Groundwater level?" },
+          { text: "मेरी मिट्टी की स्थिति दिखाओ", label: "मेरी मिट्टी की स्थिति" }
         ]
       : currentTab === "crop"
       ? [
-          { text: "माझ्या पिकाला काय झालं?", label: "माझ्या पिकाला काय झालं? (MR)" },
-          { text: "Scan crop disease", label: "Scan disease (EN)" },
-          { text: "मेरी फसल में क्या बीमारी है?", label: "फसल रोग निदान (HI)" }
+          { text: "माझ्या पिकाला काय झालं?", label: "माझ्या पिकाला काय झालं?" },
+          { text: "Scan crop disease", label: "Scan disease" },
+          { text: "मेरी फसल में क्या बीमारी है?", label: "फसल रोग निदान" }
         ]
       : currentTab === "schemes"
       ? [
-          { text: "माझ्यासाठी कोणत्या योजना आहेत?", label: "कोणत्या योजना आहेत? (MR)" },
-          { text: "Which schemes apply to me?", label: "Relevant schemes (EN)" },
-          { text: "मेरे लिए कौन सी सरकारी योजनाएं हैं?", label: "सरकारी योजनाएं (HI)" }
+          { text: "माझ्यासाठी कोणत्या योजना आहेत?", label: "माझ्यासाठी कोणत्या योजना आहेत?" },
+          { text: "Which schemes apply to me?", label: "Which schemes apply to me?" },
+          { text: "मेरे लिए कौन सी सरकारी योजनाएं हैं?", label: "सरकारी योजनाएं" }
         ]
       : [
-          { text: "आज हवामान कसं आहे?", label: "हवामान स्थिती (MR)" },
-          { text: "Open soil report", label: "Open soil report (EN)" },
-          { text: "सरकारी योजना दाखवा", label: "सरकारी योजना दाखवा (MR)" }
+          { text: "आज हवामान कसं आहे?", label: "आज हवामान कसं आहे?" },
+          { text: "Open soil report", label: "Open soil report" },
+          { text: "सरकारी योजना दाखवा", label: "सरकारी योजना दाखवा" }
         ];
 
   return (
@@ -186,7 +186,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "rgba(10, 31, 24, 0.5)",
+        backgroundColor: "rgba(10, 31, 24, 0.45)",
         backdropFilter: "blur(4px)",
         zIndex: 2000,
         display: "flex",
@@ -203,19 +203,19 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
       <div
         style={{
           background: "var(--surface-card)",
-          borderRadius: "var(--radius-lg)",
-          maxWidth: 540,
+          borderRadius: "var(--radius-md)",
+          maxWidth: 520,
           width: "100%",
           maxHeight: "85vh",
           display: "flex",
           flexDirection: "column",
           boxShadow: "var(--shadow-lg)",
-          border: "1px solid var(--border-strong)",
+          border: "1px solid var(--border-subtle)",
           overflow: "hidden"
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Panel Header */}
+        {/* Header */}
         <div
           style={{
             padding: "14px 18px",
@@ -230,25 +230,25 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
             <span style={{ fontSize: 20 }}>🎙️</span>
             <div>
               <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
-                KisaniQ Voice Assistant
+                Kisan Setu Voice Assistant
               </h3>
-              <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
-                Speak in English, Marathi, or Hindi
+              <div style={{ fontSize: 11.5, color: "var(--text-muted)" }}>
+                Talk naturally in English, Marathi, or Hindi
               </div>
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            {/* Language Selector */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {/* Language Dropdown */}
             <select
               className="input-text"
               value={forcedLang}
               onChange={(e) => setForcedLang(e.target.value as any)}
-              style={{ fontSize: 12, padding: "4px 8px" }}
+              style={{ fontSize: 11.5, padding: "3px 8px" }}
             >
               <option value="auto">🌐 Auto Detect</option>
-              <option value="mr">🇮🇳 मराठी (Marathi)</option>
-              <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+              <option value="mr">🇮🇳 मराठी</option>
+              <option value="hi">🇮🇳 हिन्दी</option>
               <option value="en">🇬🇧 English</option>
             </select>
 
@@ -263,7 +263,8 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
                 background: "transparent",
                 fontSize: 18,
                 cursor: "pointer",
-                color: "var(--text-muted)"
+                color: "var(--text-muted)",
+                padding: "2px 6px"
               }}
             >
               ✕
@@ -280,7 +281,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
             textAlign: "center",
             background:
               status === "LISTENING"
-                ? "var(--color-urgent-light, #ffebee)"
+                ? "rgba(198, 40, 40, 0.08)"
                 : status === "SPEAKING"
                 ? "var(--primary-100)"
                 : "var(--surface-bg)",
@@ -297,45 +298,47 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
             gap: 8
           }}
         >
-          {status === "LISTENING" && <span style={{ animation: "pulse 1s infinite" }}>● Listening... Speak naturally</span>}
-          {status === "PROCESSING" && <span>⏳ Analyzing your question...</span>}
-          {status === "SPEAKING" && <span>🔊 KisaniQ is speaking...</span>}
-          {status === "IDLE" && <span>Ready — Tap microphone or type a question</span>}
-          {status === "ERROR" && <span style={{ color: "var(--color-urgent)" }}>⚠️ {errorMessage || "Speech error"}</span>}
+          {status === "LISTENING" && <span>● Listening... Speak naturally</span>}
+          {status === "PROCESSING" && <span>⏳ Understanding your question...</span>}
+          {status === "SPEAKING" && <span>🔊 Kisan Setu is speaking...</span>}
+          {status === "IDLE" && <span>Talk to Kisan Setu — Tap microphone or type a question</span>}
+          {status === "ERROR" && <span style={{ color: "var(--color-urgent)" }}>⚠️ {errorMessage || "Could not understand speech."}</span>}
         </div>
 
-        {/* Chat History Messages */}
+        {/* Chat History */}
         <div style={{ flex: 1, padding: 16, overflowY: "auto", display: "flex", flexDirection: "column", gap: 12 }}>
           {messages.map((m) => (
             <div
               key={m.id}
               style={{
                 alignSelf: m.sender === "user" ? "flex-end" : "flex-start",
-                maxWidth: "85%",
+                maxWidth: "88%",
                 background: m.sender === "user" ? "var(--primary-800)" : "var(--surface-muted)",
                 color: m.sender === "user" ? "#ffffff" : "var(--text-main)",
                 padding: "10px 14px",
-                borderRadius: m.sender === "user" ? "14px 14px 2px 14px" : "14px 14px 14px 2px",
+                borderRadius: "var(--radius-md)",
                 fontSize: 13.5,
                 lineHeight: 1.5,
                 border: m.sender === "user" ? "none" : "1px solid var(--border-subtle)"
               }}
             >
+              {m.sender === "user" && <div style={{ fontSize: 10.5, opacity: 0.8, marginBottom: 2 }}>You said:</div>}
+              {m.sender === "assistant" && <div style={{ fontSize: 10.5, color: "var(--primary-800)", fontWeight: 700, marginBottom: 2 }}>Kisan Setu:</div>}
               {m.text}
             </div>
           ))}
 
-          {/* Live Listening Transcript */}
+          {/* Live Transcript Stream */}
           {transcript && status === "LISTENING" && (
             <div
               style={{
                 alignSelf: "flex-end",
                 maxWidth: "85%",
-                background: "rgba(30, 136, 229, 0.15)",
-                border: "1px stroke var(--primary-400)",
-                color: "var(--primary-900)",
+                background: "rgba(30, 136, 229, 0.12)",
+                border: "1px stroke var(--border-subtle)",
+                color: "var(--text-main)",
                 padding: "8px 12px",
-                borderRadius: "12px",
+                borderRadius: "var(--radius-sm)",
                 fontSize: 13,
                 fontStyle: "italic"
               }}
@@ -347,7 +350,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
           <div ref={chatBottomRef} />
         </div>
 
-        {/* Suggestion Chips */}
+        {/* Quick Suggestion Prompts */}
         <div style={{ padding: "8px 16px", background: "var(--surface-bg)", borderTop: "1px solid var(--border-subtle)" }}>
           <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>Try asking:</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -356,7 +359,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
                 key={i}
                 type="button"
                 className="btn-outline-sm"
-                style={{ fontSize: 11, padding: "3px 9px", borderRadius: 12 }}
+                style={{ fontSize: 11, padding: "3px 8px", borderRadius: "var(--radius-sm)" }}
                 onClick={() => {
                   synthRef.current?.stop();
                   handleProcessQuery(s.text);
@@ -368,7 +371,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
           </div>
         </div>
 
-        {/* Controls & Input Section */}
+        {/* Control Footer */}
         <div style={{ padding: 14, background: "var(--surface-muted)", borderTop: "1px solid var(--border-subtle)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
             {status === "LISTENING" ? (
@@ -394,7 +397,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
                   flex: 1,
                   background: "var(--surface-bg)",
                   color: "var(--text-main)",
-                  border: "1px solid var(--border-strong)",
+                  border: "1px solid var(--border-subtle)",
                   justifyContent: "center"
                 }}
               >
@@ -408,7 +411,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
                 style={{
                   flex: 1,
                   justifyContent: "center",
-                  fontSize: 14,
+                  fontSize: 13.5,
                   fontWeight: 600
                 }}
               >
@@ -417,20 +420,25 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
             )}
           </div>
 
-          {/* Text Input Fallback */}
+          {/* Text Fallback Form */}
           <form onSubmit={handleTextSubmit} style={{ display: "flex", gap: 8 }}>
             <input
               type="text"
               className="input-text"
-              placeholder="Or type a question (e.g. आज पाऊस पडेल का?)..."
+              placeholder="Or type your question here..."
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
               style={{ flex: 1, fontSize: 12.5 }}
             />
-            <button type="submit" className="btn-outline-sm" style={{ padding: "0 14px" }}>
+            <button type="submit" className="btn-outline-sm" style={{ padding: "0 12px" }}>
               Send
             </button>
           </form>
+
+          {/* Privacy Hint */}
+          <div style={{ fontSize: 10.5, color: "var(--text-muted)", marginTop: 8, textAlign: "center" }}>
+            🔒 Voice is active only when you tap the microphone.
+          </div>
         </div>
       </div>
     </div>
