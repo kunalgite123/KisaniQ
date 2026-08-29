@@ -10,7 +10,8 @@ export type SchemeCategory =
   | "pest-disease"
   | "market"
   | "employment"
-  | "monitoring";
+  | "monitoring"
+  | "side-income";
 
 export interface GovernmentScheme {
   id: string;
@@ -30,6 +31,7 @@ export interface GovernmentScheme {
   officialSourceName: string;
   lastVerified: string;
   soilParameters?: string[];
+  disruptionTags?: string[];
 }
 
 export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
@@ -68,7 +70,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://pmkisan.gov.in/",
     officialSourceName: "Ministry of Agriculture & Farmers Welfare, Govt. of India",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["inputs", "income"]
   },
   {
     id: "pmfby",
@@ -105,7 +108,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://pmfby.gov.in/",
     officialSourceName: "Ministry of Agriculture & Farmers Welfare, Govt. of India",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["drought", "rain", "pest"]
   },
   {
     id: "wbcis",
@@ -140,7 +144,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://www.india.gov.in/category/agriculture-rural-environment/subcategory/agricultural-produce/details/weather-based-crop-insurance-scheme-wbcis",
     officialSourceName: "National Portal of India & PMFBY Framework",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["drought", "rain"]
   },
   {
     id: "pmksy",
@@ -177,7 +182,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://pmksy.gov.in/",
     officialSourceName: "Department of Agriculture & Farmers Welfare, Govt. of India",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["water", "drought"]
   },
   {
     id: "atal-bhujal",
@@ -210,7 +216,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://gsda.maharashtra.gov.in/en-atal-bhujal-project/",
     officialSourceName: "Groundwater Surveys & Development Agency (GSDA), Govt. of Maharashtra",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["water"]
   },
   {
     id: "soil-health-card",
@@ -250,7 +257,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://soilhealth.dac.gov.in/",
     officialSourceName: "Department of Agriculture & Farmers Welfare, Govt. of India",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["inputs"]
   },
   {
     id: "ipm",
@@ -281,7 +289,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://ppqs.gov.in/",
     officialSourceName: "Directorate of Plant Protection, Quarantine & Storage (PPQS), Govt. of India",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["pest"]
   },
   {
     id: "npss",
@@ -311,7 +320,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://nriipm.res.in/",
     officialSourceName: "ICAR — National Research Centre for Integrated Pest Management",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["pest"]
   },
   {
     id: "enam",
@@ -346,7 +356,8 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://enam.gov.in/",
     officialSourceName: "Small Farmers' Agribusiness Consortium (SFAC), Govt. of India",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["market"]
   },
   {
     id: "mgnrega",
@@ -378,6 +389,116 @@ export const GOVERNMENT_SCHEMES: GovernmentScheme[] = [
     ],
     officialUrl: "https://nrega.nic.in/",
     officialSourceName: "Ministry of Rural Development, Govt. of India",
-    lastVerified: "August 2026"
+    lastVerified: "August 2026",
+    disruptionTags: ["side-income", "water"]
+  },
+
+  /* NEW: SIDE INCOME / ALLIED BUSINESS SUBSIDIES FOR FARMERS */
+  {
+    id: "pmmsy",
+    name: "Pradhan Mantri Matsya Sampada Yojana",
+    shortName: "PMMSY (Fish Farming / Aquaculture)",
+    typeLabel: "ALLIED BUSINESS SUBSIDY SCHEME",
+    category: "side-income",
+    categoryLabel: "Side Income / Allied Business",
+    categoryIcon: "🐟",
+    summary:
+      "Flagship scheme for holistic development of fisheries and aquaculture, providing 40% to 60% capital subsidy for farm pond fish culture, biofloc units, and fish seed hatcheries.",
+    benefits: [
+      "40% capital subsidy for general category farmers and 60% for SC/ST/Women farmers on farm pond fish farming.",
+      "Generate ₹1.5 Lakh to ₹3.0 Lakh additional annual side income from farm ponds or re-circulatory aquaculture units.",
+      "Financial assistance for purchasing fingerlings, fish feed, aerators, and fish transport vehicles."
+    ],
+    eligibilitySummary: [
+      "Individual farmers, landholders with farm ponds or willing to construct aquaculture ponds, SHGs, and Co-operatives.",
+      "Special incentives for women farmers and small landholders in rural areas."
+    ],
+    documentsRequired: [
+      "Aadhaar Card",
+      "7/12 Land Extract or Farm Pond Ownership Certificate",
+      "Bank Account details",
+      "DPR (Detailed Project Report) for aquaculture unit"
+    ],
+    howToApplySteps: [
+      "Visit official portal pmmsy.dof.gov.in or contact District Fisheries Office.",
+      "Register online under 'Farmer / Beneficiary Registration'.",
+      "Select project component (Farm Pond Fish Culture / Biofloc / Re-circulatory System).",
+      "Submit DPR along with land documents for District Level Committee sanction."
+    ],
+    officialUrl: "https://pmmsy.dof.gov.in/",
+    officialSourceName: "Department of Fisheries, Ministry of Fisheries, Animal Husbandry & Dairying, Govt. of India",
+    lastVerified: "August 2026",
+    disruptionTags: ["side-income"]
+  },
+  {
+    id: "nlm",
+    name: "National Livestock Mission & AHIDF",
+    shortName: "National Livestock Mission (Goat/Poultry/Dairy)",
+    typeLabel: "ALLIED BUSINESS SUBSIDY SCHEME",
+    category: "side-income",
+    categoryLabel: "Side Income / Allied Business",
+    categoryIcon: "🐐",
+    summary:
+      "Government subsidy programme providing up to 50% capital subsidy (up to ₹25 Lakh to ₹50 Lakh) for setting up Goat/Sheep breeding farms, Poultry units, and Dairy value addition enterprises.",
+    benefits: [
+      "50% capital subsidy directly released to beneficiary bank account for Goat, Sheep, and Country Chicken breeding units.",
+      "3% interest subvention under AHIDF (Animal Husbandry Infrastructure Development Fund) for dairy processing and cattle feed units.",
+      "Provides steady daily/monthly supplementary side income to buffer against crop failure risks."
+    ],
+    eligibilitySummary: [
+      "Individual farmers, FPOs, Self Help Groups, and Joint Liability Groups.",
+      "Requires land availability for shed construction and fodder cultivation."
+    ],
+    documentsRequired: [
+      "Aadhaar Card & PAN Card",
+      "Land Ownership / Lease Agreement",
+      "Bank Loan Sanction Letter (for bank-linked subsidy)",
+      "Project Training Certificate from KVK / Veterinary College"
+    ],
+    howToApplySteps: [
+      "Visit official portal nlm.udyamimitra.in or ahidf.udyamimitra.in.",
+      "Apply online under 'Entrepreneurship Development Programme'.",
+      "Upload Project Report, Land documents, and Bank Details.",
+      "State Level Executive Committee scrutinizes and sanctions subsidy."
+    ],
+    officialUrl: "https://nlm.udyamimitra.in/",
+    officialSourceName: "Department of Animal Husbandry & Dairying, Govt. of India",
+    lastVerified: "August 2026",
+    disruptionTags: ["side-income"]
+  },
+  {
+    id: "pmfme",
+    name: "PM Formalisation of Micro Food Processing Enterprises",
+    shortName: "PMFME (Agri-Food Processing / Jaggery / Storage)",
+    typeLabel: "AGRI-BUSINESS SUBSIDY SCHEME",
+    category: "side-income",
+    categoryLabel: "Side Income / Allied Business",
+    categoryIcon: "🏭",
+    summary:
+      "Scheme offering 35% credit-linked capital subsidy (up to ₹10 Lakh) for setting up micro food processing units (Onion storage/processing, Jaggery making, Sugarcane juice bottling, Spices grinding, Cotton seed oil).",
+    benefits: [
+      "35% capital credit-linked subsidy up to ₹10 Lakh for individual micro-food processing units.",
+      "Up to ₹40,000 seed capital per SHG member for working capital and small tool purchase.",
+      "Transforms raw produce into high-value packaged goods for local mandis and supermarket supply."
+    ],
+    eligibilitySummary: [
+      "Existing or new micro food processing entrepreneurs, individual farmers, SHGs, and Farmer Producer Companies (FPCs)."
+    ],
+    documentsRequired: [
+      "Aadhaar & PAN Card",
+      "Udyam Registration Certificate",
+      "Bank Account statement & Project Cost Quotation",
+      "FSSAI license registration (guidance provided)"
+    ],
+    howToApplySteps: [
+      "Visit official PMFME portal at pmfme.mofpi.gov.in.",
+      "Click 'Sign Up' → Select 'Individual Micro Enterprise'.",
+      "Fill online application form and upload land / equipment machinery quote.",
+      "District Resource Person (DRP) assists in bank loan application and subsidy disbursal."
+    ],
+    officialUrl: "https://pmfme.mofpi.gov.in/",
+    officialSourceName: "Ministry of Food Processing Industries (MoFPI), Govt. of India",
+    lastVerified: "August 2026",
+    disruptionTags: ["side-income", "market"]
   }
 ];

@@ -24,15 +24,31 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("all");
   const [activeModalScheme, setActiveModalScheme] = useState<SchemeEvaluationResult | null>(null);
 
+  // Interactive Farmer Inputs
+  const [interactiveCrop, setInteractiveCrop] = useState<string>(cropName || "all");
+  const [interactiveSoil, setInteractiveSoil] = useState<string>("all");
+  const [interactiveDisruption, setInteractiveDisruption] = useState<string>("all");
+
   const locationText = village
     ? `${village.name}, Kopargaon`
     : "Kopargaon Taluka";
 
   const evaluatedSchemes = useMemo(() => {
     return GOVERNMENT_SCHEMES.map((scheme) =>
-      evaluateSchemeRelevance(scheme, village ?? null, cropName ?? null, detectedDisease ?? null, climateRisk ?? null)
+      evaluateSchemeRelevance(
+        scheme,
+        village ?? null,
+        cropName ?? null,
+        detectedDisease ?? null,
+        climateRisk ?? null,
+        {
+          crop: interactiveCrop,
+          soil: interactiveSoil,
+          disruption: interactiveDisruption
+        }
+      )
     );
-  }, [village, cropName, detectedDisease, climateRisk]);
+  }, [village, cropName, detectedDisease, climateRisk, interactiveCrop, interactiveSoil, interactiveDisruption]);
 
   const recommendedSchemes = useMemo(() => {
     return [...evaluatedSchemes].sort((a, b) => {
@@ -51,9 +67,16 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
         item.scheme.shortName.toLowerCase().includes(q) ||
         item.scheme.categoryLabel.toLowerCase().includes(q) ||
         item.scheme.summary.toLowerCase().includes(q);
-      return matchesCategory && matchesQuery;
+
+      // Disruption tag matching if selected in interactive dropdown
+      const matchesDisruption =
+        interactiveDisruption === "all" ||
+        (interactiveDisruption === "side-income" && item.scheme.category === "side-income") ||
+        (item.scheme.disruptionTags && item.scheme.disruptionTags.includes(interactiveDisruption));
+
+      return matchesCategory && matchesQuery && (interactiveDisruption === "all" || matchesDisruption);
     });
-  }, [recommendedSchemes, selectedCategory, searchQuery]);
+  }, [recommendedSchemes, selectedCategory, searchQuery, interactiveDisruption]);
 
   return (
     <div>
@@ -64,7 +87,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
       />
 
       {/* Clean Farm Location & Context Banner */}
-      <div className="card" style={{ marginBottom: 24, padding: "20px 24px" }}>
+      <div className="card" style={{ marginBottom: 20, padding: "20px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
@@ -79,10 +102,10 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
               )}
             </div>
             <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--text-main)", marginTop: 6 }}>
-              {t("personalized_gov_support")}
+              {t("personalized_gov_support")} ({GOVERNMENT_SCHEMES.length} Programmes)
             </h2>
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginTop: 2, maxWidth: 640 }}>
-              {t("matched_against_desc")}
+              {t("matched_against_desc")} Tailored for crop insurance, drip subsidies, soil health, and side-income businesses (Fisheries, Livestock, Agri-Processing).
             </p>
           </div>
 
@@ -92,9 +115,81 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
               <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>{t("active_schemes_stat")}</div>
             </div>
             <div className="readout" style={{ padding: "10px 16px", textAlign: "center", minWidth: 100 }}>
-              <div className="readout-value" style={{ fontSize: 20 }}>5</div>
+              <div className="readout-value" style={{ fontSize: 20 }}>11</div>
               <div className="readout-label" style={{ marginTop: 2, fontSize: 11 }}>{t("categories_stat")}</div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* INTERACTIVE FARMER SELECTION FORM */}
+      <div className="card" style={{ marginBottom: 24, border: "1px solid var(--primary-200)", background: "var(--surface-card)" }}>
+        <div className="card-header" style={{ marginBottom: 12 }}>
+          <div>
+            <span className="section-label" style={{ color: "var(--primary-800)" }}>🎯 INTERACTIVE SCHEME FINDER</span>
+            <h3 className="section-title" style={{ fontSize: 16 }}>What support does your farm need today?</h3>
+          </div>
+        </div>
+
+        <div className="grid-3" style={{ gap: 14 }}>
+          {/* 1. Crop Selection */}
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-main)", display: "block", marginBottom: 4 }}>
+              🌾 Select Your Crop
+            </label>
+            <select
+              className="form-input"
+              value={interactiveCrop}
+              onChange={(e) => setInteractiveCrop(e.target.value)}
+              style={{ width: "100%", fontSize: 13 }}
+            >
+              <option value="all">All Crops</option>
+              <option value="Cotton">Cotton (Kharif)</option>
+              <option value="Sugarcane">Sugarcane (Perennial)</option>
+              <option value="Onion">Onion (Kharif / Late Kharif)</option>
+              <option value="Soybean">Soybean</option>
+              <option value="Wheat">Wheat (Rabi)</option>
+            </select>
+          </div>
+
+          {/* 2. Soil Selection */}
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-main)", display: "block", marginBottom: 4 }}>
+              🌱 Select Soil Type
+            </label>
+            <select
+              className="form-input"
+              value={interactiveSoil}
+              onChange={(e) => setInteractiveSoil(e.target.value)}
+              style={{ width: "100%", fontSize: 13 }}
+            >
+              <option value="all">All Soil Types</option>
+              <option value="Medium Black (Kopargaon)">Medium Black Soil (Kopargaon)</option>
+              <option value="Deep Black Soil">Deep Black Soil (Regur)</option>
+              <option value="Coarse Shallow Soil">Coarse Shallow Soil</option>
+              <option value="Red / Loamy Soil">Red / Loamy Soil</option>
+            </select>
+          </div>
+
+          {/* 3. Disruption / Support Need */}
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-main)", display: "block", marginBottom: 4 }}>
+              🚨 Disruption / Need Support For
+            </label>
+            <select
+              className="form-input"
+              value={interactiveDisruption}
+              onChange={(e) => setInteractiveDisruption(e.target.value)}
+              style={{ width: "100%", fontSize: 13, fontWeight: interactiveDisruption === "side-income" ? 700 : 500 }}
+            >
+              <option value="all">All Support Needs</option>
+              <option value="side-income">💼 Side Income &amp; Allied Business Subsidies (Fish/Goat/Dairy/Processing)</option>
+              <option value="drought">🌧 Deficit Rain &amp; Drought Risk</option>
+              <option value="pest">🐛 Pest &amp; Disease Outbreak</option>
+              <option value="water">💧 Groundwater &amp; Water Scarcity</option>
+              <option value="inputs">💰 Seed &amp; Fertilizer Input Costs</option>
+              <option value="market">🏪 Selling Produce &amp; Mandi Prices</option>
+            </select>
           </div>
         </div>
       </div>
@@ -121,17 +216,15 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
 
       {/* Search & Category Filter Chips */}
       <div className="card" style={{ marginBottom: 24 }}>
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ flex: 1, minWidth: 260 }}>
-            <input
-              type="text"
-              className="form-input"
-              placeholder={t("search_schemes_placeholder")}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: "100%" }}
-            />
-          </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <input
+            type="text"
+            className="form-input"
+            placeholder={t("search_schemes_placeholder")}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ width: "100%" }}
+          />
 
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", overflowX: "auto", paddingBottom: 4 }}>
             <button
@@ -140,6 +233,13 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
               style={{ padding: "6px 14px", fontSize: 12.5 }}
             >
               {t("all_schemes_chip")}
+            </button>
+            <button
+              className={`btn ${selectedCategory === "side-income" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setSelectedCategory("side-income")}
+              style={{ padding: "6px 14px", fontSize: 12, fontWeight: 700 }}
+            >
+              💼 Side Income Subsidies (3)
             </button>
             <button
               className={`btn ${selectedCategory === "income" ? "btn-primary" : "btn-outline"}`}
@@ -194,13 +294,16 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
             <div style={{ fontSize: 32 }}>🔍</div>
             <h4 style={{ fontSize: 18, marginTop: 8 }}>No matching schemes found</h4>
             <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4 }}>
-              Try adjusting your search query or category filter.
+              Try adjusting your search query or reset the interactive disruption filter.
             </p>
             <button
               className="btn btn-outline"
               onClick={() => {
                 setSearchQuery("");
                 setSelectedCategory("all");
+                setInteractiveDisruption("all");
+                setInteractiveSoil("all");
+                setInteractiveCrop("all");
               }}
               style={{ marginTop: 14 }}
             >
