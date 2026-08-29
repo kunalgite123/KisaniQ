@@ -1,5 +1,5 @@
 import { FarmerProfile } from "../data/farmerProfile";
-import { Sparkles, ArrowRight, CheckCircle } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle, UserCheck } from "lucide-react";
 
 interface Props {
   profile: FarmerProfile;
@@ -39,8 +39,23 @@ export default function ProfileCompletionCard({ profile, onOpenSetup }: Props) {
           Complete Your Farm Setup to Personalize Advisories
         </h3>
 
-        <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 4, lineHeight: 1.5, margin: "4px 0 0 0" }}>
-          Fill in your Kopargaon village location, primary crop, land size in acres, and soil type to unlock localized climate warnings and automated machine cost calculations.
+        {/* Display Pre-filled User Identity Chips */}
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 8 }}>
+          <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+            ✓ Name: {profile.fullName}
+          </span>
+          <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+            ✓ Email: {profile.email}
+          </span>
+          {profile.phone && (
+            <span className="badge badge-healthy" style={{ fontSize: 11 }}>
+              ✓ Phone: {profile.phone}
+            </span>
+          )}
+        </div>
+
+        <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, margin: "6px 0 0 0" }}>
+          Your signup identity is saved. Complete the remaining farm details (village location, primary crop, land size in acres, and soil type) to personalize your climate risk warnings and machine service cost calculations.
         </p>
 
         {/* Progress Bar Track */}
@@ -76,7 +91,7 @@ export default function ProfileCompletionCard({ profile, onOpenSetup }: Props) {
         onClick={onOpenSetup}
         style={{ fontSize: 13, padding: "9px 20px", display: "flex", alignItems: "center", gap: 6 }}
       >
-        <span>Complete Profile Now</span>
+        <span>Fill Remaining Details →</span>
         <ArrowRight size={14} />
       </button>
     </div>

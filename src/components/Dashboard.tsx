@@ -4,6 +4,7 @@ import { kopargaonProfile } from "../data/groundSoil";
 import { Village } from "../data/villages";
 import { DiseaseInfo } from "../data/cropModels";
 import { useLanguage } from "../context/LanguageContext";
+import { useAuth } from "../context/AuthContext";
 import { FarmerProfile, loadSavedFarmerProfile } from "../data/farmerProfile";
 import ProfileCompletionCard from "./ProfileCompletionCard";
 import ProfileSetupModal from "./ProfileSetupModal";
@@ -19,14 +20,28 @@ interface Props {
 
 export default function Dashboard({ village, detectedDisease, cropName, onNavigateTab }: Props) {
   const { t } = useLanguage();
+  const { profile: authProfile } = useAuth();
   const [weather, setWeather] = useState<WeatherSnapshot | null>(null);
   const [risk, setRisk] = useState<ClimateRisk | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Farmer Profile Completion State
-  const [farmerProfile, setFarmerProfile] = useState<FarmerProfile>(() => loadSavedFarmerProfile());
+  // Farmer Profile Completion State (reads authenticated user credentials)
+  const [farmerProfile, setFarmerProfile] = useState<FarmerProfile>(() =>
+    loadSavedFarmerProfile(authProfile)
+  );
   const [showSetupModal, setShowSetupModal] = useState(false);
+
+  useEffect(() => {
+    if (authProfile) {
+      setFarmerProfile((prev) => ({
+        ...prev,
+        fullName: authProfile.full_name || prev.fullName,
+        email: authProfile.email || prev.email,
+        phone: authProfile.phone || prev.phone
+      }));
+    }
+  }, [authProfile]);
 
   useEffect(() => {
     let cancelled = false;

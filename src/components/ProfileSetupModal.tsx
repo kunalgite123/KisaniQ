@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FarmerProfile, saveFarmerProfile } from "../data/farmerProfile";
 import { villages } from "../data/villages";
-import { UserCheck, MapPin, Sprout, Layers, Droplets, Target, Sparkles } from "lucide-react";
+import { UserCheck, MapPin, Sprout, Layers, Droplets, Target, Sparkles, CheckCircle2 } from "lucide-react";
 
 interface Props {
   profile: FarmerProfile;
@@ -10,8 +10,11 @@ interface Props {
 }
 
 export default function ProfileSetupModal({ profile, onSave, onClose }: Props) {
-  const [fullName, setFullName] = useState(profile.fullName || "");
-  const [phone, setPhone] = useState(profile.phone || "");
+  const [fullName] = useState(profile.fullName || "Kisan Farmer");
+  const [email] = useState(profile.email || "farmer@kisaniq.in");
+  const [phone] = useState(profile.phone || "+91 98220 12345");
+
+  // Remaining Unfilled Farm Setup Parameters
   const [locationVillage, setLocationVillage] = useState(profile.locationVillage || "Kopargaon");
   const [primaryCrop, setPrimaryCrop] = useState(profile.primaryCrop || "Sugarcane");
   const [landArea, setLandArea] = useState<number | "">(profile.landArea || 4.0);
@@ -27,8 +30,9 @@ export default function ProfileSetupModal({ profile, onSave, onClose }: Props) {
 
     const updatedProfile: FarmerProfile = {
       ...profile,
-      fullName: fullName.trim() || "Kisan Farmer",
-      phone: phone.trim() || "+91 98220 12345",
+      fullName,
+      email,
+      phone,
       locationVillage,
       district: "Ahilyanagar (Ahmednagar)",
       primaryCrop,
@@ -57,10 +61,10 @@ export default function ProfileSetupModal({ profile, onSave, onClose }: Props) {
               <span className="section-label" style={{ fontSize: 10 }}>FARM SETUP &amp; ADVISORY PERSONALIZATION</span>
             </div>
             <h3 style={{ fontSize: 20, fontWeight: 800, color: "var(--text-main)", margin: 0, marginTop: 2 }}>
-              Complete Your Kisan Setu Farm Profile
+              Complete Remaining Farm Parameters
             </h3>
             <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 4 }}>
-              Tell us about your location, crop &amp; field parameters to personalize climate risk warnings and machine service cost estimates.
+              Your account identity is verified. Fill in your village, crop, land size, and soil parameters to reach 100% setup.
             </p>
           </div>
           <button className="modal-close" onClick={onClose}>
@@ -69,42 +73,22 @@ export default function ProfileSetupModal({ profile, onSave, onClose }: Props) {
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* Section 1: Farmer Identity */}
-          <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", marginBottom: 14 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: "var(--primary-800)", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
-              <UserCheck size={14} /> 1. Farmer Identity &amp; Contact
+          {/* Section 1: Pre-filled & Verified Signup Credentials (Read-only) */}
+          <div style={{ background: "rgba(21, 128, 61, 0.06)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid rgba(21, 128, 61, 0.2)", marginBottom: 14 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-900)", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+              <CheckCircle2 size={14} style={{ color: "var(--primary-700)" }} /> 1. Verified Signup Identity (Saved)
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label" style={{ fontSize: 11 }}>Full Name *</label>
-                <input
-                  type="text"
-                  className="input-text"
-                  placeholder="e.g. Rameshwar Kale"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label" style={{ fontSize: 11 }}>Mobile Phone Number *</label>
-                <input
-                  type="tel"
-                  className="input-text"
-                  placeholder="+91 98XXX XXXXX"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                />
-              </div>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", fontSize: 12.5, color: "var(--text-main)" }}>
+              <div>👤 <strong>Name:</strong> {fullName}</div>
+              <div>📧 <strong>Email:</strong> {email}</div>
+              {phone && <div>📞 <strong>Phone:</strong> {phone}</div>}
             </div>
           </div>
 
           {/* Section 2: Farm Location & Crop */}
           <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", marginBottom: 14 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: "var(--primary-800)", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
-              <MapPin size={14} /> 2. Location &amp; Primary Crop
+              <MapPin size={14} /> 2. Farm Location &amp; Primary Crop
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div className="form-group" style={{ margin: 0 }}>
@@ -144,7 +128,7 @@ export default function ProfileSetupModal({ profile, onSave, onClose }: Props) {
           {/* Section 3: Land Size & Unit */}
           <div style={{ background: "var(--surface-bg)", padding: 14, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", marginBottom: 14 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: "var(--primary-800)", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
-              <Sprout size={14} /> 3. Farm Land Size &amp; Unit
+              <Sprout size={14} /> 3. Farm Land Area &amp; Unit
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div className="form-group" style={{ margin: 0 }}>
