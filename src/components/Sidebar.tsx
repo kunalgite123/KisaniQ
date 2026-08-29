@@ -95,7 +95,7 @@ export default function Sidebar({
                 <div style={{ fontWeight: 600, color: "var(--text-main)" }}>
                   {selectedVillageName ? selectedVillageName : "Kopargaon Block"}
                 </div>
-                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Ahmednagar, MH</div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Ahilyanagar, MH</div>
               </div>
             </div>
           </div>
