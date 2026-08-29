@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SchemeEvaluationResult } from "../../lib/schemeMatching";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -9,8 +8,7 @@ interface Props {
 
 export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
   const { t } = useLanguage();
-  const { scheme, relevanceLabel, badgeClass, whyReasons } = evaluation;
-  const [showWhy, setShowWhy] = useState(false);
+  const { scheme, relevanceLabel, badgeClass } = evaluation;
 
   const translatedBadge =
     relevanceLabel === "Good Match"
@@ -58,29 +56,6 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
           {scheme.summary}
         </p>
 
-        {/* Expandable Why Matched Accordion */}
-        <div style={{ marginTop: 14, paddingTop: 10, borderTop: "1px dashed var(--border-subtle)" }}>
-          <button
-            className="accordion-toggle-btn"
-            onClick={() => setShowWhy(!showWhy)}
-            style={{ fontSize: 12 }}
-          >
-            <span>{t("why_recommends_btn")}</span>
-            <span>{showWhy ? "▲" : "▼"}</span>
-          </button>
-
-          {showWhy && (
-            <div style={{ marginTop: 8, background: "var(--surface-muted)", padding: 10, borderRadius: "var(--radius-sm)", fontSize: 12 }}>
-              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 4 }}>
-                {whyReasons.map((r, i) => (
-                  <li key={i} style={{ color: "var(--text-main)", lineHeight: 1.4 }}>
-                    {r}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* TWO MANDATORY BUTTONS AT BOTTOM OF EVERY CARD */}
