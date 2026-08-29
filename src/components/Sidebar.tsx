@@ -20,9 +20,9 @@ const NAV_ITEMS: NavConfig[] = [
   { id: "crop", label: "Crop Doctor", icon: "🌱", description: "Crop health & disease detection" },
   { id: "climate", label: "Climate", icon: "🌦️", description: "Weather & climate risk" },
   { id: "water", label: "Water & Soil", icon: "💧", description: "Groundwater & soil intelligence" },
-  { id: "advisory", label: "Advisory", icon: "🤖", description: "AI-powered recommendations" },
   { id: "machinery", label: "Labour & Machinery", icon: "🚜", description: "Rent & list farm equipment & labour" },
-  { id: "schemes", label: "Schemes", icon: "🏛️", description: "Government agriculture schemes" }
+  { id: "schemes", label: "Schemes", icon: "🏛️", description: "Government agriculture schemes" },
+  { id: "advisory", label: "Advisory", icon: "🤖", description: "AI-powered recommendations" }
 ];
 
 export default function Sidebar({
