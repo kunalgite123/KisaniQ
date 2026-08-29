@@ -27,110 +27,6 @@ interface Props {
   onViewDetails?: () => void;
 }
 
-export function AdvisoryAlertBox({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
-  const { t, language } = useLanguage();
-  const verdict = synthesizeAdvisory({ climateRisk, village, detectedDisease, cropName, lang: language });
-
-  const translatedTitle =
-    verdict.urgency === "urgent"
-      ? t("act_this_week")
-      : verdict.urgency === "watch"
-      ? t("monitor_closely")
-      : t("conditions_stable");
-
-  return (
-    <div
-      style={{
-        position: "relative",
-        background:
-          verdict.urgency === "urgent"
-            ? "rgba(220, 38, 38, 0.08)"
-            : verdict.urgency === "watch"
-            ? "rgba(230, 126, 34, 0.12)"
-            : "rgba(45, 106, 79, 0.08)",
-        backdropFilter: "blur(6px)",
-        border:
-          verdict.urgency === "urgent"
-            ? "1px solid rgba(220, 38, 38, 0.3)"
-            : verdict.urgency === "watch"
-            ? "1px solid rgba(230, 126, 34, 0.35)"
-            : "1px solid rgba(45, 106, 79, 0.3)",
-        borderRadius: "var(--radius-lg)",
-        padding: 22,
-        marginBottom: 32,
-        boxShadow: "var(--shadow-md)",
-        overflow: "hidden",
-        isolation: "isolate"
-      }}
-    >
-      {/* Background Image: 40% Visibility in Light Mode, 20% in Dark Mode */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: 'url("/farm_bg.jpg")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: "var(--advisory-bg-opacity, 0.40)" as any,
-          pointerEvents: "none",
-          zIndex: -1
-        }}
-      />
-
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-        {verdict.urgency === "urgent" ? (
-          <AlertTriangle size={26} style={{ color: "var(--alert-red)", flexShrink: 0, marginTop: 2 }} />
-        ) : verdict.urgency === "watch" ? (
-          <Info size={26} style={{ color: "var(--saffron-orange)", flexShrink: 0, marginTop: 2 }} />
-        ) : (
-          <CheckCircle size={26} style={{ color: "var(--primary-500)", flexShrink: 0, marginTop: 2 }} />
-        )}
-
-        <div style={{ flex: 1 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-            <h4 style={{ fontSize: 19, fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
-              {translatedTitle}
-            </h4>
-            <span
-              className="badge"
-              style={{
-                background: "rgba(0, 0, 0, 0.08)",
-                fontSize: 11.5,
-                fontWeight: 700,
-                color: "var(--text-main)"
-              }}
-            >
-              {t("timeframe_label")}
-            </span>
-          </div>
-
-          <ul style={{ marginTop: 12, paddingLeft: 20, fontSize: 14.5, lineHeight: 1.65, color: "var(--text-main)", fontWeight: 500 }}>
-            {verdict.points.map((p, i) => (
-              <li key={i} style={{ marginBottom: 6 }}>{p}</li>
-            ))}
-          </ul>
-
-          {onViewDetails && (
-            <button
-              onClick={onViewDetails}
-              className="btn btn-outline"
-              style={{
-                marginTop: 14,
-                padding: "8px 18px",
-                fontSize: 13,
-                fontWeight: 700,
-                background: "var(--surface-card)"
-              }}
-            >
-              {t("view_full_advisory")}
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function AdvisoryCard({ climateRisk, village, detectedDisease, cropName, onViewDetails }: Props) {
   const { t, language } = useLanguage();
   const [showExplainability, setShowExplainability] = useState(false);
@@ -152,7 +48,7 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
       className="ai-convergence-card"
       style={{
         position: "relative",
-        padding: 24,
+        padding: 26,
         border: "2px solid rgba(45, 106, 79, 0.25)",
         borderRadius: "var(--radius-lg)",
         marginBottom: 24,
@@ -162,6 +58,20 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         background: "var(--surface-card)"
       }}
     >
+      {/* Background Image: 40% Visibility in Light Mode, 20% in Dark Mode */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: 'url("/farm_bg.jpg")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: "var(--advisory-bg-opacity, 0.40)" as any,
+          pointerEvents: "none",
+          zIndex: -1
+        }}
+      />
+
       {/* Card Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 10, marginBottom: 16 }}>
         <div>
@@ -190,10 +100,11 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
           gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
           gap: 12,
           padding: 16,
-          background: "var(--surface-muted)",
+          background: "rgba(244, 246, 248, 0.75)",
+          backdropFilter: "blur(6px)",
           borderRadius: "var(--radius-md)",
           border: "1px solid var(--border-subtle)",
-          marginBottom: 16
+          marginBottom: 18
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -251,8 +162,66 @@ export default function AdvisoryCard({ climateRisk, village, detectedDisease, cr
         </div>
       </div>
 
+      {/* Primary Actionable Verdict Box inside AdvisoryCard */}
+      <div
+        style={{
+          background:
+            verdict.urgency === "urgent"
+              ? "rgba(220, 38, 38, 0.08)"
+              : verdict.urgency === "watch"
+              ? "rgba(230, 126, 34, 0.08)"
+              : "rgba(45, 106, 79, 0.08)",
+          backdropFilter: "blur(6px)",
+          border:
+            verdict.urgency === "urgent"
+              ? "1px solid rgba(220, 38, 38, 0.25)"
+              : verdict.urgency === "watch"
+              ? "1px solid rgba(230, 126, 34, 0.25)"
+              : "1px solid rgba(45, 106, 79, 0.25)",
+          borderRadius: "var(--radius-md)",
+          padding: 20
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+          {verdict.urgency === "urgent" ? (
+            <AlertTriangle size={24} style={{ color: "var(--alert-red)", flexShrink: 0 }} />
+          ) : verdict.urgency === "watch" ? (
+            <Info size={24} style={{ color: "var(--saffron-orange)", flexShrink: 0 }} />
+          ) : (
+            <CheckCircle size={24} style={{ color: "var(--primary-500)", flexShrink: 0 }} />
+          )}
+
+          <div style={{ flex: 1 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+              <h4 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
+                {translatedTitle}
+              </h4>
+              <span className="badge" style={{ background: "rgba(0, 0, 0, 0.06)", fontSize: 11 }}>
+                {t("timeframe_label")}
+              </span>
+            </div>
+
+            <ul style={{ marginTop: 12, paddingLeft: 20, fontSize: 14, lineHeight: 1.65, color: "var(--text-main)" }}>
+              {verdict.points.map((p, i) => (
+                <li key={i} style={{ marginBottom: 6 }}>{p}</li>
+              ))}
+            </ul>
+
+            {onViewDetails && (
+              <button
+                onClick={onViewDetails}
+                className="btn btn-outline"
+                style={{ marginTop: 14, padding: "6px 16px", fontSize: 12.5 }}
+              >
+                {t("view_full_advisory")}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Progressive Disclosure Explainability Accordion */}
-      <div className="explainability-accordion">
+      <div className="explainability-accordion" style={{ marginTop: 16 }}>
         <button
           className="accordion-toggle-btn"
           onClick={() => setShowExplainability(!showExplainability)}
