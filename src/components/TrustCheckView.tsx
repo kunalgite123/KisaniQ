@@ -170,7 +170,13 @@ export default function TrustCheckView({ onNavigateTab, selectedVillageName }: P
             className="btn-primary"
             onClick={() => handleVerify()}
             disabled={verifying || !inputClaim.trim()}
-            style={{ padding: "10px 22px" }}
+            style={{
+              padding: "10px 22px",
+              background: "#1B7A5A",
+              color: "#FFFFFF",
+              borderColor: "#146147",
+              fontWeight: 700
+            }}
           >
             {verifying ? (
               <>
