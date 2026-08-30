@@ -1,8 +1,6 @@
-# 🌾 Krishi Setu (KisaniQ)
+# 🌾 Krishi Setu
 
 **AI-Powered Farm Intelligence Platform** — built for **Smart India Hackathon Grand Finale 2026**
-
-**Live demo:** [kisani-q.vercel.app](https://kisani-q.vercel.app/)
 
 > Observe. Understand. Decide. Act.
 
@@ -127,8 +125,8 @@ src/
 ### Installation
 
 ```bash
-git clone <repo-url>
-cd KisaniQ-main
+git clone https://github.com/kunalgite123/KrishiSetu.git
+cd KrishiSetu
 npm install
 ```
 

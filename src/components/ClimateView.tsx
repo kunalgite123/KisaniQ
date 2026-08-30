@@ -344,7 +344,7 @@ export default function ClimateView({ village, cropName, weather: propWeather, c
             </div>
           </div>
 
-          {/* 7. KisaniQ Actionable Advisories */}
+          {/* 7. Krishi Setu Actionable Advisories */}
           <div className="card" style={{ marginBottom: 32, padding: 20 }}>
             <div style={{ marginBottom: 14 }}>
               <span className="section-label">{isMr ? "हवामान सल्ला" : "ADVISORY"}</span>
