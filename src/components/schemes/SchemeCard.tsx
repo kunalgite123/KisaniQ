@@ -28,7 +28,8 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
         flexDirection: "column",
         justifyContent: "space-between",
         height: "100%",
-        padding: 20
+        padding: "18px 14px",
+        marginTop: 0
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
@@ -79,32 +80,32 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
             margin: 0,
             lineHeight: 1.5,
             display: "-webkit-box",
-            WebkitLineClamp: 3,
+            WebkitLineClamp: 4,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
-            height: 56
+            minHeight: 74
           }}
         >
           {isMr ? (scheme.summaryMr || scheme.summary) : scheme.summary}
         </p>
       </div>
 
-      {/* Tier 6: Two Equal Bottom Action Buttons */}
+      {/* Tier 6: Full Width Vertical Action Buttons (Zero Clipping & Fits Page) */}
       <div
         style={{
-          marginTop: 18,
-          paddingTop: 14,
+          marginTop: 14,
+          paddingTop: 12,
           borderTop: "1px solid var(--border-subtle)",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 10
+          display: "flex",
+          flexDirection: "column",
+          gap: 7
         }}
       >
         <button
           type="button"
           onClick={onOpenDetail}
-          className="btn-outline"
-          style={{ width: "100%", justifyContent: "center", padding: "8px 10px", fontSize: 12 }}
+          className="btn-outline-sm"
+          style={{ width: "100%", justifyContent: "center", padding: "7px 10px", fontSize: 12, fontWeight: 600 }}
         >
           {t("view_detailed_summary")}
         </button>
@@ -113,10 +114,10 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
           href={scheme.officialUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-primary"
-          style={{ width: "100%", justifyContent: "center", padding: "8px 10px", fontSize: 12, textDecoration: "none" }}
+          className="btn-primary-sm"
+          style={{ width: "100%", justifyContent: "center", padding: "7px 10px", fontSize: 12, fontWeight: 600, textDecoration: "none" }}
         >
-          {t("official_website")}
+          {t("official_website")} ↗
         </a>
       </div>
     </div>

@@ -89,7 +89,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
   }, [recommendedSchemes, selectedCategory, searchQuery, interactiveDisruption]);
 
   return (
-    <div>
+    <div style={{ maxWidth: 1120, margin: "0 auto" }}>
       {/* Clean Page Title */}
       <PageHeader
         title={isMr ? "शासकीय कृषी योजना व अनुदान" : "Government Schemes & Benefits"}
@@ -231,7 +231,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
             style={{ width: "100%" }}
           />
 
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", overflowX: "auto", paddingBottom: 4 }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingBottom: 4 }}>
             <button
               className={`btn ${selectedCategory === "all" ? "btn-primary" : "btn-outline"}`}
               onClick={() => setSelectedCategory("all")}
@@ -316,7 +316,7 @@ export default function Schemes({ village, cropName, detectedDisease, climateRis
             </button>
           </div>
         ) : (
-          <div className="grid-2">
+          <div className="grid-2" style={{ gap: 18, alignItems: "stretch" }}>
             {filteredSchemes.map((item) => (
               <SchemeCard
                 key={item.scheme.id}
