@@ -435,9 +435,7 @@ export default function CropHealth({ onResult }: Props) {
                 ? (isMr ? "कापूस" : "Cotton")
                 : c.id === "sugarcane"
                 ? (isMr ? "ऊस" : "Sugarcane")
-                : c.id === "onion"
-                ? (isMr ? "कांदा" : "Onion")
-                : (isMr ? "🌴 झाडे व फळबागा" : "🌴 Trees & Fruits")}
+                : (isMr ? "कांदा" : "Onion")}
             </button>
           ))}
         </div>

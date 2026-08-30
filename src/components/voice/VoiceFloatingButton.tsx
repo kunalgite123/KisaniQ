@@ -17,11 +17,8 @@ export default function VoiceFloatingButton({ context, onNavigateTab }: Props) {
         onClick={() => setIsOpen(true)}
         aria-label="Start Voice Assistant"
         title="Ask in Marathi or English"
+        className="voice-floating-btn"
         style={{
-          position: "fixed",
-          bottom: 24,
-          right: 24,
-          zIndex: 1500,
           background: "var(--primary-800)",
           color: "#ffffff",
           border: "1px solid var(--primary-900)",

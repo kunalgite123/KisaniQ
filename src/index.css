@@ -1965,8 +1965,28 @@ table.data-table th {
   }
 
   .btn-primary, .btn-outline {
-    padding: 8px 12px !important;
-    font-size: 12.5px !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    min-height: 44px !important;
+  }
+
+  button, input, select, textarea {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+}
+
+.voice-floating-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1500;
+}
+
+@media (max-width: 768px) {
+  .voice-floating-btn {
+    bottom: 76px !important;
+    right: 16px !important;
   }
 }
 
