@@ -14,6 +14,7 @@ import LabourMachinery from "./components/LabourMachinery";
 import ImpactComparison from "./components/ImpactComparison";
 import TrustCheckView from "./components/TrustCheckView";
 import VoiceFloatingButton from "./components/voice/VoiceFloatingButton";
+import PWAInstallPrompt from "./components/pwa/PWAInstallPrompt";
 import { Village } from "./data/villages";
 import { CropModel, DiseaseInfo } from "./data/cropModels";
 import { fetchKopargaonWeather, assessClimateRisk, WeatherSnapshot, ClimateRisk } from "./lib/weather";
@@ -201,6 +202,9 @@ function MainAppContent() {
 
       {/* Mobile Bottom Navigation Bar */}
       <MobileNav currentTab={tab} onSelectTab={setTab} />
+
+      {/* PWA Home Screen Install Banner */}
+      <PWAInstallPrompt />
     </div>
   );
 }

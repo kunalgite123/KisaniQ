@@ -15,3 +15,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </ThemeProvider>
   </React.StrictMode>
 );
+
+// Register Progressive Web App (PWA) Service Worker
+if ("serviceWorker" in navigator && import.meta.env.PROD) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").then(
+      (reg) => console.log("PWA Service Worker registered:", reg.scope),
+      (err) => console.log("PWA Service Worker registration failed:", err)
+    );
+  });
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Krishi Setu — AI Agricultural Decision Intelligence & Verification",
+  "short_name": "Krishi Setu",
+  "description": "AI decision intelligence, satellite weather, groundwater monitoring, soil health, leaf disease scanning, government scheme matching, and trust verification engine for farmers.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F4F6F4",
+  "theme_color": "#0D4735",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
