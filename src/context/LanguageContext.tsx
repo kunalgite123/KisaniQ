@@ -17,7 +17,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const { t: i18nT } = useTranslation();
   const [language, setLanguageState] = useState<Language>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_LANG);
-    return saved === "mr" || saved === "en" ? saved : (i18n.language as Language) || "en";
+    return saved === "mr" || saved === "hi" || saved === "en" ? (saved as Language) : (i18n.language as Language) || "en";
   });
 
   function setLanguage(lang: Language) {

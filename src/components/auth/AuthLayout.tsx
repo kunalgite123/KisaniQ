@@ -45,7 +45,7 @@ export default function AuthLayout({ children }: Props) {
               color: language === "en" ? "#ffffff" : "var(--text-muted)",
               border: "none",
               borderRadius: "var(--radius-full)",
-              padding: "4px 12px",
+              padding: "4px 10px",
               fontSize: 12,
               fontWeight: 700,
               cursor: "pointer",
@@ -56,13 +56,30 @@ export default function AuthLayout({ children }: Props) {
           </button>
           <button
             type="button"
+            onClick={() => setLanguage("hi")}
+            style={{
+              background: language === "hi" ? "var(--primary-700)" : "transparent",
+              color: language === "hi" ? "#ffffff" : "var(--text-muted)",
+              border: "none",
+              borderRadius: "var(--radius-full)",
+              padding: "4px 10px",
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s ease"
+            }}
+          >
+            हिंदी
+          </button>
+          <button
+            type="button"
             onClick={() => setLanguage("mr")}
             style={{
               background: language === "mr" ? "var(--primary-700)" : "transparent",
               color: language === "mr" ? "#ffffff" : "var(--text-muted)",
               border: "none",
               borderRadius: "var(--radius-full)",
-              padding: "4px 12px",
+              padding: "4px 10px",
               fontSize: 12,
               fontWeight: 700,
               cursor: "pointer",

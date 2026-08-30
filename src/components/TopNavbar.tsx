@@ -114,7 +114,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
               color: language === "en" ? "#ffffff" : "var(--text-muted)",
               border: "none",
               borderRadius: "var(--radius-xs)",
-              padding: "4px 10px",
+              padding: "4px 8px",
               fontSize: 12,
               fontWeight: 600,
               cursor: "pointer",
@@ -126,13 +126,31 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           </button>
           <button
             type="button"
+            onClick={() => setLanguage("hi")}
+            style={{
+              background: language === "hi" ? "var(--primary-800)" : "transparent",
+              color: language === "hi" ? "#ffffff" : "var(--text-muted)",
+              border: "none",
+              borderRadius: "var(--radius-xs)",
+              padding: "4px 8px",
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "all 0.15s ease",
+              whiteSpace: "nowrap"
+            }}
+          >
+            हिंदी
+          </button>
+          <button
+            type="button"
             onClick={() => setLanguage("mr")}
             style={{
               background: language === "mr" ? "var(--primary-800)" : "transparent",
               color: language === "mr" ? "#ffffff" : "var(--text-muted)",
               border: "none",
               borderRadius: "var(--radius-xs)",
-              padding: "4px 10px",
+              padding: "4px 8px",
               fontSize: 12,
               fontWeight: 600,
               cursor: "pointer",
