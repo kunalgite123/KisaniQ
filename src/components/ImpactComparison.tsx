@@ -206,7 +206,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
 
       {/* 2. TOP 4 IMPACT HEADLINE GAINS (PERFECTLY ALIGNED IN A STRAIGHT LINE) */}
       <div className="grid-4" style={{ gap: 16, marginBottom: 24, alignItems: "stretch" }}>
-        {/* Cost Saved (Box 1 shifted slightly downwards for pixel-perfect straight line alignment) */}
+        {/* Cost Saved (Box 1) */}
         <div
           className="card"
           style={{
@@ -218,7 +218,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             justify: "space-between",
             height: "100%",
             minHeight: 125,
-            marginTop: 4
+            marginTop: 0
           }}
         >
           <div>
@@ -246,7 +246,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             justify: "space-between",
             height: "100%",
             minHeight: 125,
-            marginTop: 4
+            marginTop: 0
           }}
         >
           <div>
@@ -274,7 +274,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             justify: "space-between",
             height: "100%",
             minHeight: 125,
-            marginTop: 4
+            marginTop: 0
           }}
         >
           <div>
@@ -302,7 +302,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             justify: "space-between",
             height: "100%",
             minHeight: 125,
-            marginTop: 4
+            marginTop: 0
           }}
         >
           <div>
@@ -326,8 +326,8 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
           className="card"
           style={{
             padding: 24,
-            border: "2px solid rgba(220, 38, 38, 0.3)",
-            background: "rgba(254, 242, 242, 0.3)",
+            border: "2px solid rgba(220, 38, 38, 0.4)",
+            background: "var(--surface-card)",
             display: "flex",
             flexDirection: "column",
             justify: "space-between",
@@ -335,7 +335,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             marginTop: 0
           }}
         >
-          <div style={{ minHeight: 64, display: "flex", flexDirection: "column", justifyContent: "center", marginBottom: 16 }}>
+          <div style={{ minHeight: 68, display: "flex", flexDirection: "column", justifyContent: "center", marginBottom: 16 }}>
             <div>
               <span className="badge badge-urgent" style={{ fontSize: 11, padding: "4px 10px" }}>
                 🔴 {isMr ? "पारंपारिक शेती (अनियंत्रित)" : "TRADITIONAL FARMING"}
@@ -348,7 +348,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
 
           <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1, justifyContent: "space-between" }}>
             {/* Row 1: Water Usage */}
-            <div style={{ padding: 12, background: "var(--surface-card)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "rgba(220, 38, 38, 0.04)", borderRadius: "var(--radius-sm)", border: "1px solid rgba(220, 38, 38, 0.2)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>WATER USAGE (FLOOD IRRIGATION)</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)", marginTop: 2 }}>
                 💧 {formatLiters(traditional.waterUsageLiters)}
@@ -359,7 +359,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 2: Input Cost */}
-            <div style={{ padding: 12, background: "var(--surface-card)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "rgba(220, 38, 38, 0.04)", borderRadius: "var(--radius-sm)", border: "1px solid rgba(220, 38, 38, 0.2)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>INPUT COST (SEEDS, SPRAY, WATER PUMPING)</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)", marginTop: 2 }}>
                 💸 ₹{traditional.inputCostRupees.toLocaleString("en-IN")}
@@ -370,7 +370,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 3: Total Yield */}
-            <div style={{ padding: 12, background: "var(--surface-card)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "rgba(220, 38, 38, 0.04)", borderRadius: "var(--radius-sm)", border: "1px solid rgba(220, 38, 38, 0.2)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>TOTAL YIELD HARVESTED</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)", marginTop: 2 }}>
                 🌾 {traditional.totalYieldTons} {isMr ? "टन" : "Tons"} ({traditional.yieldPerAcreTons} {isMr ? "टन/एकर" : "Tons/Acre"})
@@ -381,7 +381,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 4: Subsidies Claimed */}
-            <div style={{ padding: 12, background: "var(--surface-card)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "rgba(220, 38, 38, 0.04)", borderRadius: "var(--radius-sm)", border: "1px solid rgba(220, 38, 38, 0.2)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>GOVERNMENT SUBSIDIES CLAIMED</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)", marginTop: 2 }}>
                 🏛️ ₹{traditional.subsidiesClaimedRupees}
@@ -392,7 +392,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 5: Estimated Net Profit */}
-            <div style={{ padding: 14, background: "rgba(220, 38, 38, 0.1)", borderRadius: "var(--radius-md)", border: "1px solid var(--alert-red)", minHeight: 76, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div style={{ padding: 14, background: "rgba(220, 38, 38, 0.1)", borderRadius: "var(--radius-md)", border: "1.5px solid var(--alert-red)", minHeight: 80, display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ fontSize: 12, color: "var(--alert-red)", fontWeight: 800 }}>ESTIMATED NET PROFIT</div>
               <div style={{ fontSize: 24, fontWeight: 800, color: "var(--alert-red)", marginTop: 2, fontFamily: "var(--font-mono)" }}>
                 ₹{traditional.netProfitRupees.toLocaleString("en-IN")}
@@ -416,7 +416,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             marginTop: 0
           }}
         >
-          <div style={{ minHeight: 64, display: "flex", flexDirection: "column", justifyContent: "center", marginBottom: 16 }}>
+          <div style={{ minHeight: 68, display: "flex", flexDirection: "column", justifyContent: "center", marginBottom: 16 }}>
             <div>
               <span className="badge badge-healthy" style={{ fontSize: 11, padding: "4px 10px" }}>
                 🟢 {isMr ? "कृषी सेतू मार्गदर्शित शेती" : "KRISHI SETU GUIDED"}
@@ -429,7 +429,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
 
           <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1, justifyContent: "space-between" }}>
             {/* Row 1: Water Usage */}
-            <div style={{ padding: 12, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--primary-700)", fontWeight: 800 }}>WATER USAGE (MICRO-IRRIGATION)</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--primary-900)", marginTop: 2 }}>
                 💧 {formatLiters(guided.waterUsageLiters)}
@@ -440,7 +440,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 2: Input Cost */}
-            <div style={{ padding: 12, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--primary-700)", fontWeight: 800 }}>INPUT COST SAVINGS</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--primary-900)", marginTop: 2 }}>
                 💸 ₹{guided.inputCostRupees.toLocaleString("en-IN")}
@@ -451,7 +451,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 3: Total Yield */}
-            <div style={{ padding: 12, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--primary-700)", fontWeight: 800 }}>TOTAL YIELD HARVESTED</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--primary-900)", marginTop: 2 }}>
                 🌾 {guided.totalYieldTons} {isMr ? "टन" : "Tons"} ({guided.yieldPerAcreTons} {isMr ? "टन/एकर" : "Tons/Acre"})
@@ -462,7 +462,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 4: Subsidies Unlocked */}
-            <div style={{ padding: 12, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 90, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div style={{ padding: 14, background: "var(--primary-50)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-500)", minHeight: 96, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div style={{ fontSize: 11, color: "var(--primary-700)", fontWeight: 800 }}>GOVERNMENT SUBSIDIES UNLOCKED</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: "var(--primary-900)", marginTop: 2 }}>
                 🏛️ ₹{guided.subsidiesClaimedRupees.toLocaleString("en-IN")}
@@ -473,7 +473,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
             </div>
 
             {/* Row 5: Estimated Net Profit */}
-            <div style={{ padding: 14, background: "var(--primary-700)", color: "#ffffff", borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-md)", minHeight: 76, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div style={{ padding: 14, background: "var(--primary-700)", color: "#ffffff", borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-md)", minHeight: 80, display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ fontSize: 12, fontWeight: 800, textTransform: "uppercase", opacity: 0.9 }}>ESTIMATED NET PROFIT</div>
               <div style={{ fontSize: 26, fontWeight: 800, marginTop: 2, fontFamily: "var(--font-mono)" }}>
                 ₹{guided.netProfitRupees.toLocaleString("en-IN")}

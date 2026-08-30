@@ -139,10 +139,10 @@ export default function ClimateView({ village, cropName, weather: propWeather, c
 
       {weather && risk && intel && (
         <>
-          {/* 2. Today's Weather & Climate Risk Grid */}
-          <div className="grid-2" style={{ marginBottom: 28, gap: 20 }}>
+          {/* 2. Today's Weather & Climate Risk Grid (Equal Size Boxes - Exact Top & Bottom Alignment) */}
+          <div className="grid-2" style={{ marginBottom: 28, gap: 20, alignItems: "stretch" }}>
             {/* Today's Weather Hero */}
-            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 24 }}>
+            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 24, height: "100%", marginTop: 0 }}>
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                   <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "आज" : "TODAY"}</span>
@@ -198,7 +198,7 @@ export default function ClimateView({ village, cropName, weather: propWeather, c
             </div>
 
             {/* Climate Risk Section */}
-            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 24 }}>
+            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 24, height: "100%", marginTop: 0 }}>
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                   <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "हवामान धोका" : "CLIMATE RISK"}</span>
@@ -222,7 +222,7 @@ export default function ClimateView({ village, cropName, weather: propWeather, c
                 </div>
               </div>
 
-              <div style={{ marginTop: 18, paddingTop: 12, borderTop: "1px solid var(--border-subtle)" }}>
+              <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border-subtle)" }}>
                 <button
                   className="btn-outline-sm"
                   onClick={() => setShowRiskModal(true)}

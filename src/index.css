@@ -938,6 +938,15 @@ button {
   margin-top: 20px;
 }
 
+.grid-2 > .card,
+.grid-3 > .card,
+.grid-4 > .card,
+.grid-2 > .card + .card,
+.grid-3 > .card + .card,
+.grid-4 > .card + .card {
+  margin-top: 0 !important;
+}
+
 .card-header {
   display: flex;
   align-items: center;
