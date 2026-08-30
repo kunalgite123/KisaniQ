@@ -42,14 +42,15 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
       {/* Right Location Selector, Language Toggle, Live Badge & Profile */}
       <div className="navbar-right">
         {/* Location Selector */}
-        <div className="location-select-box">
-          <MapPin size={14} style={{ color: "var(--primary-500)" }} />
+        <div className="location-select-box" style={{ flexShrink: 0, whiteSpace: "nowrap" }}>
+          <MapPin size={14} style={{ color: "var(--primary-500)", flexShrink: 0 }} />
           <select
             value={village?.name ?? ""}
             onChange={(e) => {
               const sel = villages.find((v) => v.name === e.target.value) ?? null;
               onSelectVillage(sel);
             }}
+            style={{ width: "auto", minWidth: 110, textOverflow: "ellipsis" }}
           >
             <option value="">{t("location_label")}</option>
             {villages.map((v) => (
@@ -68,19 +69,23 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           className="btn-primary-sm"
           style={{
             textDecoration: "none",
-            padding: "6px 12px",
+            padding: "6px 14px",
             fontSize: 12,
             fontWeight: 700,
             background: "#1B7A5A",
             color: "#FFFFFF",
             display: "inline-flex",
             alignItems: "center",
-            gap: 6
+            gap: 6,
+            flexShrink: 0,
+            whiteSpace: "nowrap",
+            height: 36,
+            borderRadius: "var(--radius-sm)"
           }}
           title={language === "mr" ? "बाजार भाव तपासा" : "Check Live Mandi Market Prices"}
         >
-          <TrendingUp size={14} />
-          <span>{language === "mr" ? "बाजार भाव" : "Market Prices"} ↗</span>
+          <TrendingUp size={14} style={{ flexShrink: 0 }} />
+          <span style={{ whiteSpace: "nowrap" }}>{language === "mr" ? "बाजार भाव" : "Market Prices"} ↗</span>
         </a>
 
         {/* i18next Language Switcher Bar */}
@@ -91,13 +96,16 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
             background: "var(--surface-muted)",
             border: "1px solid var(--border-subtle)",
             borderRadius: "var(--radius-sm)",
-            padding: "2px 3px",
+            padding: "2px 4px",
             fontSize: 12,
-            gap: 2
+            gap: 2,
+            flexShrink: 0,
+            whiteSpace: "nowrap",
+            height: 36
           }}
           title="Toggle Language / भाषा बदला"
         >
-          <Globe size={13} style={{ marginLeft: 6, marginRight: 2, color: "var(--primary-800)" }} />
+          <Globe size={13} style={{ marginLeft: 4, marginRight: 2, color: "var(--primary-800)", flexShrink: 0 }} />
           <button
             type="button"
             onClick={() => setLanguage("en")}
@@ -110,7 +118,8 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
               fontSize: 12,
               fontWeight: 600,
               cursor: "pointer",
-              transition: "all 0.15s ease"
+              transition: "all 0.15s ease",
+              whiteSpace: "nowrap"
             }}
           >
             EN
@@ -127,7 +136,8 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
               fontSize: 12,
               fontWeight: 600,
               cursor: "pointer",
-              transition: "all 0.15s ease"
+              transition: "all 0.15s ease",
+              whiteSpace: "nowrap"
             }}
           >
             मराठी
@@ -152,7 +162,10 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
             fontWeight: 700,
             cursor: "pointer",
             transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-            boxShadow: theme === "dark" ? "0 0 10px rgba(132, 204, 22, 0.2)" : "none"
+            boxShadow: theme === "dark" ? "0 0 10px rgba(132, 204, 22, 0.2)" : "none",
+            flexShrink: 0,
+            whiteSpace: "nowrap",
+            height: 36
           }}
         >
           {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
