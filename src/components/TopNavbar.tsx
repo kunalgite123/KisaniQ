@@ -19,7 +19,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const titleKey = `title_${currentTab}` as const;
-  const currentTitle = t(titleKey as any) || "Kisan Setu";
+  const currentTitle = t(titleKey as any) || "Krishi Setu";
 
   const fullName = profile?.full_name || user?.email?.split("@")[0] || "Farmer";
   const userInitials = fullName
@@ -34,7 +34,7 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
       {/* Left Breadcrumb & Page Title */}
       <div className="navbar-left">
         <div>
-          <div className="breadcrumb-box">Kisan Setu / {currentTitle}</div>
+          <div className="breadcrumb-box">Krishi Setu / {currentTitle}</div>
           <div className="breadcrumb-current">{currentTitle}</div>
         </div>
       </div>

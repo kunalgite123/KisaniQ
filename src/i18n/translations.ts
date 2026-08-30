@@ -38,13 +38,13 @@ export const translations = {
     main_navigation: "Main Navigation",
     farm_location: "Farm Location",
     district_name: "Ahilyanagar, MH",
-    system_status_online: "Kisan Setu AI Online",
+    system_status_online: "Krishi Setu AI Online",
     all_systems_ok: "All systems operational",
 
     // Voice Assistant i18n Keys
     voice_listening: "Listening... Speak naturally",
     voice_processing: "Understanding your query...",
-    voice_speaking: "Kisan Setu AI is speaking...",
+    voice_speaking: "Krishi Setu AI is speaking...",
     voice_unsupported: "Voice input is not supported in this browser.",
     voice_error_try_again: "Could not understand speech. Please try speaking again.",
     voice_navigating_to: "Navigating to",
@@ -70,14 +70,14 @@ export const translations = {
     why_recommending: "Why are we recommending this?",
     show_reasoning: "▼ Show AI reasoning",
     hide_reasoning: "▲ Hide reasoning",
-    todays_farm_decision: "TODAY'S FARM DECISION · Kisan Setu AI Convergence",
+    todays_farm_decision: "TODAY'S FARM DECISION · Krishi Setu AI Convergence",
 
     // Flow Node Labels
     node_climate: "Climate",
     node_soil: "Soil",
     node_groundwater: "Groundwater",
     node_crop_ai: "Crop AI",
-    node_krishi_ai: "Kisan Setu AI",
+    node_krishi_ai: "Krishi Setu AI",
     soil_black_murrum: "Black / Murrum",
     taluka_baseline: "Taluka Baseline",
     canal_reach: "Canal Reach",
@@ -124,7 +124,7 @@ export const translations = {
 
     // Advisory View Section Detailed
     advisory_subtitle_detailed: "Prioritized, actionable farm recommendations synthesized from 4 converged signals",
-    action_schedule_label: "KISAN SETU AI ENGINE OUTPUT · ACTION SCHEDULE",
+    action_schedule_label: "KRISHI SETU AI ENGINE OUTPUT · ACTION SCHEDULE",
     active_recommendations_count: "4 ACTIVE RECOMMENDATIONS",
     categorized_action_items: "Categorized Action Items",
     low_priority_tag: "LOW PRIORITY",
@@ -157,7 +157,7 @@ export const translations = {
     good_match_label: "GOOD MATCH",
     relevant_label: "RELEVANT",
     high_relevance_label: "HIGH RELEVANCE",
-    why_recommends_btn: "Why Kisan Setu recommends this ▼",
+    why_recommends_btn: "Why Krishi Setu recommends this ▼",
     view_detailed_summary: "View Detailed Summary",
     official_website: "Official Website ↗",
     search_schemes_placeholder: "Search government schemes by name, category or keyword...",
@@ -209,7 +209,7 @@ export const translations = {
     stop_camera: "Stop",
     diagnostic_output: "Diagnostic Output",
     symptom_verified: "🔍 Symptom Verified",
-    edge_privacy_notice: "🔒 Kisan Setu Edge Privacy: Neural networks run 100% locally inside your web browser via TensorFlow.js — no leaf photos leave your device.",
+    edge_privacy_notice: "🔒 Krishi Setu Edge Privacy: Neural networks run 100% locally inside your web browser via TensorFlow.js — no leaf photos leave your device.",
 
     // Crops
     crop_cotton: "🌾 Cotton",
@@ -319,13 +319,13 @@ export const translations = {
     main_navigation: "मुख्य मेनू",
     farm_location: "शेत स्थान",
     district_name: "अहिल्यानगर, महाराष्ट्र",
-    system_status_online: "किसान सेतू एआय ऑनलाइन",
+    system_status_online: "कृषी सेतू एआय ऑनलाइन",
     all_systems_ok: "सर्व प्रणाली सुव्यवस्थित",
 
     // Voice Assistant i18n Keys
     voice_listening: "मी ऐकत आहे... बोला",
     voice_processing: "तुमचा प्रश्न समजून घेत आहे...",
-    voice_speaking: "किसान सेतू एआय बोलत आहे...",
+    voice_speaking: "कृषी सेतू एआय बोलत आहे...",
     voice_unsupported: "तुमच्या ब्राउझरमध्ये व्हॉईस सपोर्ट उपलब्ध नाही.",
     voice_error_try_again: "माफ करा, समजू शकलो नाही. पुन्हा प्रयत्न करा.",
     voice_navigating_to: "विभाग उघडत आहे",
@@ -351,14 +351,14 @@ export const translations = {
     why_recommending: "आम्ही हे का सांगत आहोत?",
     show_reasoning: "▼ एआय तर्क पहा",
     hide_reasoning: "▲ एआय तर्क लपवा",
-    todays_farm_decision: "आजचा शेती निर्णय · किसान सेतू एआय निष्कर्ष",
+    todays_farm_decision: "आजचा शेती निर्णय · कृषी सेतू एआय निष्कर्ष",
 
     // Flow Node Labels
     node_climate: "हवामान",
     node_soil: "माती",
     node_groundwater: "भूजल",
     node_crop_ai: "पीक एआय",
-    node_krishi_ai: "किसान सेतू एआय",
+    node_krishi_ai: "कृषी सेतू एआय",
     soil_black_murrum: "काळी / मुरामाची माती",
     taluka_baseline: "तालुका पातळी",
     canal_reach: "कालवा परिसर",
@@ -405,7 +405,7 @@ export const translations = {
 
     // Advisory View Section Detailed
     advisory_subtitle_detailed: "४ एकत्र आलेल्या निर्देशांकांमधून तयार केलेला प्राधान्यक्रमानुसार शेती सल्ला",
-    action_schedule_label: "किसान सेतू एआय इंजिन निष्कर्ष · कृती वेळापत्रक",
+    action_schedule_label: "कृषी सेतू एआय इंजिन निष्कर्ष · कृती वेळापत्रक",
     active_recommendations_count: "४ सक्रिय शिफारसी",
     categorized_action_items: "वर्गीकृत कृती आराखडा",
     low_priority_tag: "कमी प्राधान्य",
@@ -438,7 +438,7 @@ export const translations = {
     good_match_label: "योग्य जुळणी",
     relevant_label: "संबंधित",
     high_relevance_label: "उच्च प्राधान्य",
-    why_recommends_btn: "किसान सेतू ही शिफारस का करतो ▼",
+    why_recommends_btn: "कृषी सेतू ही शिफारस का करतो ▼",
     view_detailed_summary: "तपशीलवार माहिती पहा",
     official_website: "अधिकृत संकेतस्थळ ↗",
     search_schemes_placeholder: "योजनेचे नाव, वर्ग किंवा शब्दाने शोधा...",
@@ -490,7 +490,7 @@ export const translations = {
     stop_camera: "कॅमेरा बंद करा",
     diagnostic_output: "निदान निकाल",
     symptom_verified: "🔍 लक्षण सत्यापित",
-    edge_privacy_notice: "🔒 किसान सेतू गोपनीयता: तुमचे फोटो मोबाईलवरच तपासले जातात — कोणतेही फोटो बाहेर जात नाहीत.",
+    edge_privacy_notice: "🔒 कृषी सेतू गोपनीयता: तुमचे फोटो मोबाईलवरच तपासले जातात — कोणतेही फोटो बाहेर जात नाहीत.",
 
     // Crops
     crop_cotton: "🌾 कापूस",

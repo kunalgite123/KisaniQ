@@ -36,8 +36,8 @@ export function useVoiceNavigation(
     // Initial greeting in current language
     const initGreeting =
       language === "mr"
-        ? "नमस्कार! मी किसान सेतू एआय सहाय्यक आहे. बोला, मी तुम्हाला मदत करू शकतो."
-        : "Namaste! I am Kisan Setu AI assistant. How can I help your farm today?";
+        ? "नमस्कार! मी कृषी सेतू एआय सहाय्यक आहे. बोला, मी तुम्हाला मदत करू शकतो."
+        : "Namaste! I am Krishi Setu AI assistant. How can I help your farm today?";
 
     setMessages([
       {

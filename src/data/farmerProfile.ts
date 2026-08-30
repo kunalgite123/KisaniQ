@@ -54,7 +54,7 @@ export interface AdviceState {
 
 export const INITIAL_DEFAULT_PROFILE: FarmerProfile = {
   fullName: "Kisan Farmer",
-  email: "farmer@kisansetu.in",
+  email: "farmer@krishisetu.in",
   phone: "+91 98220 12345",
   locationVillage: "",
   district: "Ahilyanagar (Ahmednagar)",
@@ -116,7 +116,7 @@ export function loadSavedFarmerProfile(authProfile?: { id?: string; full_name?: 
   const initial: FarmerProfile = {
     ...INITIAL_DEFAULT_PROFILE,
     fullName: authProfile?.full_name || "Kisan Farmer",
-    email: authProfile?.email || "farmer@kisansetu.in",
+    email: authProfile?.email || "farmer@krishisetu.in",
     phone: authProfile?.phone || "+91 98220 12345",
     isCompleted: false,
     completionPercentage: 35

@@ -49,11 +49,11 @@ export default function Sidebar({
       <div className="sidebar-header">
         <div className="brand-container">
           <div className="brand-logo-box">
-            <img src="/farmer_logo.jpg" alt="Kisan Setu Farmer" className="brand-logo-img" />
+            <img src="/farmer_logo.jpg" alt="Krishi Setu Farmer" className="brand-logo-img" />
           </div>
           {!collapsed && (
             <div className="brand-text-box">
-              <span className="brand-name">Kisan Setu</span>
+              <span className="brand-name">Krishi Setu</span>
               <span className="brand-subtitle">AI Farm Intelligence</span>
             </div>
           )}

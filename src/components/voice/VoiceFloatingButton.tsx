@@ -39,7 +39,7 @@ export default function VoiceFloatingButton({ context, onNavigateTab }: Props) {
         onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
       >
         <span style={{ fontSize: 18 }}>🎙️</span>
-        <span>Ask Kisan Setu</span>
+        <span>Ask Krishi Setu</span>
       </button>
 
       <VoiceAssistantModal
