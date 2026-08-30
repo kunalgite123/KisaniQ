@@ -1910,3 +1910,64 @@ table.data-table th {
     height: 14px;
   }
 }
+
+/* ---------- COMPREHENSIVE MOBILE RESPONSIVENESS (320px - 768px) ---------- */
+
+@media (max-width: 960px) {
+  .main-wrapper {
+    margin-left: 0 !important;
+  }
+  .app-main {
+    padding: 16px 12px 80px 12px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-navbar {
+    height: auto !important;
+    padding: 10px 14px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+  
+  .navbar-right {
+    width: 100% !important;
+    justify-content: space-between !important;
+    overflow-x: auto !important;
+    padding-bottom: 2px !important;
+  }
+
+  .breadcrumb-current {
+    font-size: 16px !important;
+  }
+
+  .card {
+    padding: 14px !important;
+  }
+
+  .btn-primary, .btn-outline {
+    padding: 8px 12px !important;
+    font-size: 12.5px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px !important;
+  }
+
+  h1 {
+    font-size: 22px !important;
+  }
+
+  .crop-tabs {
+    flex-wrap: wrap !important;
+  }
+
+  .crop-tab {
+    flex: 1 1 45% !important;
+    text-align: center !important;
+    padding: 8px !important;
+  }
+}
