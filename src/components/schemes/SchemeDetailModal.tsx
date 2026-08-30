@@ -1,4 +1,5 @@
 import { SchemeEvaluationResult } from "../../lib/schemeMatching";
+import { useLanguage } from "../../context/LanguageContext";
 
 interface Props {
   evaluation: SchemeEvaluationResult;
@@ -6,7 +7,14 @@ interface Props {
 }
 
 export default function SchemeDetailModal({ evaluation, onClose }: Props) {
+  const { language } = useLanguage();
+  const isMr = language === "mr";
   const { scheme, whyReasons, relevanceLabel, badgeClass } = evaluation;
+
+  const benefitsList = isMr ? (scheme.benefitsMr || scheme.benefits) : scheme.benefits;
+  const eligibilityList = isMr ? (scheme.eligibilitySummaryMr || scheme.eligibilitySummary) : scheme.eligibilitySummary;
+  const docsList = isMr ? (scheme.documentsRequiredMr || scheme.documentsRequired) : scheme.documentsRequired;
+  const stepsList = isMr ? (scheme.howToApplyStepsMr || scheme.howToApplySteps) : scheme.howToApplySteps;
 
   return (
     <div
@@ -45,14 +53,16 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
               <span className="badge" style={{ background: "var(--surface-muted)", fontSize: 12 }}>
-                {scheme.categoryIcon} {scheme.categoryLabel}
+                {scheme.categoryIcon} {isMr ? (scheme.categoryLabelMr || scheme.categoryLabel) : scheme.categoryLabel}
               </span>
               <span className={`badge ${badgeClass}`}>{relevanceLabel}</span>
               <span className="badge" style={{ background: "var(--primary-100)", color: "var(--primary-800)", fontSize: 11 }}>
-                🏛 {scheme.typeLabel}
+                🏛 {isMr ? (scheme.typeLabelMr || scheme.typeLabel) : scheme.typeLabel}
               </span>
             </div>
-            <h2 style={{ fontSize: 24, marginTop: 10, color: "var(--text-main)" }}>{scheme.name}</h2>
+            <h2 style={{ fontSize: 24, marginTop: 10, color: "var(--text-main)" }}>
+              {isMr ? (scheme.nameMr || scheme.name) : scheme.name}
+            </h2>
             <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>{scheme.shortName}</div>
             {scheme.programmePeriod && (
               <div style={{ fontSize: 12, color: "var(--color-urgent)", fontWeight: 600, marginTop: 4 }}>
@@ -78,14 +88,18 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
 
         {/* 1. What is this? */}
         <div style={{ marginTop: 20 }}>
-          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>What is this programme / service?</h4>
-          <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 6, lineHeight: 1.6 }}>{scheme.summary}</p>
+          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>
+            {isMr ? "ही कोणती योजना / सेवा आहे?" : "What is this programme / service?"}
+          </h4>
+          <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 6, lineHeight: 1.6 }}>
+            {isMr ? (scheme.summaryMr || scheme.summary) : scheme.summary}
+          </p>
         </div>
 
         {/* 2. Why is it relevant to you? */}
         <div style={{ marginTop: 20, background: "var(--surface-muted)", padding: 16, borderRadius: "var(--radius-md)" }}>
           <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--primary-900)" }}>
-            Why KisaniQ highlights this for your farm
+            {isMr ? "किसान सारथी तुमच्या शेतासाठी ही योजना का दर्शवत आहे" : "Why Kisan Sarthi highlights this for your farm"}
           </h4>
           <ul style={{ marginTop: 8, listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
             {whyReasons.map((reason, idx) => (
@@ -100,7 +114,7 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
         {scheme.soilParameters && (
           <div style={{ marginTop: 20 }}>
             <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>
-              12 Soil Health Parameters Monitored
+              {isMr ? "तपासले जाणारे १२ मृदा घटक" : "12 Soil Health Parameters Monitored"}
             </h4>
             <div className="grid-2" style={{ marginTop: 8, gap: 8 }}>
               {scheme.soilParameters.map((param, i) => (
@@ -124,9 +138,11 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
 
         {/* 3. Key Benefits */}
         <div style={{ marginTop: 20 }}>
-          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>Key Benefits / Purpose</h4>
+          <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-main)" }}>
+            {isMr ? "मुख्य फायदे व उद्देश" : "Key Benefits / Purpose"}
+          </h4>
           <ul style={{ marginTop: 8, paddingLeft: 18, fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6 }}>
-            {scheme.benefits.map((b, i) => (
+            {benefitsList.map((b, i) => (
               <li key={i} style={{ marginBottom: 4 }}>
                 {b}
               </li>
@@ -137,18 +153,22 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
         {/* 4. Eligibility & Requirements */}
         <div className="grid-2" style={{ marginTop: 20, gap: 16 }}>
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>Who Can Benefit / Use</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>
+              {isMr ? "पात्रता व निकष" : "Who Can Benefit / Use"}
+            </h4>
             <ul style={{ marginTop: 6, paddingLeft: 16, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
-              {scheme.eligibilitySummary.map((e, i) => (
+              {eligibilityList.map((e, i) => (
                 <li key={i}>{e}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>Documents / Tools Needed</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>
+              {isMr ? "आवश्यक कागदपत्रे" : "Documents / Tools Needed"}
+            </h4>
             <ul style={{ marginTop: 6, paddingLeft: 16, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
-              {scheme.documentsRequired.map((d, i) => (
+              {docsList.map((d, i) => (
                 <li key={i}>{d}</li>
               ))}
             </ul>
@@ -157,9 +177,11 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
 
         {/* 5. How to Proceed */}
         <div style={{ marginTop: 20 }}>
-          <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>How to Proceed</h4>
+          <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>
+            {isMr ? "अर्ज करण्याची पद्धत" : "How to Proceed"}
+          </h4>
           <ol style={{ marginTop: 8, paddingLeft: 18, fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6 }}>
-            {scheme.howToApplySteps.map((step, i) => (
+            {stepsList.map((step, i) => (
               <li key={i} style={{ marginBottom: 4 }}>
                 {step}
               </li>
@@ -174,7 +196,7 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
               🏛 {scheme.officialSourceName}
             </div>
             <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
-              Last Verified: {scheme.lastVerified}
+              {isMr ? "अंतिम पडताळणी:" : "Last Verified:"} {scheme.lastVerified}
             </div>
           </div>
 
@@ -185,7 +207,7 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
             className="btn btn-primary"
             style={{ padding: "10px 20px", fontSize: 13 }}
           >
-            Official Government Website ↗
+            {isMr ? "अधिकृत शासकीय संकेतस्थळ ↗" : "Official Government Website ↗"}
           </a>
         </div>
       </div>

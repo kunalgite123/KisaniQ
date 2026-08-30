@@ -36,10 +36,10 @@ export default function ProtectedRoute({ children }: Props) {
           gap: 16
         }}
       >
-        <div className="brand-logo-box" style={{ width: 54, height: 54 }}>
-          <img src="/farmer_logo.jpg" alt="Krishi Setu Farmer" className="brand-logo-img" />
+        <div className="auth-logo-badge" style={{ width: 44, height: 44, borderRadius: 8, overflow: "hidden", border: "2px solid var(--primary-600)", padding: 0 }}>
+          <img src="/farmer_logo.jpg" alt="Kisan Sarthi Farmer" className="brand-logo-img" />
         </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--primary-900)" }}>Krishi Setu</div>
+        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--primary-900)" }}>Kisan Sarthi</div>
         <div style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>
           Loading authentication...
         </div>

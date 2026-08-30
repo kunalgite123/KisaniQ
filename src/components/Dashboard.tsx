@@ -42,7 +42,7 @@ export default function Dashboard({
 
   const localProfile: FarmerProfile = propProfile || {
     fullName: authProfile?.full_name || "Kisan Farmer",
-    email: authProfile?.email || "farmer@kisaniq.in",
+    email: authProfile?.email || "farmer@kisansarthi.in",
     phone: authProfile?.phone || "+91 98220 12345",
     locationVillage: village?.name || "",
     district: "Ahilyanagar (Ahmednagar)",

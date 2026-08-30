@@ -129,7 +129,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
             </div>
             <div>
               <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
-                Krishi Setu Voice Assistant
+                Kisan Sarthi Voice Assistant
               </h3>
               <div style={{ fontSize: 11.5, color: "var(--text-muted)", display: "flex", alignItems: "center", gap: 6 }}>
                 <span>{language === "mr" ? "द्विभाषिक व्हॉईस एआय" : "Full-Duplex Multilingual Voice AI"}</span>
@@ -311,7 +311,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
               )}
               {m.sender === "assistant" && (
                 <div style={{ fontSize: 10.5, color: "var(--primary-500)", fontWeight: 700, marginBottom: 2, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                  Krishi Setu AI:
+                  Kisan Sarthi AI:
                 </div>
               )}
               {m.text}

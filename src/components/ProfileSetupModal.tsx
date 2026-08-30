@@ -15,7 +15,7 @@ export default function ProfileSetupModal({ profile, onSave, onClose }: Props) {
   const isMr = language === "mr";
 
   const [fullName] = useState(profile.fullName || "Kisan Farmer");
-  const [email] = useState(profile.email || "farmer@kisaniq.in");
+  const [email] = useState(profile.email || "farmer@kisansarthi.in");
   const [phone] = useState(profile.phone || "+91 98220 12345");
 
   // Remaining Unfilled Farm Setup Parameters

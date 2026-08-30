@@ -282,7 +282,7 @@ export function analyzeClimateIntelligence(
       category: isMr ? "🐛 पीक संरक्षण" : "CROP PROTECTION",
       title: isMr ? `${currentCrop} पिकाच्या पानांच्या खालच्या बाजूला बुरशीची लक्षणे तपासा` : `Monitor ${currentCrop} Leaf Undersides for Fungal Symptoms`,
       reason: isMr ? `सापेक्ष आद्रता ${humidity ?? 68}% असल्यामुळे करपा व बुरशी बीजाणू वाढण्याचा धोका आहे.` : `Relative humidity at ${humidity ?? 68}% increases spore germination risk for Leaf Scald, Rust, and Blotch.`,
-      action: isMr ? "पाने पिवळी पडल्यास कृषी सेतू पीक डॉक्टर फोटो स्कॅनरचा वापर करा." : "Use KisaniQ Crop Doctor photo scanner to capture leaf symptoms at first sign of yellowing or spots."
+      action: isMr ? "पाने पिवळी पडल्यास किसान सारथी पीक डॉक्टर फोटो स्कॅनरचा वापर करा." : "Use Kisan Sarthi Crop Doctor photo scanner to capture leaf symptoms at first sign of yellowing or spots."
     },
     {
       priority: "LOW PRIORITY" as const,

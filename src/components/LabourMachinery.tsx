@@ -204,7 +204,7 @@ export default function LabourMachinery() {
     <div style={{ maxWidth: 1120, margin: "0 auto" }}>
       {/* 1. Marketplace Header */}
       <PageHeader
-        title={isMr ? "मजूर व यंत्रसामग्री शेती सेवा" : "Kisan Setu Farm Services"}
+        title={isMr ? "मजूर व यंत्रसामग्री शेती सेवा" : "Kisan Sarthi Farm Services"}
         subtitle={isMr ? "कोपरगाव परिसरातील शेत अवजारे, मजूर व कृषी सेवा पारदर्शक दरात शोधा." : "Find farm machinery, labour and agricultural services near Kopargaon with transparent, research-backed acre rates."}
       />
 
@@ -343,37 +343,37 @@ export default function LabourMachinery() {
                 className={`filter-chip ${activeCategory === "all" ? "active" : ""}`}
                 onClick={() => setActiveCategory("all")}
               >
-                All ({filteredListings.length})
+                {isMr ? `सर्व उपकरणे (${filteredListings.length})` : `All (${filteredListings.length})`}
               </button>
               <button
                 className={`filter-chip ${activeCategory === "sprayer" ? "active" : ""}`}
                 onClick={() => setActiveCategory("sprayer")}
               >
-                💨 Power Sprayer (₹300/acre)
+                💨 {isMr ? "पावर स्प्रेअर (₹३००/एकर)" : "Power Sprayer (₹300/acre)"}
               </button>
               <button
                 className={`filter-chip ${activeCategory === "tractor" ? "active" : ""}`}
                 onClick={() => setActiveCategory("tractor")}
               >
-                🚜 Cultivator (₹700/acre)
+                🚜 {isMr ? "ट्रॅक्टर व कल्टिव्हेटर (₹७००/एकर)" : "Cultivator (₹700/acre)"}
               </button>
               <button
                 className={`filter-chip ${activeCategory === "implement" ? "active" : ""}`}
                 onClick={() => setActiveCategory("implement")}
               >
-                ⚙️ Rotavator (₹1,000/acre)
+                ⚙️ {isMr ? "रोटाव्हेटर (₹१,०००/एकर)" : "Rotavator (₹1,000/acre)"}
               </button>
               <button
                 className={`filter-chip ${activeCategory === "harvester" ? "active" : ""}`}
                 onClick={() => setActiveCategory("harvester")}
               >
-                🌾 Harvester (₹1,900/acre)
+                🌾 {isMr ? "हार्वेस्टर (₹१,९००/एकर)" : "Harvester (₹1,900/acre)"}
               </button>
               <button
                 className={`filter-chip ${activeCategory === "labour" ? "active" : ""}`}
                 onClick={() => setActiveCategory("labour")}
               >
-                👨‍🌾 Labour Crews
+                👨‍🌾 {isMr ? "मजूर टोळी" : "Labour Crews"}
               </button>
             </div>
 
@@ -382,7 +382,7 @@ export default function LabourMachinery() {
               <input
                 type="text"
                 className="input-text"
-                placeholder="Search sprayer, rotavator, मजूर..."
+                placeholder={isMr ? "शोधा: स्प्रेअर, रोटाव्हेटर, मजूर..." : "Search sprayer, rotavator, मजूर..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{ fontSize: 12, padding: "6px 12px" }}
@@ -398,9 +398,9 @@ export default function LabourMachinery() {
           filteredListings.length === 0 ? (
             <div className="card text-center" style={{ padding: "40px 20px" }}>
               <div style={{ fontSize: 32, marginBottom: 10 }}>🚜</div>
-              <h3>No matching services near {selectedLocation} right now</h3>
+              <h3>{isMr ? `${selectedLocation} जवळ सध्या कोणत्याही सेवा उपलब्ध नाहीत` : `No matching services near ${selectedLocation} right now`}</h3>
               <p style={{ color: "var(--text-muted)", marginTop: 4, fontSize: 13 }}>
-                Try increasing your search radius or view benchmark rates.
+                {isMr ? "कृपया शोधाची त्रिज्या वाढवा किंवा दर तक्ता पहा." : "Try increasing your search radius or view benchmark rates."}
               </p>
               <button
                 className="btn-outline-sm"
@@ -411,7 +411,7 @@ export default function LabourMachinery() {
                   setSearchQuery("");
                 }}
               >
-                Reset Search Filters
+                {isMr ? "शोध फिल्टर रीसेट करा" : "Reset Search Filters"}
               </button>
             </div>
           ) : (
@@ -420,10 +420,13 @@ export default function LabourMachinery() {
               {minRate > 0 && maxRate > 0 && (
                 <div style={{ marginBottom: 14, fontSize: 12, color: "var(--text-muted)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span>
-                    Showing <strong>{filteredListings.length}</strong> active service listings near {selectedLocation}
+                    {isMr ? `${selectedLocation} जवळ ` : "Showing "}
+                    <strong>{filteredListings.length}</strong>
+                    {isMr ? " उपलब्ध सेवा दर्शवित आहे" : ` active service listings near ${selectedLocation}`}
                   </span>
                   <span>
-                    Nearby listed rate range: <strong style={{ color: "var(--text-main)" }}>₹{minRate.toLocaleString("en-IN")} – ₹{maxRate.toLocaleString("en-IN")}</strong>
+                    {isMr ? "दर श्रेणी: " : "Nearby listed rate range: "}
+                    <strong style={{ color: "var(--text-main)" }}>₹{minRate.toLocaleString("en-IN")} – ₹{maxRate.toLocaleString("en-IN")}</strong>
                   </span>
                 </div>
               )}
@@ -431,8 +434,6 @@ export default function LabourMachinery() {
               {/* Service Cards Grid */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20, marginBottom: 32 }}>
                 {filteredListings.map((item) => {
-                  const benchmark = getBenchmarkForService(item.title);
-
                   return (
                     <div
                       key={item.id}
@@ -450,51 +451,51 @@ export default function LabourMachinery() {
                         {/* Category & Verification Badge */}
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                           <span className="section-label" style={{ fontSize: 10 }}>
-                            {item.categoryLabel.toUpperCase()}
+                            {isMr ? (item.categoryLabelMr || item.categoryLabel).toUpperCase() : item.categoryLabel.toUpperCase()}
                           </span>
                           {item.isVerified && (
                             <span className="badge badge-healthy" style={{ fontSize: 10, padding: "2px 8px" }}>
-                              ✓ Verified Provider
+                              {isMr ? "✓ प्रमाणित पुरवठादार" : "✓ Verified Provider"}
                             </span>
                           )}
                         </div>
 
                         {/* Title & Location Distance */}
                         <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
-                          {item.title}
+                          {isMr ? (item.titleMr || item.title) : item.title}
                         </h3>
                         <div style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 4 }}>
-                          📍 {item.village} · <strong>{item.distanceKm} km from you</strong>
+                          📍 {item.village} · <strong>{isMr ? `तुमच्यापासून ${item.distanceKm} किमी` : `${item.distanceKm} km from you`}</strong>
                         </div>
 
                         {/* Provider & Job Count */}
                         <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
-                          👤 <strong>{item.ownerName}</strong> · ⭐ {item.rating} ({item.totalBookingsCount} completed jobs)
+                          👤 <strong>{item.ownerName}</strong> · ⭐ {item.rating} ({isMr ? `${item.totalBookingsCount} पूर्ण झालेली कामे` : `${item.totalBookingsCount} completed jobs`})
                         </div>
 
                         {/* Description */}
                         <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                          {item.description}
+                          {isMr ? (item.descriptionMr || item.description) : item.description}
                         </p>
 
                         {/* Spec Tag */}
                         <div style={{ marginTop: 10, fontSize: 12, color: "var(--text-main)", background: "var(--surface-bg)", padding: "6px 10px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
-                          ⚡ <strong>Spec:</strong> {item.hpOrCapacity}
+                          ⚡ <strong>{isMr ? "वैशिष्ट्ये:" : "Spec:"}</strong> {isMr ? (item.hpOrCapacityMr || item.hpOrCapacity) : item.hpOrCapacity}
                         </div>
                       </div>
 
                       {/* Pricing Section with Transparent Metadata Tag */}
                       <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--border-subtle)", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
                         <div>
-                          <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase" }}>SERVICE RATE</div>
+                          <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase" }}>{isMr ? "सेवा दर" : "SERVICE RATE"}</div>
                           <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-main)" }}>
                             ₹{item.rate.toLocaleString("en-IN")}{" "}
                             <span style={{ fontSize: 11, fontWeight: 500, color: "var(--text-muted)" }}>
-                              / {item.rateUnit}
+                              / {isMr ? (item.rateUnitMr || (item.rateUnit === "acre" ? "एकर" : item.rateUnit === "day" ? "दिवस" : item.rateUnit)) : item.rateUnit}
                             </span>
                           </div>
                           <div style={{ fontSize: 10.5, color: "var(--primary-800)", fontWeight: 600, marginTop: 2 }}>
-                            {item.isProviderRate ? "Provider listed rate" : "Typical reference rate"}
+                            {item.isProviderRate ? (isMr ? "पुरवठादाराने दिलेला दर" : "Provider listed rate") : (isMr ? "मानक संदर्भ दर" : "Typical reference rate")}
                           </div>
                         </div>
 
@@ -505,7 +506,7 @@ export default function LabourMachinery() {
                               className="btn-outline-sm"
                               style={{ fontSize: 12, padding: "5px 10px" }}
                             >
-                              📞 Call
+                              📞 {isMr ? "कॉल करा" : "Call"}
                             </a>
                           )}
                           <button
@@ -513,7 +514,7 @@ export default function LabourMachinery() {
                             onClick={() => setSelectedService(item)}
                             style={{ fontSize: 12, padding: "5px 12px" }}
                           >
-                            Request Service
+                            {isMr ? "सेवा मागवा" : "Request Service"}
                           </button>
                         </div>
                       </div>

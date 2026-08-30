@@ -53,27 +53,27 @@ export async function analyzeImageWithGemini(
     cleanBase64 = parts[1];
   }
 
-  const promptText = `You are an expert agricultural plant pathologist specializing in Indian crops (Cotton, Sugarcane, Onion, Wheat, Rice, Tomato, Soybean, Maize). Analyze this crop leaf image carefully.
+  const promptText = `You are an expert agricultural plant pathologist specializing in Indian field crops (Cotton, Sugarcane, Onion, Wheat, Rice, Tomato, Soybean, Maize) and Tree / Fruit crops (Mango, Citrus/Lemon, Pomegranate, Guava, Papaya, Banana, Apple, Neem, Teak, Moringa/Shevga). Analyze this plant or tree leaf image carefully.
 CropHint: ${cropHint}.
 
-Primary Reference Dataset Classes (Kaggle Cotton Disease Corpus):
-- Bacterial Blight (Xanthomonas axonopodis pv. malvacearum: angular water-soaked spots, shot-holes)
-- Leaf Curl Virus (CLCuV: upward curling, vein thickening)
-- Alternaria Leaf Spot (concentric target-board brown spots)
-- Fusarium Wilt / Root Rot (yellowing foliage, vascular browning)
-- Verticillium Wilt (mottled V-shaped yellowing on leaf margins)
+Primary Reference Dataset Classes:
+- Bacterial Blight / Canker (Xanthomonas spp.: angular water-soaked spots, corky lesions, shot-holes)
+- Leaf Curl Virus (CLCuV / Papaya Ring Spot: upward curling, vein thickening, shoestring leaves)
+- Anthracnose (Colletotrichum spp.: dark brown concentric lesions on leaves and fruit)
+- Wilt / Root Rot (Fusarium spp.: leaf yellowing, vascular browning, canopy drying)
+- Rust & Mildew (Puccinia spp. / Oidium spp.: orange rust pustules or powdery white patches)
 - Healthy Leaf (normal chlorophyll, no lesions)
 
-Identify the crop name and any disease, fungal rust, bacterial spot, viral curling, pest damage, or nutrient deficiency present on the leaf.
+Identify the plant/tree name and any disease, fungal rust, bacterial spot, viral curling, pest damage, or nutrient deficiency present on the leaf/tree.
 Respond ONLY with a valid JSON object matching this schema (do NOT surround with markdown code blocks or additional text):
 {
   "cropName": "${cropHint}",
   "displayName": "Bacterial Blight",
   "severity": "urgent",
   "confidencePct": 94,
-  "advisory": "Angular water-soaked lesions bounded by veins drying into shot-holes observed.",
+  "advisory": "Water-soaked lesions and necrosis observed on foliage.",
   "treatment": "Spray Copper Oxychloride 50% WP @ 2.5 g/L + Streptocycline @ 0.1 g/L.",
-  "avoid": "Avoid late-evening overhead sprinkler watering and infected debris build-up."
+  "avoid": "Avoid overhead sprinkler watering and infected debris build-up."
 }
 Field constraints:
 - "severity" must be strictly one of: "urgent", "watch", or "healthy".

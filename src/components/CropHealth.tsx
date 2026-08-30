@@ -35,6 +35,10 @@ export default function CropHealth({ onResult }: Props) {
   const [geminiKeyInput, setGeminiKeyInput] = useState(() => getStoredGeminiApiKey());
   const [showKeyConfig, setShowKeyConfig] = useState(false);
 
+  const [customModelUrlInput, setCustomModelUrlInput] = useState(() => localStorage.getItem("kisaniq_custom_tm_url") || "");
+  const [activeModelUrl, setActiveModelUrl] = useState<string>(crop.modelUrl);
+  const [showCustomUrlDrawer, setShowCustomUrlDrawer] = useState(false);
+
   // Selected Symptom state (Single combined option: Colour + What Happens)
   const [selectedSymptomLabel, setSelectedSymptomLabel] = useState<string>("");
 
@@ -73,13 +77,15 @@ export default function CropHealth({ onResult }: Props) {
     setSelectedSymptomLabel("");
     modelRef.current = null;
 
+    const targetUrl = activeModelUrl || crop.modelUrl;
+
     const fallbackTimer = setTimeout(() => {
       if (!cancelled && modelStatus !== "ready") {
         setModelStatus("ready");
       }
     }, 2500);
 
-    loadTMModel(crop.modelUrl)
+    loadTMModel(targetUrl)
       .then((m) => {
         if (cancelled) return;
         modelRef.current = m;
@@ -97,13 +103,26 @@ export default function CropHealth({ onResult }: Props) {
       cancelled = true;
       clearTimeout(fallbackTimer);
     };
-  }, [crop.modelUrl]);
+  }, [crop.id, activeModelUrl]);
 
   useEffect(() => {
     return () => {
       streamRef.current?.getTracks().forEach((t) => t.stop());
     };
   }, []);
+
+  function handleSaveCustomUrl(e: React.FormEvent) {
+    e.preventDefault();
+    const clean = customModelUrlInput.trim();
+    if (clean) {
+      localStorage.setItem("kisaniq_custom_tm_url", clean);
+      setActiveModelUrl(clean);
+    } else {
+      localStorage.removeItem("kisaniq_custom_tm_url");
+      setActiveModelUrl(crop.modelUrl);
+    }
+    setShowCustomUrlDrawer(false);
+  }
 
   function stopCamera() {
     if (streamRef.current) {
@@ -154,8 +173,10 @@ export default function CropHealth({ onResult }: Props) {
         const mappedDisease: DiseaseInfo = {
           label: gDiag.displayName,
           displayName: gDiag.displayName,
+          displayNameMr: isMr ? `${gDiag.displayName} (AI द्वारा शोधलेले)` : undefined,
           severity: gDiag.severity,
-          advisory: `${gDiag.advisory} Treatment: ${gDiag.treatment}`
+          advisory: `${gDiag.advisory} Treatment: ${gDiag.treatment}`,
+          advisoryMr: isMr ? `${gDiag.advisory} उपाय: ${gDiag.treatment}` : undefined
         };
         onResult(crop, mappedDisease);
         setPredicting(false);
@@ -209,8 +230,10 @@ export default function CropHealth({ onResult }: Props) {
         const mappedDisease: DiseaseInfo = {
           label: gDiag.displayName,
           displayName: gDiag.displayName,
+          displayNameMr: isMr ? `${gDiag.displayName} (AI द्वारा शोधलेले)` : undefined,
           severity: gDiag.severity,
-          advisory: `${gDiag.advisory} Treatment: ${gDiag.treatment}`
+          advisory: `${gDiag.advisory} Treatment: ${gDiag.treatment}`,
+          advisoryMr: isMr ? `${gDiag.advisory} उपाय: ${gDiag.treatment}` : undefined
         };
         onResult(crop, mappedDisease);
         setPredicting(false);
@@ -254,7 +277,7 @@ export default function CropHealth({ onResult }: Props) {
     onResult(crop, disease);
   }
 
-  // Helper to resolve diagnosis
+  // Robust multi-stage fuzzy disease matcher
   function getTopDisease(preds: Prediction[] | null, symptomLabel: string): DiseaseInfo | null {
     if (symptomLabel) {
       const symMatch = crop.diseases.find((d) => d.symptom?.combinedLabel === symptomLabel);
@@ -262,8 +285,43 @@ export default function CropHealth({ onResult }: Props) {
     }
     if (!preds || preds.length === 0) return null;
     const top = preds[0];
-    if (top.probability < 0.30) return null;
-    return crop.diseases.find((d) => d.label === top.className) ?? crop.diseases[0] ?? null;
+    if (top.probability < 0.15) return null;
+
+    // 1. Exact match
+    let matched = crop.diseases.find((d) => d.label === top.className);
+
+    // 2. Case-insensitive & normalized symbol match
+    if (!matched) {
+      const cleanTop = top.className.toLowerCase().replace(/[^a-z0-9]/g, "");
+      matched = crop.diseases.find((d) => {
+        const cleanLabel = d.label.toLowerCase().replace(/[^a-z0-9]/g, "");
+        const cleanDisplay = d.displayName.toLowerCase().replace(/[^a-z0-9]/g, "");
+        return cleanLabel === cleanTop || cleanDisplay === cleanTop || cleanLabel.includes(cleanTop) || cleanTop.includes(cleanLabel);
+      });
+    }
+
+    // 3. Dynamic DiseaseInfo Generator for Custom Teachable Machine / Tree Models
+    if (!matched && top.className) {
+      const formattedName = top.className
+        .replace(/[_-]/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+      const isHealthy = formattedName.toLowerCase().includes("healthy") || formattedName.toLowerCase().includes("fresh");
+
+      matched = {
+        label: top.className,
+        displayName: formattedName,
+        displayNameMr: `${formattedName} (${isMr ? "कस्टम मॉडेलद्वारे निदान" : "Custom Model Diagnosis"})`,
+        severity: isHealthy ? "healthy" : "urgent",
+        advisory: isHealthy
+          ? `Your trained model identified ${formattedName} with ${(top.probability * 100).toFixed(1)}% confidence.`
+          : `Your custom trained Teachable Machine AI model detected ${formattedName} with ${(top.probability * 100).toFixed(1)}% confidence. Recommendation: Prune affected foliage, isolate diseased tree parts, and apply recommended organic/chemical fungicide.`,
+        advisoryMr: isHealthy
+          ? `तुमच्या मॉडेलनुसार झाड/पीक निरोगी (${formattedName}) आहे.`
+          : `तुमच्या मॉडेलनुसार ${formattedName} चे निदान झाले आहे (${(top.probability * 100).toFixed(1)}% खात्री). प्रभावित पाने नष्ट करा व शिफारसीत बुरशीनाशक फवारा.`
+      };
+    }
+
+    return matched ?? crop.diseases[0] ?? null;
   }
 
   // Calculate composite probabilities when symptom is selected
@@ -279,11 +337,70 @@ export default function CropHealth({ onResult }: Props) {
         title={t("crop_doctor_title")}
         subtitle={t("crop_doctor_subtitle")}
         action={
-          <span className="badge badge-healthy">
-            {modelStatus === "ready" ? t("edge_ai_ready") : modelStatus}
-          </span>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <button
+              onClick={() => setShowCustomUrlDrawer(!showCustomUrlDrawer)}
+              className="btn-outline-sm"
+              style={{ fontSize: 11.5, padding: "4px 10px", display: "flex", alignItems: "center", gap: 4 }}
+            >
+              🎯 {isMr ? "माझे स्वतःचे मॉडेल लिंक करा" : "Custom Model URL"}
+            </button>
+            <span className="badge badge-healthy">
+              {modelStatus === "ready" ? t("edge_ai_ready") : modelStatus}
+            </span>
+          </div>
         }
       />
+
+      {/* CUSTOM TEACHABLE MACHINE MODEL URL DRAWER */}
+      {showCustomUrlDrawer && (
+        <form
+          onSubmit={handleSaveCustomUrl}
+          style={{
+            background: "var(--surface-muted)",
+            border: "1px solid var(--primary-400)",
+            borderRadius: "var(--radius-md)",
+            padding: 16,
+            marginBottom: 20
+          }}
+        >
+          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-main)", marginBottom: 4 }}>
+            🤖 {isMr ? "तुमचे स्वतःचे Teachable Machine मॉडेल वापर" : "Use Your Own Trained Teachable Machine Model URL"}
+          </div>
+          <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 10 }}>
+            {isMr
+              ? "तुम्ही तयार केलेल्या Teachable Machine मॉडेलची URL इथे पेस्ट करा (उदा. https://teachablemachine.withgoogle.com/models/XYZ/)"
+              : "Paste your Teachable Machine share URL (e.g., https://teachablemachine.withgoogle.com/models/XYZ/)"}
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <input
+              type="url"
+              className="input-text"
+              placeholder="https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/"
+              value={customModelUrlInput}
+              onChange={(e) => setCustomModelUrlInput(e.target.value)}
+              style={{ flex: 1, fontSize: 12 }}
+            />
+            <button type="submit" className="btn-primary-sm" style={{ padding: "6px 16px" }}>
+              {isMr ? "सेव्ह करा व वापरा" : "Save & Load Model"}
+            </button>
+            {activeModelUrl !== crop.modelUrl && (
+              <button
+                type="button"
+                className="btn-outline-sm"
+                onClick={() => {
+                  setCustomModelUrlInput("");
+                  localStorage.removeItem("kisaniq_custom_tm_url");
+                  setActiveModelUrl(crop.modelUrl);
+                  setShowCustomUrlDrawer(false);
+                }}
+              >
+                {isMr ? "डिफॉल्ट मॉडेल वर या" : "Reset Default"}
+              </button>
+            )}
+          </div>
+        </form>
+      )}
 
       {/* DEDICATED CROP HEALTH SECTION AI ADVICE CARD */}
       <AdviceSectionCard
@@ -307,13 +424,20 @@ export default function CropHealth({ onResult }: Props) {
               className={`crop-tab ${c.id === cropId ? "active" : ""}`}
               onClick={() => {
                 setCropId(c.id);
+                setActiveModelUrl(c.modelUrl);
                 setImageSrc(null);
                 setPredictions(null);
                 setSelectedSymptomLabel("");
                 stopCamera();
               }}
             >
-              {c.name === "Cotton" ? t("crop_cotton") : c.name === "Sugarcane" ? t("crop_sugarcane") : t("crop_onion")}
+              {c.id === "cotton"
+                ? (isMr ? "कापूस" : "Cotton")
+                : c.id === "sugarcane"
+                ? (isMr ? "ऊस" : "Sugarcane")
+                : c.id === "onion"
+                ? (isMr ? "कांदा" : "Onion")
+                : (isMr ? "🌴 झाडे व फळबागा" : "🌴 Trees & Fruits")}
             </button>
           ))}
         </div>

@@ -7,16 +7,17 @@ interface Props {
 }
 
 export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isMr = language === "mr";
   const { scheme, relevanceLabel, badgeClass } = evaluation;
 
   const translatedBadge =
     relevanceLabel === "Good Match"
-      ? t("good_match_label")
+      ? (isMr ? "योग्य सुसंगत" : t("good_match_label"))
       : relevanceLabel === "High Relevance"
-      ? t("high_relevance_label")
+      ? (isMr ? "उच्च प्राधान्य" : t("high_relevance_label"))
       : relevanceLabel === "Relevant"
-      ? t("relevant_label")
+      ? (isMr ? "सुसंगत योजना" : t("relevant_label"))
       : relevanceLabel;
 
   return (
@@ -28,9 +29,9 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
             <span style={{ fontSize: 24, lineHeight: 1 }}>{scheme.categoryIcon}</span>
             <div>
               <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                <span className="section-label">{scheme.categoryLabel}</span>
+                <span className="section-label">{isMr ? (scheme.categoryLabelMr || scheme.categoryLabel) : scheme.categoryLabel}</span>
                 <span className="badge" style={{ fontSize: 10, background: "var(--surface-muted)", color: "var(--text-muted)" }}>
-                  {scheme.typeLabel}
+                  {isMr ? (scheme.typeLabelMr || scheme.typeLabel) : scheme.typeLabel}
                 </span>
               </div>
               <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 2, color: "var(--text-main)" }}>
@@ -43,7 +44,7 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
 
         {/* Name & Period */}
         <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-main)", marginTop: 8 }}>
-          {scheme.name}
+          {isMr ? (scheme.nameMr || scheme.name) : scheme.name}
         </div>
 
         {scheme.programmePeriod && (
@@ -53,7 +54,7 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
         )}
 
         <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-          {scheme.summary}
+          {isMr ? (scheme.summaryMr || scheme.summary) : scheme.summary}
         </p>
 
       </div>

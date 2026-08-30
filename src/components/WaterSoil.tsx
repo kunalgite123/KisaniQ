@@ -86,7 +86,7 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
               <Sparkles size={14} style={{ color: "var(--primary-500)" }} />
               <span className="section-label" style={{ fontSize: 11 }}>
-                {language === "mr" ? "कृषी सेतू पाणी व माती सल्ला" : "WATER & SOIL DECISION SUMMARY"}
+                {language === "mr" ? "किसान सारथी पाणी व माती सल्ला" : "WATER & SOIL DECISION SUMMARY"}
               </span>
             </div>
             <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
@@ -448,7 +448,7 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
           </div>
           <div>
             <div className="section-label" style={{ fontSize: 11 }}>
-              {language === "mr" ? "एआय निर्णय इंजिन" : "KISAN SETU CONVERGED DECISION"}
+              {language === "mr" ? "एआय निर्णय इंजिन" : "KISAN SARTHI CONVERGED DECISION"}
             </div>
             <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-main)", margin: 0 }}>
               💧 {language === "mr" ? "पाणी व माती निर्णय" : "Water & Soil Decision"}
@@ -659,7 +659,7 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
                 <li><strong>Crop Needs:</strong> {decision.reasoning.cropInfo}</li>
               </ul>
               <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px dashed var(--border-strong)", color: "var(--primary-700)", fontWeight: 700 }}>
-                ➔ {language === "mr" ? "निष्कर्ष:" : "Kisan Setu Final Recommendation:"} "{decision.reasoning.summaryDecision}"
+                ➔ {language === "mr" ? "निष्कर्ष:" : "Kisan Sarthi Final Recommendation:"} "{decision.reasoning.summaryDecision}"
               </div>
             </div>
           )}
