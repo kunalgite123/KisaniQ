@@ -432,7 +432,7 @@ export default function LabourMachinery() {
               )}
 
               {/* Service Cards Grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20, marginBottom: 32 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20, marginBottom: 32, alignItems: "stretch" }}>
                 {filteredListings.map((item) => {
                   return (
                     <div
@@ -444,6 +444,7 @@ export default function LabourMachinery() {
                         flexDirection: "column",
                         justifyContent: "space-between",
                         height: "100%",
+                        marginTop: 0,
                         border: "1px solid var(--border-subtle)",
                         borderRadius: "var(--radius-md)"
                       }}
