@@ -204,7 +204,7 @@ export default function LabourMachinery() {
     <div style={{ maxWidth: 1120, margin: "0 auto" }}>
       {/* 1. Marketplace Header */}
       <PageHeader
-        title={isMr ? "मजूर व यंत्रसामग्री शेती सेवा" : "Kisan Sarthi Farm Services"}
+        title={isMr ? "मजूर व यंत्रसामग्री शेती सेवा" : "Kisan Setu Farm Services"}
         subtitle={isMr ? "कोपरगाव परिसरातील शेत अवजारे, मजूर व कृषी सेवा पारदर्शक दरात शोधा." : "Find farm machinery, labour and agricultural services near Kopargaon with transparent, research-backed acre rates."}
       />
 

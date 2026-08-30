@@ -173,7 +173,7 @@ function MainAppContent() {
 
         {/* App Footer */}
         <footer className="app-footer">
-          Kisan Sarthi — Built for Smart India Hackathon Grand Finale 2026 · AI-Powered Farm Intelligence · Observe. Understand. Decide. Act.
+          Kisan Setu — Built for Smart India Hackathon Grand Finale 2026 · AI-Powered Farm Intelligence · Observe. Understand. Decide. Act.
         </footer>
       </div>
 

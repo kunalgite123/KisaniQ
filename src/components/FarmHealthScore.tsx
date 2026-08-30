@@ -66,7 +66,7 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
 
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-800)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-              {isMr ? "किसान सारथी दैनंदिन निर्देशांक" : "Kisan Sarthi Daily Index"}
+              {isMr ? "किसान सेतू दैनंदिन निर्देशांक" : "Kisan Setu Daily Index"}
             </div>
             <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
               {isMr ? "शुभ प्रभात, शेतकरी बांधवांनो 🌾" : "Good morning, Kisan 🌾"}

@@ -99,7 +99,7 @@ export default function SchemeDetailModal({ evaluation, onClose }: Props) {
         {/* 2. Why is it relevant to you? */}
         <div style={{ marginTop: 20, background: "var(--surface-muted)", padding: 16, borderRadius: "var(--radius-md)" }}>
           <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--primary-900)" }}>
-            {isMr ? "किसान सारथी तुमच्या शेतासाठी ही योजना का दर्शवत आहे" : "Why Kisan Sarthi highlights this for your farm"}
+            {isMr ? "किसान सेतू तुमच्या शेतासाठी ही योजना का दर्शवत आहे" : "Why Kisan Setu highlights this for your farm"}
           </h4>
           <ul style={{ marginTop: 8, listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
             {whyReasons.map((reason, idx) => (

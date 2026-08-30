@@ -263,7 +263,7 @@ export default function ClimateView({ village, cropName, weather: propWeather, c
               </div>
 
               <div style={{ padding: 12, background: "var(--primary-100)", borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-200)" }}>
-                <div style={{ fontSize: 11, color: "var(--primary-800)", fontWeight: 700 }}>{isMr ? "४. कृषी सेतू शिफारस" : "4. KisaniQ Recommendation"}</div>
+                <div style={{ fontSize: 11, color: "var(--primary-800)", fontWeight: 700 }}>{isMr ? "४. किसान सेतू शिफारस" : "4. Kisan Setu Recommendation"}</div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "var(--primary-900)", marginTop: 4 }}>
                   {intel.decisionFlow.recommendation}
                 </div>
@@ -349,7 +349,7 @@ export default function ClimateView({ village, cropName, weather: propWeather, c
             <div style={{ marginBottom: 14 }}>
               <span className="section-label">{isMr ? "हवामान सल्ला" : "ADVISORY"}</span>
               <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--text-main)", marginTop: 2 }}>
-                {isMr ? "कृषी सेतू हवामान सल्ला" : "KisaniQ Weather Advisories"}
+                {isMr ? "किसान सेतू हवामान सल्ला" : "Kisan Setu Weather Advisories"}
               </h3>
             </div>
 

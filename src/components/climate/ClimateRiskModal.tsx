@@ -70,7 +70,7 @@ export default function ClimateRiskModal({ intelligence, snapshot, risk, onClose
         {/* AI Explainability Summary */}
         <div style={{ marginTop: 20, background: "var(--surface-muted)", padding: 16, borderRadius: "var(--radius-md)" }}>
           <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--primary-900)" }}>
-            🧠 Why Kisan Sarthi Identifies {intelligence.overallRiskLevel}
+            🧠 Why Kisan Setu Identifies {intelligence.overallRiskLevel}
           </h4>
           <p style={{ fontSize: 13.5, color: "var(--text-main)", marginTop: 6, lineHeight: 1.6 }}>
             {risk.headline}

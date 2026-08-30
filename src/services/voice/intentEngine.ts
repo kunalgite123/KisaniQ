@@ -192,10 +192,10 @@ export function processVoiceQuery(
       navigateTab: "dashboard",
       responseText:
         lang === "mr"
-          ? "किसान सारथी मुख्यपृष्ठ उघडत आहे."
+          ? "किसान सेतू मुख्यपृष्ठ उघडत आहे."
           : lang === "hi"
-          ? "किसान सारथी मुख्यपृष्ठ खोल रहा हूँ।"
-          : "Opening Kisan Sarthi Farm Dashboard."
+          ? "किसान सेतू मुख्यपृष्ठ खोल रहा हूँ।"
+          : "Opening Kisan Setu Farm Dashboard."
     };
   }
 
@@ -427,8 +427,8 @@ export function processVoiceQuery(
       navigateTab: "schemes",
       responseText:
         lang === "mr"
-          ? "किसान सारथीवर उपलब्ध योजना: १. पीक विमा (PMFBY), २. PM-KISAN (₹६,०००), ३. ठिबक सिंचन अनुदान (५५%), ४. मत्स्य व पशुपालन जोडधंदा अनुदान."
-          : "Key Schemes available on Kisan Sarthi: PMFBY Crop Insurance, PM-KISAN, Drip Subsidy (55%), and PMMSY/NLM Allied Business Grants."
+          ? "किसान सेतूवर उपलब्ध योजना: १. पीक विमा (PMFBY), २. PM-KISAN (₹६,०००), ३. ठिबक सिंचन अनुदान (५५%), ४. मत्स्य व पशुपालन जोडधंदा अनुदान."
+          : "Key Schemes available on Kisan Setu: PMFBY Crop Insurance, PM-KISAN, Drip Subsidy (55%), and PMMSY/NLM Allied Business Grants."
     };
   }
 
@@ -473,17 +473,17 @@ export function processVoiceQuery(
   }
 
   // ==========================================
-  // 7. PLATFORM HOW-TO & ABOUT KISAN SARTHI
+  // 7. PLATFORM HOW-TO & ABOUT KISAN SETU
   // ==========================================
 
-  if (q.includes("what is kisan sarthi") || q.includes("kisan sarthi काय आहे") || q.includes("about") || q.includes("बद्दल")) {
+  if (q.includes("what is kisan setu") || q.includes("kisan setu काय आहे") || q.includes("about") || q.includes("बद्दल")) {
     return {
       detectedLang: lang,
       intent: "ABOUT_KRISHI_SETU",
       responseText:
         lang === "mr"
-          ? "किसान सारथी हे कोपरगाव व अहिल्यानगर शेतकर्‍यांसाठी एआय-आधारित शेती निर्णय तंत्रज्ञान आहे, जे हवामान, भूजल, माती आणि पीक रोगांचे अचूक विश्लेषण करून दैनंदिन सल्ला देते."
-          : "Kisan Sarthi is an AI decision-intelligence platform for Kopargaon farmers, unifying satellite weather, groundwater, soil health, and leaf disease scanning."
+          ? "किसान सेतू हे कोपरगाव व अहिल्यानगर शेतकर्‍यांसाठी एआय-आधारित शेती निर्णय तंत्रज्ञान आहे, जे हवामान, भूजल, माती आणि पीक रोगांचे अचूक विश्लेषण करून दैनंदिन सल्ला देते."
+          : "Kisan Setu is an AI decision-intelligence platform for Kopargaon farmers, unifying satellite weather, groundwater, soil health, and leaf disease scanning."
     };
   }
 
@@ -507,7 +507,7 @@ export function processVoiceQuery(
     intent: "DYNAMIC_AGRICULTURE_ADVISORY",
     responseText:
       lang === "mr"
-        ? `मी किसान सारथी एआय आहे. ${location} मधील तुमच्या ${currentCrop} पिकासाठी मी हवामान, माती परीक्षण, भूजल पातळी, पीक रोग औषधोपचार आणि शासकीय सबसिडीबद्दल अचूक माहिती देऊ शकतो.`
-        : `I am Kisan Sarthi AI. I can assist you with real-time weather, soil nutrients, groundwater levels, disease remedies for ${currentCrop}, and government subsidies for ${location}.`
+        ? `मी किसान सेतू एआय आहे. ${location} मधील तुमच्या ${currentCrop} पिकासाठी मी हवामान, माती परीक्षण, भूजल पातळी, पीक रोग औषधोपचार आणि शासकीय सबसिडीबद्दल अचूक माहिती देऊ शकतो.`
+        : `I am Kisan Setu AI. I can assist you with real-time weather, soil nutrients, groundwater levels, disease remedies for ${currentCrop}, and government subsidies for ${location}.`
   };
 }
