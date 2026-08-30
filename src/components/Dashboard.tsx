@@ -95,7 +95,7 @@ export default function Dashboard({
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
               <div>
-                <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "हवामान बुद्धिमत्ता" : "CLIMATE INTELLIGENCE"}</span>
+                <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "हवामान माहिती" : "Climate Forecast"}</span>
                 <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
                   {isMr ? "हवामान अंदाज व कोरड्या दिवसांचा धोका" : "Weather & Dry-Spell Risk"}
                 </h3>
@@ -146,7 +146,7 @@ export default function Dashboard({
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
               <div>
-                <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "पीक आरोग्य बुद्धिमत्ता" : "CROP INTELLIGENCE"}</span>
+                <span className="section-label" style={{ fontSize: 11 }}>{isMr ? "पीक आरोग्य निदान" : "Crop Health Diagnostics"}</span>
                 <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
                   {isMr ? "किड व रोग निदान तंत्रज्ञान" : "Pest & Disease Diagnostics"}
                 </h3>
@@ -199,14 +199,14 @@ export default function Dashboard({
       {/* BEFORE VS AFTER KRISHI SETU IMPACT BANNER CARD */}
       <div
         style={{
-          background: "linear-gradient(135deg, var(--primary-900), var(--primary-700))",
+          background: "var(--primary-900)",
           color: "#ffffff",
-          borderRadius: "var(--radius-lg)",
+          borderRadius: "var(--radius-md)",
           padding: "24px 28px",
           marginBottom: 32,
-          boxShadow: "var(--shadow-md)",
+          border: "1px solid var(--primary-950)",
           display: "flex",
-          justify: "space-between",
+          justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "wrap",
           gap: 20

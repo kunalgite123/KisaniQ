@@ -1,65 +1,67 @@
 :root {
-  /* 1. Primary Base: Deep Forest Pine (#1B4332) & Leaf Green (#2D6A4F) */
-  --primary-950: #031713;
-  --primary-900: #1B4332;
-  --primary-800: #276749;
-  --primary-700: #2D6A4F;
+  /* Primary Base: Deep Forest Agricultural Green (#13523F / #0D4735) */
+  --primary-950: #052119;
+  --primary-900: #0D4735;
+  --primary-800: #13523F;
+  --primary-700: #1C6952;
 
-  /* 2. Brand Accent: Warm Organic Leaf Green (#2D6A4F / #40916C) */
-  --primary-600: #40916C;
-  --primary-500: #2D6A4F;
-  --primary-100: #E8F5E9;
-  /* Soft Sage Tint */
-  --primary-50: #F4F9F5;
+  /* Brand Accent */
+  --primary-600: #257D63;
+  --primary-500: #13523F;
+  --primary-100: #E7EFEA;
+  --primary-50: #F1F6F3;
 
-  /* 3. App Background: Warm Organic Cloud (#F6F8F5) */
-  --surface-bg: #F6F8F5;
+  /* 60% App Background: Warm Soft Sage Neutral (#F4F6F4) */
+  --surface-bg: #F4F6F4;
 
-  /* 4. Card Surface: Pure White (#FFFFFF) & warm organic borders */
+  /* Surface & Borders */
   --surface-card: #FFFFFF;
-  --surface-muted: #F0F4F1;
+  --surface-muted: #EAEFEC;
   --surface-sidebar: #FFFFFF;
-  --surface-sage: #E8F5E9;
-  --border-subtle: #E2E8E4;
-  --border-strong: #CBD5CD;
+  --surface-sage: #E7EFEA;
+  --border-subtle: #E1E6E2;
+  --border-strong: #C9D4CD;
 
-  /* 5. Text Primary: Dark Iron (#1A2E26) */
-  --text-main: #1A2E26;
-
-  /* 6. Text Secondary: Muted Slate (#526E60) */
-  --text-muted: #526E60;
+  /* 30% Typography & Neutral Colors */
+  --text-main: #18241F;
+  --text-muted: #5C6B64;
   --text-inverse: #FFFFFF;
 
-  /* Status Colors */
-  --turmeric-600: #D97706;
-  --turmeric-400: #F59E0B;
-  --turmeric-100: #FEF3C7;
+  /* 10% Semantic Domain Accents */
+  --earth-soil: #7E6852;
+  --earth-soil-bg: #F7F5F1;
 
-  --water-600: #0284C7;
-  --water-100: #E0F2FE;
+  --water-600: #3B7080;
+  --water-100: #EEF4F6;
 
-  --alert-red: #DC2626;
-  --alert-red-bg: #FEF2F2;
+  --turmeric-600: #B07D2B;
+  --turmeric-400: #D39B3F;
+  --turmeric-100: #FAF5EB;
 
-  --font-display: "Fraunces", "Georgia", serif;
-  --font-body: "Inter", "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --alert-red: #B34038;
+  --alert-red-bg: #FCF2F1;
+
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
+  /* Strict Radius System */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 2px 6px rgba(27, 67, 50, 0.05);
-  --shadow-md: 0 6px 20px -2px rgba(27, 67, 50, 0.08);
-  --shadow-lg: 0 14px 36px -4px rgba(27, 67, 50, 0.12);
+  /* Minimal Border-Driven Shadows */
+  --shadow-sm: none;
+  --shadow-md: 0 1px 3px rgba(24, 35, 31, 0.04);
+  --shadow-lg: 0 4px 12px rgba(24, 35, 31, 0.06);
 
   --sidebar-width: 260px;
   --sidebar-width-collapsed: 76px;
   --navbar-height: 64px;
 
-  --advisory-bg-opacity: 0.40;
+  --advisory-bg-opacity: 0.25;
 
   color-scheme: light;
 }
@@ -206,30 +208,49 @@ button {
 /* ---------- Button & Filter Chip Aesthetics ---------- */
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-700), var(--primary-900));
-  color: var(--text-inverse);
-  border: none;
+  background: #1B7A5A;
+  color: #FFFFFF;
+  border: 1px solid #146147;
   border-radius: var(--radius-sm);
-  padding: 10px 20px;
+  padding: 10px 18px;
   font-size: 13.5px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25);
-  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
-  box-shadow: 0 6px 16px rgba(45, 106, 79, 0.35);
-  transform: translateY(-1px);
+  background: #146147;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  background: #0E4835;
+}
+
+.btn-primary-sm {
+  background: #1B7A5A;
+  color: #FFFFFF;
+  border: 1px solid #146147;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-primary-sm:hover {
+  background: #146147;
 }
 
 .btn-outline {
@@ -668,7 +689,7 @@ button {
 }
 
 .auth-brand-side {
-  background: linear-gradient(165deg, var(--primary-950) 0%, var(--primary-900) 60%, var(--primary-800) 100%);
+  background: var(--primary-900);
   padding: 40px;
   color: #ffffff;
   display: flex;
@@ -680,7 +701,7 @@ button {
   width: 48px;
   height: 48px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+  background: var(--primary-800);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -980,7 +1001,7 @@ button {
 /* ---------- Farm Health Score Banner ---------- */
 
 .farm-score-banner {
-  background: linear-gradient(135deg, var(--primary-900), var(--primary-800));
+  background: var(--primary-900);
   border-radius: var(--radius-lg);
   padding: 24px 28px;
   color: #ffffff;
@@ -1393,15 +1414,15 @@ button {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  background: var(--primary-950);
+  background: var(--surface-sage);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-main);
   font-size: 13.5px;
-  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border: 2px dashed var(--border-strong);
 }
 
 .scanner-frame img,
@@ -1416,9 +1437,8 @@ button {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, var(--primary-500), transparent);
-  box-shadow: 0 0 12px var(--primary-500);
+  height: 3px;
+  background: var(--primary-800);
   animation: scan-move 2s infinite ease-in-out;
   z-index: 10;
 }

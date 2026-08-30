@@ -16,6 +16,7 @@ export default function VoiceFloatingButton({ context, onNavigateTab }: Props) {
       <button
         onClick={() => setIsOpen(true)}
         aria-label="Start Voice Assistant"
+        title="Ask in Marathi or English"
         style={{
           position: "fixed",
           bottom: 24,
@@ -23,23 +24,21 @@ export default function VoiceFloatingButton({ context, onNavigateTab }: Props) {
           zIndex: 1500,
           background: "var(--primary-800)",
           color: "#ffffff",
-          border: "none",
-          borderRadius: 28,
-          padding: "12px 18px",
+          border: "1px solid var(--primary-900)",
+          borderRadius: "var(--radius-sm)",
+          padding: "10px 16px",
           display: "flex",
           alignItems: "center",
           gap: 8,
-          boxShadow: "0 4px 14px rgba(10, 31, 24, 0.25)",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
           cursor: "pointer",
-          fontSize: 13.5,
+          fontSize: 13,
           fontWeight: 600,
-          transition: "transform 0.15s ease, background 0.15s ease"
+          transition: "background 0.15s ease"
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
       >
-        <span style={{ fontSize: 18 }}>🎙️</span>
-        <span>Ask Krishi Setu</span>
+        <span style={{ fontSize: 16 }}>🎙️</span>
+        <span>Ask Kisan Setu</span>
       </button>
 
       <VoiceAssistantModal

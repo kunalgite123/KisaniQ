@@ -443,44 +443,55 @@ export default function LabourMachinery() {
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-between",
+                        height: "100%",
                         border: "1px solid var(--border-subtle)",
                         borderRadius: "var(--radius-md)"
                       }}
                     >
-                      <div>
-                        {/* Category & Verification Badge */}
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                          <span className="section-label" style={{ fontSize: 10 }}>
+                      <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                        {/* Category & Verification Badge (Exact 24px height) */}
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", height: 24, marginBottom: 8 }}>
+                          <span className="section-label" style={{ fontSize: 10, whiteSpace: "nowrap" }}>
                             {isMr ? (item.categoryLabelMr || item.categoryLabel).toUpperCase() : item.categoryLabel.toUpperCase()}
                           </span>
-                          {item.isVerified && (
-                            <span className="badge badge-healthy" style={{ fontSize: 10, padding: "2px 8px" }}>
-                              {isMr ? "✓ प्रमाणित पुरवठादार" : "✓ Verified Provider"}
-                            </span>
-                          )}
+                          <span
+                            className="badge badge-healthy"
+                            style={{
+                              fontSize: 10,
+                              padding: "2px 8px",
+                              flexShrink: 0,
+                              visibility: item.isVerified ? "visible" : "hidden"
+                            }}
+                          >
+                            {isMr ? "✓ प्रमाणित पुरवठादार" : "✓ Verified Provider"}
+                          </span>
                         </div>
 
-                        {/* Title & Location Distance */}
-                        <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-main)", margin: 0 }}>
-                          {isMr ? (item.titleMr || item.title) : item.title}
-                        </h3>
-                        <div style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 4 }}>
+                        {/* Title Box (Exact 48px height) */}
+                        <div style={{ height: 48, display: "flex", alignItems: "center", marginBottom: 4 }}>
+                          <h3 style={{ fontSize: 15.5, fontWeight: 700, color: "var(--text-main)", margin: 0, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                            {isMr ? (item.titleMr || item.title) : item.title}
+                          </h3>
+                        </div>
+
+                        {/* Location Distance (Exact 20px height) */}
+                        <div style={{ fontSize: 12, color: "var(--text-muted)", height: 20, display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>
                           📍 {item.village} · <strong>{isMr ? `तुमच्यापासून ${item.distanceKm} किमी` : `${item.distanceKm} km from you`}</strong>
                         </div>
 
-                        {/* Provider & Job Count */}
-                        <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
-                          👤 <strong>{item.ownerName}</strong> · ⭐ {item.rating} ({isMr ? `${item.totalBookingsCount} पूर्ण झालेली कामे` : `${item.totalBookingsCount} completed jobs`})
+                        {/* Provider & Job Count (Exact 20px height) */}
+                        <div style={{ fontSize: 12, color: "var(--text-muted)", height: 20, display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>
+                          👤 <strong>{item.ownerName}</strong> · ⭐ {item.rating} ({isMr ? `${item.totalBookingsCount} कामे` : `${item.totalBookingsCount} jobs`})
                         </div>
 
-                        {/* Description */}
-                        <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                        {/* Description Box (Exact 38px height) */}
+                        <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 8, marginBottom: 0, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", height: 38 }}>
                           {isMr ? (item.descriptionMr || item.description) : item.description}
                         </p>
 
-                        {/* Spec Tag */}
-                        <div style={{ marginTop: 10, fontSize: 12, color: "var(--text-main)", background: "var(--surface-bg)", padding: "6px 10px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
-                          ⚡ <strong>{isMr ? "वैशिष्ट्ये:" : "Spec:"}</strong> {isMr ? (item.hpOrCapacityMr || item.hpOrCapacity) : item.hpOrCapacity}
+                        {/* Spec Tag Box (Exact 34px height - aligns perfectly across all cards) */}
+                        <div style={{ marginTop: 10, fontSize: 12, color: "var(--text-main)", background: "var(--surface-bg)", padding: "0 10px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)", height: 34, display: "flex", alignItems: "center", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          <span>⚡ <strong>{isMr ? "वैशिष्ट्ये:" : "Spec:"}</strong> {isMr ? (item.hpOrCapacityMr || item.hpOrCapacity) : item.hpOrCapacity}</span>
                         </div>
                       </div>
 

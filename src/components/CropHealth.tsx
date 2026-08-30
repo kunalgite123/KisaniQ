@@ -552,8 +552,8 @@ export default function CropHealth({ onResult }: Props) {
               ) : (
                 <div style={{ textAlign: "center", padding: 24 }}>
                   <div style={{ fontSize: 36, marginBottom: 8 }}>📷</div>
-                  <p style={{ fontWeight: 600, color: "#ffffff" }}>{isMr ? "पानाचा फोटो अपलोड करा किंवा कॅमेरा चालू करा" : "Upload leaf photo or turn on camera"}</p>
-                  <p style={{ fontSize: 12, marginTop: 4, opacity: 0.7 }}>{isMr ? "चांगला प्रकाश आणि डागांवर स्पष्ट फोकस ठेवा" : "Ensure good lighting & clear focus on spots"}</p>
+                  <p style={{ fontWeight: 600, color: "var(--text-main)" }}>{isMr ? "पानाचा फोटो अपलोड करा किंवा कॅमेरा चालू करा" : "Upload leaf photo or turn on camera"}</p>
+                  <p style={{ fontSize: 12, marginTop: 4, color: "var(--text-muted)" }}>{isMr ? "चांगला प्रकाश आणि डागांवर स्पष्ट फोकस ठेवा" : "Ensure good lighting & clear focus on spots"}</p>
                 </div>
               )}
             </div>
@@ -640,6 +640,32 @@ export default function CropHealth({ onResult }: Props) {
                 <div style={{ marginTop: 4, fontSize: 12, fontWeight: 700, color: "var(--alert-red)" }}>
                   ⚠️ {isMr ? "काय टाळावे:" : "Avoid:"} <span style={{ fontWeight: 500 }}>{geminiDiagnosis.avoid}</span>
                 </div>
+              </div>
+            )}
+
+            {/* Dual-Model Disagreement & Ambiguity Flag */}
+            {(predictions && (predictions[0]?.probability < 0.70 || (selectedSymptomLabel && predictions[0]?.className.toLowerCase() !== selectedSymptomLabel.toLowerCase()))) && (
+              <div
+                style={{
+                  marginTop: 12,
+                  padding: "10px 14px",
+                  borderRadius: "var(--radius-sm)",
+                  background: "var(--turmeric-100)",
+                  border: "1px solid var(--turmeric-600)",
+                  color: "var(--turmeric-600)",
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8
+                }}
+              >
+                <AlertTriangle size={18} style={{ flexShrink: 0, color: "var(--turmeric-600)" }} />
+                <span>
+                  {isMr
+                    ? "⚠ अनिश्चित / विसंगत निदान — रासायनिक फवारणीपूर्वी तुमच्या जवळच्या कृषी विज्ञान केंद्र (KVK) किंवा कृषी अधिकाऱ्यांशी संपर्क साधा."
+                    : "⚠ Unverified — Conflicting diagnosis detected. Confirm with your local Krishi Vigyan Kendra (KVK) officer before spraying."}
+                </span>
               </div>
             )}
 

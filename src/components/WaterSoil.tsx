@@ -73,7 +73,7 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
       {/* 1. TOP SUMMARY CARD (SECTION 37) */}
       <div
         style={{
-          background: "linear-gradient(135deg, var(--surface-card), var(--surface-muted))",
+          background: "var(--surface-card)",
           border: "2px solid var(--border-strong)",
           borderRadius: "var(--radius-lg)",
           padding: 24,
@@ -86,7 +86,7 @@ export default function WaterSoil({ village, onSelectVillage, cropName = "Sugarc
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
               <Sparkles size={14} style={{ color: "var(--primary-500)" }} />
               <span className="section-label" style={{ fontSize: 11 }}>
-                {language === "mr" ? "कृषी सेतू पाणी व माती सल्ला" : "WATER & SOIL DECISION SUMMARY"}
+                {language === "mr" ? "पाणी व माती स्थिती" : "Water & Soil Status"}
               </span>
             </div>
             <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>

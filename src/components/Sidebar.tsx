@@ -1,18 +1,18 @@
 import { Tab } from "../App";
 import { useLanguage } from "../context/LanguageContext";
 import {
-  LayoutDashboard,
+  LayoutGrid,
   Stethoscope,
   CloudSun,
   Droplets,
   Tractor,
-  Landmark,
-  Bot,
+  Building2,
+  Lightbulb,
+  BarChart3,
+  ShieldCheck,
   MapPin,
   ChevronLeft,
-  ChevronRight,
-  Sprout,
-  TrendingUp
+  ChevronRight
 } from "lucide-react";
 
 interface Props {
@@ -30,17 +30,18 @@ export default function Sidebar({
   onToggleCollapse,
   selectedVillageName
 }: Props) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const NAV_ITEMS: { id: Tab; label: string; icon: React.ReactNode; description: string }[] = [
-    { id: "dashboard", label: t("nav_dashboard"), icon: <LayoutDashboard size={18} />, description: t("nav_desc_dashboard") },
+    { id: "dashboard", label: t("nav_dashboard"), icon: <LayoutGrid size={18} />, description: t("nav_desc_dashboard") },
     { id: "crop", label: t("nav_crop"), icon: <Stethoscope size={18} />, description: t("nav_desc_crop") },
     { id: "climate", label: t("nav_climate"), icon: <CloudSun size={18} />, description: t("nav_desc_climate") },
     { id: "water", label: t("nav_water"), icon: <Droplets size={18} />, description: t("nav_desc_water") },
     { id: "machinery", label: t("nav_machinery"), icon: <Tractor size={18} />, description: t("nav_desc_machinery") },
-    { id: "schemes", label: t("nav_schemes"), icon: <Landmark size={18} />, description: t("nav_desc_schemes") },
-    { id: "advisory", label: t("nav_advisory"), icon: <Bot size={18} />, description: t("nav_desc_advisory") },
-    { id: "impact", label: t("nav_impact"), icon: <TrendingUp size={18} />, description: t("nav_desc_impact") }
+    { id: "schemes", label: t("nav_schemes"), icon: <Building2 size={18} />, description: t("nav_desc_schemes") },
+    { id: "advisory", label: t("nav_advisory"), icon: <Lightbulb size={18} />, description: t("nav_desc_advisory") },
+    { id: "impact", label: t("nav_impact"), icon: <BarChart3 size={18} />, description: t("nav_desc_impact") },
+    { id: "trust", label: t("nav_trust"), icon: <ShieldCheck size={18} />, description: t("nav_desc_trust") }
   ];
 
   return (
@@ -54,7 +55,7 @@ export default function Sidebar({
           {!collapsed && (
             <div className="brand-text-box">
               <span className="brand-name">Krishi Setu</span>
-              <span className="brand-subtitle">AI Farm Intelligence</span>
+              <span className="brand-subtitle">Farm Intelligence</span>
             </div>
           )}
         </div>
@@ -81,34 +82,39 @@ export default function Sidebar({
                   title={collapsed ? item.label : item.description}
                 >
                   <span className="nav-item-icon">{item.icon}</span>
-                  {!collapsed && <span style={{ fontWeight: 700 }}>{item.label}</span>}
+                  {!collapsed && <span style={{ fontWeight: 600 }}>{item.label}</span>}
                 </button>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Secondary Farm Section */}
+        {/* Secondary Compact Farm Location Widget */}
         {!collapsed && (
-          <div>
-            <div className="nav-group-label">{t("farm_location")}</div>
+          <div style={{ marginTop: "auto", paddingTop: 16 }}>
+            <div className="nav-group-label" style={{ fontSize: 11, letterSpacing: "0.04em", color: "var(--text-muted)", textTransform: "uppercase", marginBottom: 6 }}>
+              {language === "mr" ? "शेत स्थान" : "FARM LOCATION"}
+            </div>
             <div
               style={{
-                padding: "10px 14px",
-                borderRadius: "var(--radius-md)",
+                padding: "10px 12px",
+                borderRadius: "var(--radius-sm)",
                 background: "var(--surface-muted)",
-                fontSize: 13,
+                border: "1px solid var(--border-subtle)",
+                fontSize: 12.5,
                 display: "flex",
-                alignItems: "center",
+                alignItems: "flex-start",
                 gap: 8
               }}
             >
-              <MapPin size={16} style={{ color: "var(--primary-500)", flexShrink: 0 }} />
+              <MapPin size={15} style={{ color: "var(--primary-800)", marginTop: 2, flexShrink: 0 }} />
               <div>
-                <div style={{ fontWeight: 600, color: "var(--text-main)" }}>
-                  {selectedVillageName ? selectedVillageName : "Kopargaon Block"}
+                <div style={{ fontWeight: 600, color: "var(--text-main)", lineHeight: 1.3 }}>
+                  📍 {selectedVillageName ? selectedVillageName : "Kopargaon"}
                 </div>
-                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{t("district_name")}</div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+                  {language === "mr" ? "तालुका केंद्र · अहिल्यानगर" : "Taluka Centre · Ahilyanagar"}
+                </div>
               </div>
             </div>
           </div>

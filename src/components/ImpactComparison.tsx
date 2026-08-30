@@ -78,7 +78,7 @@ export default function ImpactComparison({ initialCrop, initialAcres = 2 }: Prop
       {/* 1. INTERACTIVE PARAMETERS & CROP SELECTOR CONTROL CARD */}
       <div
         style={{
-          background: "linear-gradient(135deg, var(--surface-card), var(--surface-muted))",
+          background: "var(--surface-card)",
           border: "2px solid var(--primary-500)",
           borderRadius: "var(--radius-lg)",
           padding: 24,

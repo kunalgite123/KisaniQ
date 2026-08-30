@@ -12,6 +12,7 @@ import AdvisoryPage from "./components/AdvisoryPage";
 import Schemes from "./components/Schemes";
 import LabourMachinery from "./components/LabourMachinery";
 import ImpactComparison from "./components/ImpactComparison";
+import TrustCheckView from "./components/TrustCheckView";
 import VoiceFloatingButton from "./components/voice/VoiceFloatingButton";
 import { Village } from "./data/villages";
 import { CropModel, DiseaseInfo } from "./data/cropModels";
@@ -20,7 +21,7 @@ import { FarmerProfile, loadSavedFarmerProfile, fetchFarmerProfileFromSupabase }
 import { generateFarmerDecision, FarmerDecision } from "./lib/farmerDecisionEngine";
 import { useLanguage } from "./context/LanguageContext";
 
-export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery" | "impact";
+export type Tab = "dashboard" | "crop" | "climate" | "water" | "advisory" | "schemes" | "machinery" | "impact" | "trust";
 
 function MainAppContent() {
   const { profile: authProfile } = useAuth();
@@ -167,6 +168,12 @@ function MainAppContent() {
             <ImpactComparison
               initialCrop={cropName}
               initialAcres={farmerProfile?.landHoldingAcres || 2}
+            />
+          )}
+          {tab === "trust" && (
+            <TrustCheckView
+              onNavigateTab={(targetTab) => setTab(targetTab as Tab)}
+              selectedVillageName={village?.name}
             />
           )}
         </main>

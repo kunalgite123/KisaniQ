@@ -118,7 +118,7 @@ export default function VoiceAssistantModal({ isOpen, onClose, context, onNaviga
                 width: 36,
                 height: 36,
                 borderRadius: "var(--radius-md)",
-                background: "linear-gradient(135deg, var(--primary-700), var(--primary-500))",
+                background: "var(--primary-800)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

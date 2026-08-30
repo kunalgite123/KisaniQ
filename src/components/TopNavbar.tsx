@@ -60,35 +60,34 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
           </select>
         </div>
 
-        {/* i18next Language Switcher Pill Button Bar */}
+        {/* i18next Language Switcher Bar */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             background: "var(--surface-muted)",
-            border: "1px solid var(--border-strong)",
-            borderRadius: "var(--radius-full)",
-            padding: "3px 4px",
+            border: "1px solid var(--border-subtle)",
+            borderRadius: "var(--radius-sm)",
+            padding: "2px 3px",
             fontSize: 12,
             gap: 2
           }}
           title="Toggle Language / भाषा बदला"
         >
-          <Globe size={13} style={{ marginLeft: 6, marginRight: 2, color: "var(--primary-700)" }} />
+          <Globe size={13} style={{ marginLeft: 6, marginRight: 2, color: "var(--primary-800)" }} />
           <button
             type="button"
             onClick={() => setLanguage("en")}
             style={{
-              background: language === "en" ? "linear-gradient(135deg, var(--primary-700), var(--primary-900))" : "transparent",
+              background: language === "en" ? "var(--primary-800)" : "transparent",
               color: language === "en" ? "#ffffff" : "var(--text-muted)",
               border: "none",
-              borderRadius: "var(--radius-full)",
-              padding: "4px 12px",
+              borderRadius: "var(--radius-xs)",
+              padding: "4px 10px",
               fontSize: 12,
-              fontWeight: 700,
+              fontWeight: 600,
               cursor: "pointer",
-              boxShadow: language === "en" ? "0 2px 8px rgba(45, 106, 79, 0.25)" : "none",
-              transition: "all 0.2s ease"
+              transition: "all 0.15s ease"
             }}
           >
             EN
@@ -97,16 +96,15 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
             type="button"
             onClick={() => setLanguage("mr")}
             style={{
-              background: language === "mr" ? "linear-gradient(135deg, var(--primary-700), var(--primary-900))" : "transparent",
+              background: language === "mr" ? "var(--primary-800)" : "transparent",
               color: language === "mr" ? "#ffffff" : "var(--text-muted)",
               border: "none",
-              borderRadius: "var(--radius-full)",
-              padding: "4px 12px",
+              borderRadius: "var(--radius-xs)",
+              padding: "4px 10px",
               fontSize: 12,
-              fontWeight: 700,
+              fontWeight: 600,
               cursor: "pointer",
-              boxShadow: language === "mr" ? "0 2px 8px rgba(45, 106, 79, 0.25)" : "none",
-              transition: "all 0.2s ease"
+              transition: "all 0.15s ease"
             }}
           >
             मराठी

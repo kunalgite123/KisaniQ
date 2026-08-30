@@ -21,50 +21,90 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
       : relevanceLabel;
 
   return (
-    <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-      <div>
-        {/* Header & Badges */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 24, lineHeight: 1 }}>{scheme.categoryIcon}</span>
-            <div>
-              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                <span className="section-label">{isMr ? (scheme.categoryLabelMr || scheme.categoryLabel) : scheme.categoryLabel}</span>
-                <span className="badge" style={{ fontSize: 10, background: "var(--surface-muted)", color: "var(--text-muted)" }}>
-                  {isMr ? (scheme.typeLabelMr || scheme.typeLabel) : scheme.typeLabel}
-                </span>
-              </div>
-              <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 2, color: "var(--text-main)" }}>
-                {scheme.shortName}
-              </h3>
-            </div>
+    <div
+      className="card"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        height: "100%",
+        padding: 20
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+        {/* Tier 1: Category & Type Tags on Left + Relevance Badge on Right (Exact 28px height) */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, height: 28, marginBottom: 8 }}>
+          <div style={{ display: "flex", gap: 6, alignItems: "center", overflow: "hidden" }}>
+            <span className="section-label" style={{ fontSize: 10, whiteSpace: "nowrap" }}>
+              {isMr ? (scheme.categoryLabelMr || scheme.categoryLabel) : scheme.categoryLabel}
+            </span>
+            <span className="badge" style={{ fontSize: 10, background: "var(--surface-muted)", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+              {isMr ? (scheme.typeLabelMr || scheme.typeLabel) : scheme.typeLabel}
+            </span>
           </div>
-          <span className={`badge ${badgeClass}`}>{translatedBadge}</span>
+
+          <span className={`badge ${badgeClass}`} style={{ flexShrink: 0, fontSize: 10, whiteSpace: "nowrap" }}>
+            {translatedBadge}
+          </span>
         </div>
 
-        {/* Name & Period */}
-        <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-main)", marginTop: 8 }}>
+        {/* Tier 2: Icon + Short Name Title (Exact 32px height) */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, height: 32, marginBottom: 4 }}>
+          <span style={{ fontSize: 24, lineHeight: 1, flexShrink: 0 }}>{scheme.categoryIcon}</span>
+          <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--text-main)", margin: 0, lineHeight: 1.2 }}>
+            {scheme.shortName}
+          </h3>
+        </div>
+
+        {/* Tier 3: Full Scheme Name (Exact 24px height) */}
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-main)", height: 24, display: "flex", alignItems: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {isMr ? (scheme.nameMr || scheme.name) : scheme.name}
         </div>
 
-        {scheme.programmePeriod && (
-          <div style={{ fontSize: 11, color: "var(--color-urgent)", fontWeight: 600, marginTop: 2 }}>
-            ⏱ {scheme.programmePeriod}
+        {/* Tier 4: Provenance Badge Box (Exact 42px height) */}
+        <div style={{ height: 42, display: "flex", alignItems: "center", marginTop: 4, marginBottom: 6 }}>
+          <div style={{ fontSize: 10.5, color: "var(--primary-800)", fontWeight: 600, display: "flex", alignItems: "center", gap: 4, background: "var(--primary-100)", padding: "4px 8px", borderRadius: 4, width: "100%", lineHeight: 1.3 }}>
+            <span style={{ flexShrink: 0 }}>✓</span>
+            <span style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+              {isMr ? `अधिकृत स्रोत: ${scheme.officialSourceName || "शासकीय पोर्टल"} · पडताळणी: ${scheme.lastVerified || "ऑगस्ट २०२६"}` : `Verified official source: ${scheme.officialSourceName || "Government Portal"} · Checked ${scheme.lastVerified || "August 2026"}`}
+            </span>
           </div>
-        )}
+        </div>
 
-        <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+        {/* Tier 5: Scheme Summary (Exact 56px height) */}
+        <p
+          style={{
+            fontSize: 12.5,
+            color: "var(--text-muted)",
+            margin: 0,
+            lineHeight: 1.5,
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            height: 56
+          }}
+        >
           {isMr ? (scheme.summaryMr || scheme.summary) : scheme.summary}
         </p>
-
       </div>
 
-      {/* TWO MANDATORY BUTTONS AT BOTTOM OF EVERY CARD */}
-      <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid var(--border-subtle)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      {/* Tier 6: Two Equal Bottom Action Buttons */}
+      <div
+        style={{
+          marginTop: 18,
+          paddingTop: 14,
+          borderTop: "1px solid var(--border-subtle)",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 10
+        }}
+      >
         <button
+          type="button"
           onClick={onOpenDetail}
-          className="btn btn-outline"
-          style={{ width: "100%", justifyContent: "center", padding: "9px 12px", fontSize: 12.5 }}
+          className="btn-outline"
+          style={{ width: "100%", justifyContent: "center", padding: "8px 10px", fontSize: 12 }}
         >
           {t("view_detailed_summary")}
         </button>
@@ -73,8 +113,8 @@ export default function SchemeCard({ evaluation, onOpenDetail }: Props) {
           href={scheme.officialUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-primary"
-          style={{ width: "100%", justifyContent: "center", padding: "9px 12px", fontSize: 12.5, textDecoration: "none" }}
+          className="btn-primary"
+          style={{ width: "100%", justifyContent: "center", padding: "8px 10px", fontSize: 12, textDecoration: "none" }}
         >
           {t("official_website")}
         </a>

@@ -487,6 +487,18 @@ export function processVoiceQuery(
     };
   }
 
+  if (q.includes("trust") || q.includes("verify") || q.includes("fake") || q.includes("fraud") || q.includes("खरा") || q.includes("पडताळणी") || q.includes("सच")) {
+    return {
+      detectedLang: lang,
+      intent: "NAVIGATE_TRUST",
+      navigateTab: "trust",
+      responseText:
+        lang === "mr"
+          ? "माहिती पडताळणी केंद्र उघडत आहे. अधिकृत शासकीय पोर्टलमधील पुराव्यांशी मेसेज पडताळला जाईल."
+          : "Opening Trust Check verification engine. Your claim will be compared against official Government portals and evidence sources."
+    };
+  }
+
   if (q.includes("language") || q.includes("मराठी") || q.includes("english") || q.includes("भाषा")) {
     return {
       detectedLang: lang,

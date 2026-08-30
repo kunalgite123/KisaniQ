@@ -49,30 +49,30 @@ export default function FarmHealthScore({ climateRisk, village, detectedDisease,
           {/* Circular Score Gauge */}
           <div
             style={{
-              width: 72,
-              height: 72,
-              borderRadius: "50%",
-              border: "3px solid var(--primary-600)",
+              width: 64,
+              height: 64,
+              borderRadius: "var(--radius-sm)",
+              border: "1.5px solid var(--border-strong)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              background: "var(--surface-bg)"
+              background: "var(--surface-sage)"
             }}
           >
-            <span style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", lineHeight: 1 }}>{score}</span>
+            <span style={{ fontSize: 22, fontWeight: 700, color: "var(--primary-900)", lineHeight: 1 }}>{score}</span>
             <span style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>/ 100</span>
           </div>
 
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--primary-800)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-              {isMr ? "कृषी सेतू दैनंदिन निर्देशांक" : "Krishi Setu Daily Index"}
+            <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+              {isMr ? "शेती तयारी निर्देशांक" : "Farm Readiness Index"}
             </div>
-            <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
+            <h2 style={{ fontSize: 22, fontWeight: 700, color: "var(--text-main)", marginTop: 2, margin: 0 }}>
               {isMr ? "शुभ प्रभात, शेतकरी बांधवांनो 🌾" : "Good morning, Kisan 🌾"}
             </h2>
-            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
-              {isMr ? "आजची तुमची शेती माहिती · 📍" : "Here's your farm intelligence for today · 📍"} <strong>{village ? village.name : (isMr ? "कोपरगाव" : "Kopargaon")}, {isMr ? "महाराष्ट्र" : "Maharashtra"}</strong>
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 3 }}>
+              {isMr ? "आजच्या हवामान, भूजल आणि पिकाच्या स्थितीवर आधारित · 📍" : "Based on today's weather, water and crop conditions · 📍"} <strong>{village ? village.name : (isMr ? "कोपरगाव" : "Kopargaon")}, {isMr ? "महाराष्ट्र" : "Maharashtra"}</strong>
             </div>
           </div>
         </div>

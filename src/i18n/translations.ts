@@ -20,6 +20,8 @@ export const translations = {
     nav_desc_schemes: "Government agriculture schemes",
     nav_desc_advisory: "AI-powered recommendations",
     nav_desc_impact: "Traditional farming vs Krishi Setu AI impact",
+    nav_trust: "Trust Check",
+    nav_desc_trust: "Verify agricultural information before you act",
 
     // Titles & Breadcrumbs
     title_dashboard: "Dashboard Overview",
@@ -30,6 +32,7 @@ export const translations = {
     title_schemes: "Agriculture Schemes",
     title_advisory: "AI Farm Advisory",
     title_impact: "Krishi Setu Impact Comparison",
+    title_trust: "Trust Check",
 
     // Top Navbar & Controls
     location_label: "Kopargaon (Taluka Centre)",
@@ -301,6 +304,8 @@ export const translations = {
     nav_desc_schemes: "शासकीय कृषी योजना व अनुदान",
     nav_desc_advisory: "एआय आधारित शेती सल्लागार तंत्रज्ञान",
     nav_desc_impact: "पारंपारिक शेती विरुद्ध कृषी सेतू प्रभाव",
+    nav_trust: "माहिती पडताळणी",
+    nav_desc_trust: "शेतीविषयक माहितीची अचूक पडताळणी करा",
 
     // Titles & Breadcrumbs
     title_dashboard: "मुख्यपृष्ठ आढावा",
@@ -311,6 +316,7 @@ export const translations = {
     title_schemes: "शासकीय कृषी योजना",
     title_advisory: "एआय शेती सल्लागार",
     title_impact: "प्रभाव तुलना",
+    title_trust: "माहिती पडताळणी",
 
     // Top Navbar & Controls
     location_label: "कोपरगाव (तालुका केंद्र)",

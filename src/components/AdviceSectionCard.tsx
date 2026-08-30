@@ -306,7 +306,7 @@ export default function AdviceSectionCard({
                       padding: "12px 16px",
                       borderRadius: 999,
                       border: selectedRating === "helpful" ? "none" : "1.5px solid var(--border-strong)",
-                      background: selectedRating === "helpful" ? "linear-gradient(135deg, #2D6A4F, #1B4332)" : "#ffffff",
+                      background: selectedRating === "helpful" ? "var(--primary-800)" : "#ffffff",
                       color: selectedRating === "helpful" ? "#ffffff" : "var(--text-main)",
                       fontSize: 13.5,
                       fontWeight: 700,
@@ -420,7 +420,7 @@ export default function AdviceSectionCard({
                   type="submit"
                   disabled={isSubmitting}
                   style={{
-                    background: "linear-gradient(135deg, #2D6A4F, #1B4332)",
+                    background: "var(--primary-800)",
                     color: "#ffffff",
                     border: "none",
                     borderRadius: 999,
