@@ -4,7 +4,7 @@ import { Tab } from "../App";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
-import { MapPin, Sun, Moon, LogOut, Globe } from "lucide-react";
+import { MapPin, Sun, Moon, LogOut, Globe, TrendingUp } from "lucide-react";
 
 interface Props {
   currentTab: Tab;
@@ -59,6 +59,29 @@ export default function TopNavbar({ currentTab, village, onSelectVillage }: Prop
             ))}
           </select>
         </div>
+
+        {/* Quick Market Prices External Link Button */}
+        <a
+          href="https://kisan-saarthi-jade.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary-sm"
+          style={{
+            textDecoration: "none",
+            padding: "6px 12px",
+            fontSize: 12,
+            fontWeight: 700,
+            background: "#1B7A5A",
+            color: "#FFFFFF",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6
+          }}
+          title={language === "mr" ? "बाजार भाव तपासा" : "Check Live Mandi Market Prices"}
+        >
+          <TrendingUp size={14} />
+          <span>{language === "mr" ? "बाजार भाव" : "Market Prices"} ↗</span>
+        </a>
 
         {/* i18next Language Switcher Bar */}
         <div

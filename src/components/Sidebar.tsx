@@ -10,6 +10,7 @@ import {
   Lightbulb,
   BarChart3,
   ShieldCheck,
+  TrendingUp,
   MapPin,
   ChevronLeft,
   ChevronRight
@@ -86,6 +87,21 @@ export default function Sidebar({
                 </button>
               </li>
             ))}
+            
+            {/* Market Prices External Link */}
+            <li>
+              <a
+                href="https://kisan-saarthi-jade.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sidebar-nav-item"
+                style={{ textDecoration: "none" }}
+                title={collapsed ? t("nav_market") : t("nav_desc_market")}
+              >
+                <span className="nav-item-icon"><TrendingUp size={18} style={{ color: "#1B7A5A" }} /></span>
+                {!collapsed && <span style={{ fontWeight: 700, color: "#1B7A5A" }}>{t("nav_market")} ↗</span>}
+              </a>
+            </li>
           </ul>
         </div>
 

@@ -22,6 +22,8 @@ export const translations = {
     nav_desc_impact: "Traditional farming vs Krishi Setu AI impact",
     nav_trust: "Trust Check",
     nav_desc_trust: "Verify agricultural information before you act",
+    nav_market: "Market Prices",
+    nav_desc_market: "Live APMC mandi market rates & prices",
 
     // Titles & Breadcrumbs
     title_dashboard: "Dashboard Overview",
@@ -306,6 +308,8 @@ export const translations = {
     nav_desc_impact: "पारंपारिक शेती विरुद्ध कृषी सेतू प्रभाव",
     nav_trust: "माहिती पडताळणी",
     nav_desc_trust: "शेतीविषयक माहितीची अचूक पडताळणी करा",
+    nav_market: "बाजार भाव",
+    nav_desc_market: "शेतमालाचे ऑनलाईन बाजार भाव व APMC दर",
 
     // Titles & Breadcrumbs
     title_dashboard: "मुख्यपृष्ठ आढावा",
